@@ -3,6 +3,7 @@ package com.example.potago;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Button;
 
 public class Accueil extends Activity {
@@ -12,7 +13,15 @@ public class Accueil extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_accueil);
 		
-		Button geolocalisation = this.findViewById(R.layout.);
+		Button geolocalisation = (Button)this.findViewById(R.id.geolocAccueil);
+		geolocalisation.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	@Override
