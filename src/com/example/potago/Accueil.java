@@ -2,6 +2,7 @@ package com.example.potago;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,26 @@ public class Accueil extends Activity {
 		
 		Button geolocalisation = (Button)this.findViewById(R.id.geolocAccueil);
 		geolocalisation.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent myIntent = new Intent(Accueil.this, Geolocalisation.class);
+				Accueil.this.startActivity(myIntent);
+			}
+		});
+		
+		Button profil = (Button)this.findViewById(R.id.profilAccueil);
+		profil.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		Button infos = (Button)this.findViewById(R.id.infosAccueil);
+		infos.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
