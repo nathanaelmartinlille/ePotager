@@ -28,4 +28,5 @@ Laura - 27/12/2013
 - Page d'accueil
 - Essai de mettre la géolocalisation (sans succès pour le moment)
 - Intégration du desgin de la page d'accueil
+
 ==================
