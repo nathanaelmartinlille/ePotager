@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class Accueil extends Activity {
 
@@ -14,7 +15,7 @@ public class Accueil extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_accueil);
 		
-		Button geolocalisation = (Button)this.findViewById(R.id.geolocAccueil);
+		ImageButton geolocalisation = (ImageButton)this.findViewById(R.id.geoloc_accueil);
 		geolocalisation.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -24,7 +25,7 @@ public class Accueil extends Activity {
 			}
 		});
 		
-		Button profil = (Button)this.findViewById(R.id.profilAccueil);
+		ImageButton profil = (ImageButton)this.findViewById(R.id.profil_accueil);
 		profil.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -34,12 +35,23 @@ public class Accueil extends Activity {
 			}
 		});
 		
-		Button infos = (Button)this.findViewById(R.id.infosAccueil);
-		infos.setOnClickListener(new View.OnClickListener() {
+		ImageButton chat = (ImageButton)this.findViewById(R.id.chat_accueil);
+		chat.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		ImageButton infos = (ImageButton)this.findViewById(R.id.infos_accueil);
+		infos.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent myIntent = new Intent(Accueil.this, InfosActivity.class);
+				Accueil.this.startActivity(myIntent);
 				
 			}
 		});

@@ -3,6 +3,8 @@ package com.example.potago;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,10 +37,27 @@ public class Geolocalisation extends Activity{
 	            .fromResource(R.drawable.ic_launcher)));
 
 	    // Move the camera instantly to hamburg with a zoom of 15.
-	    map.moveCamera(CameraUpdateFactory.newLatLngZoom(HAMBURG, 15));
+//	    map.moveCamera(CameraUpdateFactory.newLatLngZoom(HAMBURG, 15));
 
 	    // Zoom in, animating the camera.
-	    map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+	   // map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+	    
+	    
+	    ImageButton back = (ImageButton)this.findViewById(R.id.boutonBack);
+		back.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		
+		ImageButton home = (ImageButton)this.findViewById(R.id.boutonHome);
+		home.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	  }
 
 
