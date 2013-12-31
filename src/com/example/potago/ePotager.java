@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-public class Accueil extends Activity {
+public class ePotager extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +20,8 @@ public class Accueil extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent myIntent = new Intent(Accueil.this, Geolocalisation.class);
-				Accueil.this.startActivity(myIntent);
+				Intent myIntent = new Intent(ePotager.this, Geolocalisation.class);
+				ePotager.this.startActivity(myIntent);
 			}
 		});
 		
@@ -50,8 +50,8 @@ public class Accueil extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent myIntent = new Intent(Accueil.this, InfosActivity.class);
-				Accueil.this.startActivity(myIntent);
+				Intent myIntent = new Intent(ePotager.this, InfosActivity.class);
+				ePotager.this.startActivity(myIntent);
 				
 			}
 		});

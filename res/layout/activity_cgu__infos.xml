@@ -9,7 +9,7 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"
     android:splitMotionEvents="false"
-    tools:context=".InfosActivity" >
+    tools:context=".CGU_Infos" >
 
     <ImageView
         android:id="@+id/imageView1"
@@ -44,25 +44,11 @@
         android:scaleType="fitCenter"
         android:src="@drawable/home" />
 
-    <TextView
-        android:id="@+id/titre"
+    <WebView
+        android:id="@+id/maWebView"
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
-        android:gravity="center"
-        android:textColor="#FFF"
-        android:textSize="20sp"
-        android:layout_alignBottom="@+id/boutonBack"
-        android:layout_centerHorizontal="true"
-        android:text="TextView" />
-
-    <ListView
-        android:id="@+id/listeInfos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
-        android:layout_height="50dp"
-        android:layout_below="@+id/imageView1" >
-
-    </ListView>
+        android:layout_below="@+id/imageView1" />
 
 </RelativeLayout>

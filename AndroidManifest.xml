@@ -16,23 +16,26 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
-<uses-feature android:glEsVersion="0x00020000" android:required="true"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/icone"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar">
+        android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
             android:name="com.example.potago.MainActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.example.potago.Accueil"
-            android:label="@string/title_activity_accueil" 
+            android:name="com.example.potago.ePotager"
             android:configChanges="orientation"
-    android:screenOrientation="portrait">
+            android:label="@string/title_activity_accueil"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,9 +44,9 @@
         </activity>
         <activity
             android:name="com.example.potago.Geolocalisation"
-            android:label="@string/title_activity_geoloc" 
             android:configChanges="orientation"
-    android:screenOrientation="portrait">
+            android:label="@string/title_activity_geoloc"
+            android:screenOrientation="portrait" >
         </activity>
 
         <meta-data
@@ -52,9 +55,17 @@
 
         <activity
             android:name="com.example.potago.InfosActivity"
-            android:label="@string/title_activity_infos" 
             android:configChanges="orientation"
-    android:screenOrientation="portrait">
+            android:label="@string/title_activity_infos"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.potago.infos.EnCeMoment"
+            android:label="@string/title_activity_en_ce_moment" >
+        </activity>
+        <activity
+            android:name="com.example.potago.infos.CGU_Infos"
+            android:label="@string/title_activity_cgu__infos" >
         </activity>
     </application>
 

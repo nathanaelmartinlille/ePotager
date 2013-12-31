@@ -3,6 +3,7 @@ package com.example.potago;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.TextView;
 
 public class ProfilActivity extends Activity {
 
@@ -10,6 +11,9 @@ public class ProfilActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profil);
+		
+		TextView titre = (TextView)this.findViewById(R.id.titre);
+		titre.setText("Profil");
 	}
 
 	@Override

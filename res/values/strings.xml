@@ -7,5 +7,7 @@
     <string name="title_activity_accueil">Accueil</string>
     <string name="title_activity_geoloc">Geolocalisation</string>
     <string name="title_activity_infos">Infos</string>
+    <string name="title_activity_en_ce_moment">EnCeMoment</string>
+    <string name="title_activity_cgu__infos">CGU_Infos</string>
 
 </resources>
