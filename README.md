@@ -30,3 +30,11 @@ Laura - 27/12/2013
 - Intégration du desgin de la page d'accueil
 
 ==================
+Laura - 31/12/2013
+
+- Logo de l'application (mais je sais pas comment changer le nom... pour l'instant c'est Accueil)
+- Liste dans informations
+  - CGU et Informations renvoient vers une webview qui charge un HTML différent pour chacun
+  - Quels sont les meilleurs fruits et légumes -> permettra, selon le mois, de voir quels fruits et légumes planter et    récolter
+
+==================
