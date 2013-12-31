@@ -1,13 +1,18 @@
 package com.example.potago;
 
+import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,6 +24,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 @SuppressLint("NewApi")
 public class Geolocalisation extends Activity{
+	
+	/**
+	 * On garde les éléments de la géolocalisation
+	 */
+	
+	TextView rayon;
+	SeekBar distance;
+    CheckBox fruits;
+    CheckBox legumes;
+    CheckBox dispo;
+    
+	
 	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
 	  static final LatLng KIEL = new LatLng(53.551, 9.993);
 	  private GoogleMap map;
@@ -67,22 +84,29 @@ public class Geolocalisation extends Activity{
 	   // map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
 	    
 	    // On récupère les éléments
-	    final TextView rayon = (TextView)this.findViewById(R.id.rayon);
-	    final SeekBar distance = (SeekBar)this.findViewById(R.id.distance);
+	    rayon = (TextView)this.findViewById(R.id.rayon);
+	    distance = (SeekBar)this.findViewById(R.id.distance);
+	    fruits = (CheckBox)this.findViewById(R.id.checkBoxFruits);
+	    legumes = (CheckBox)this.findViewById(R.id.checkBoxLegumes);
+	    dispo = (CheckBox)this.findViewById(R.id.checkBoxDispo);
 	    
-	    // Pour commencer, on met le slide au milieu
+	    /**
+	     * On met la valeur du slide au milieu
+	     */
 	    distance.setProgress(50);
 	    rayon.setText("50km");
 	    
-	    // Ici on gère les conditions
+	    /**
+	     * Listener pour la distance de recherche
+	     */
 	    distance.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 	    	/**
 	    	 * Quand on a fini de changer la distance du slide, on recharge les données.
 	    	 */
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 				rayon.setText(seekBar.getProgress() + "km");
+				recupererDonnees();
 			}
 			
 			@Override
@@ -99,11 +123,35 @@ public class Geolocalisation extends Activity{
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
 				rayon.setText(seekBar.getProgress() + "km");
-				System.out.println("progress : "+seekBar.getProgress());
 			}
 		});
 
+	    /**
+	     * Les fruits, les légumes et la disponibilité ont tous le même listener
+	     */
+	    OnCheckedChangeListener listener = new MonClickListener();
+	    fruits.setOnCheckedChangeListener(listener);
+	    legumes.setOnCheckedChangeListener(listener);
+	    dispo.setOnCheckedChangeListener(listener);
+	    
 	  }
 
+	 public static void recupererDonnees()
+	 {
+			System.out.println("Je fais la mise à jour des données");
+	 }
+
+}
+
+class MonClickListener implements OnCheckedChangeListener {
+
+    public MonClickListener() {
+        
+    }
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		Geolocalisation.recupererDonnees();
+	}
 
 }

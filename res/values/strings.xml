@@ -14,5 +14,6 @@
     <string name="rayon">100km</string>
     <string name="texteFruits">Fruits</string>
     <string name="texteLegumes">Légumes</string>
+    <string name="texteDispo">Disponible</string>
 
 </resources>
