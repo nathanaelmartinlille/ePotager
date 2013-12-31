@@ -15,15 +15,18 @@ import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 @SuppressLint("NewApi")
-public class Geolocalisation extends Activity{
+public class Geolocalisation extends FragmentActivity{
 	
 	/**
 	 * On garde les éléments de la géolocalisation
@@ -46,6 +49,10 @@ public class Geolocalisation extends Activity{
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_geoloc);
 	    
+	    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+	    map = mapFragment.getMap();
+		map.setMyLocationEnabled(true);
+	    
 	    ImageButton back = (ImageButton)this.findViewById(R.id.boutonBack);
 		back.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -66,7 +73,7 @@ public class Geolocalisation extends Activity{
 		titre.setText("Géolocalisation");
 	    
 	    
-	    map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+	   /* map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 	        .getMap();
 	    Marker hamburg = map.addMarker(new MarkerOptions().position(HAMBURG)
 	        .title("Hamburg"));
@@ -75,7 +82,7 @@ public class Geolocalisation extends Activity{
 	        .title("Kiel")
 	        .snippet("Kiel is cool")
 	        .icon(BitmapDescriptorFactory
-	            .fromResource(R.drawable.ic_launcher)));
+	            .fromResource(R.drawable.ic_launcher)));*/
 
 	    // Move the camera instantly to hamburg with a zoom of 15.
 //	    map.moveCamera(CameraUpdateFactory.newLatLngZoom(HAMBURG, 15));
