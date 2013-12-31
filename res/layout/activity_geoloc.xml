@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-    
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:addStatesFromChildren="false"
-    android:clipToPadding="false"
-    android:paddingBottom="0dp"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp"
-    android:splitMotionEvents="false"
-    tools:context=".Geolocalisation" >
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:addStatesFromChildren="false"
+            android:background="#3C99DC"
+            android:clipToPadding="false"
+            android:paddingBottom="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp"
+            android:layout_weight="1"
+            android:splitMotionEvents="false"
+            tools:context=".Geolocalisation" >
     
         <ImageView
         android:id="@+id/imageView1"
@@ -55,7 +56,7 @@
         android:textSize="20sp"
         android:layout_alignBottom="@+id/boutonBack"
         android:layout_centerHorizontal="true"
-        android:text="TextView" />
+        android:text="@string/titreGeoloc" />
 
     <fragment
         android:id="@+id/map"
@@ -66,5 +67,59 @@
         android:layout_below="@+id/imageView1"
         android:layout_marginTop="120dp"
         class="com.google.android.gms.maps.MapFragment" />
+
+    <SeekBar
+        android:id="@+id/distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginLeft="65dp"
+        android:layout_marginRight="57dp"
+        android:max="100"
+        android:progress="1" />
+
+    <TextView
+        android:id="@+id/textRayon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_alignTop="@+id/distance"
+        android:layout_alignLeft="@+id/boutonBack"
+        android:textColor="#fff"
+        android:text="@string/texteRayon" />
+
+    <TextView
+        android:id="@+id/rayon"
+		android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_alignTop="@+id/distance"
+        android:layout_alignRight="@+id/boutonHome"
+        android:textColor="#fff"
+        android:text="@string/rayon" />
+
+    <TextView
+        android:id="@+id/texteFruits"
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/rayon"
+        android:layout_alignLeft="@+id/boutonBack"
+        android:textColor="#fff"
+        android:text="@string/texteFruits" />
+
+    <TextView
+        android:id="@+id/texteLegumes"
+ 		android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/rayon"
+        android:layout_alignLeft="@+id/boutonHome"
+        android:textColor="#fff"
+        android:text="@string/texteLegumes" />
 
 </RelativeLayout>

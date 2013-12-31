@@ -9,5 +9,10 @@
     <string name="title_activity_infos">Infos</string>
     <string name="title_activity_en_ce_moment">EnCeMoment</string>
     <string name="title_activity_cgu__infos">CGU_Infos</string>
+    <string name="texteRayon">Rayon</string>
+    <string name="titreGeoloc">Géolocalisation</string>
+    <string name="rayon">100km</string>
+    <string name="texteFruits">Fruits</string>
+    <string name="texteLegumes">Légumes</string>
 
 </resources>
