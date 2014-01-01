@@ -1,56 +1,74 @@
 package com.example.potago;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.support.v4.view.PagerAdapter;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ProfilActivity extends Activity {
 
-    ViewPager viewPager;
-    PagerAdapter adapter;
-    String[] rank;
-    String[] country;
-    String[] population;
-    int[] flag;
- 
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_profil);
-		
-		// Generate sample data
-        rank = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
- 
-        country = new String[] { "China", "India", "United States",
-                "Indonesia", "Brazil", "Pakistan", "Nigeria", "Bangladesh",
-                "Russia", "Japan" };
- 
-        population = new String[] { "1,354,040,000", "1,210,193,422",
-                "315,761,000", "237,641,326", "193,946,886", "182,912,000",
-                "170,901,000", "152,518,015", "143,369,806", "127,360,000" };
- 
-        flag = new int[] { R.drawable.china, R.drawable.india,
-                R.drawable.unitedstates, R.drawable.indonesia,
-                R.drawable.brazil, R.drawable.pakistan, R.drawable.nigeria,
-                R.drawable.bangladesh, R.drawable.russia, R.drawable.japan };
- 
-        // Locate the ViewPager in viewpager_main.xml
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        // Pass results to ViewPagerAdapter Class
-        adapter = new ViewPagerAdapter(MainActivity.this, rank, country, population, flag);
-        // Binds the Adapter to the ViewPager
-        viewPager.setAdapter(adapter);
->>>>>>> 2346c673a9ef5528a885db57612143cecf4c5480
-	}
+	// mainLayout is the child of the HorizontalScrollView ...
+	private LinearLayout mainLayout;
+
+	// this is an array that holds the IDs of the drawables ...
+	private int[] images = { R.drawable.dd1, R.drawable.dd2, R.drawable.dd3, R.drawable.dd4, R.drawable.dd5, R.drawable.dd6, R.drawable.dd7 };
+
+	private View cell;
+	private TextView text;
+
+	private ViewPager viewPager;
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.profil, menu);
-		return true;
+	public void onBackPressed() {
+
+		if (viewPager != null && viewPager.isShown()) {
+
+			viewPager.setVisibility(View.GONE);
+		} else {
+
+			super.onBackPressed();
+		}
+	}
+
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(final Bundle icicle) {
+		super.onCreate(icicle);
+
+		setContentView(R.layout.activity_profil);
+
+		viewPager = (ViewPager) findViewById(R.id._viewPager);
+
+		mainLayout = (LinearLayout) findViewById(R.id._linearLayout);
+
+		for (int i = 0; i < images.length; i++) {
+
+			cell = getLayoutInflater().inflate(R.layout.cell, null);
+
+			final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
+			imageView.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(final View v) {
+
+					viewPager.setVisibility(View.VISIBLE);
+					viewPager.setAdapter(new GalleryPagerAdapter(ProfilActivity.this, images));
+					viewPager.setCurrentItem(v.getId());
+				}
+			});
+
+			imageView.setId(i);
+
+			text = (TextView) cell.findViewById(R.id._imageName);
+
+			imageView.setImageResource(images[i]);
+			text.setText("Image#" + (i + 1));
+
+			mainLayout.addView(cell);
+		}
 	}
 }
