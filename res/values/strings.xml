@@ -1,3 +1,4 @@
+<<<<<<< 040ff0d4c5b0854e36658ca0af2aa1e08e4337ac
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
@@ -16,4 +17,17 @@
     <string name="texteLegumes">Légumes</string>
     <string name="texteDispo">Disponible</string>
 
+</resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">potago</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_profil">ProfilActivity</string>
+    <string name="nomTexte">Nom à recup </string>
+    <string name="prenomTexte">Prenom à recup</string>
+    <string name="description">Description</string>
+    <string name="commentaire">ProfilActivity</string>
+    <string name="imageProfil">Image de profil</string>
 </resources>

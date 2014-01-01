@@ -11,110 +11,55 @@
     android:splitMotionEvents="false"
     tools:context=".ProfilActivity" >
 
-    
-            <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:adjustViewBounds="false"
-        android:baselineAlignBottom="false"
-        android:cropToPadding="false"
-        android:scaleType="fitXY"
-        android:src="@drawable/haut" />
-
     <ImageButton
-        android:id="@+id/boutonBack"
-        android:layout_width="40dp"
-        android:layout_height="35dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="7dp"
-        android:background="@null"
-        android:scaleType="fitCenter"
-        android:src="@drawable/back" />
-
-    <ImageButton
-        android:id="@+id/boutonHome"
-        android:layout_width="40dp"
-        android:layout_height="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="7dp"
-        android:background="@null"
-        android:scaleType="fitCenter"
-        android:src="@drawable/home" />
-    
-    <TextView
-        android:id="@+id/titre"
-        android:layout_width="fill_parent"
-        android:layout_height="35dp"
-        android:gravity="center"
-        android:textColor="#FFF"
-        android:textSize="20sp"
-        android:layout_alignBottom="@+id/boutonBack"
-        android:layout_centerHorizontal="true"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/titre"
+        android:id="@+id/imageProfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/chat_accueil"
-        android:layout_marginLeft="68dp"
-        android:layout_marginTop="22dp"
-        android:layout_toRightOf="@+id/chat_accueil"
-        android:text="Pseudo" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ratingBar1"
-        android:layout_below="@+id/ratingBar1"
-        android:layout_marginTop="37dp"
-        android:text="Commentaires"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chat_accueil"
-        android:layout_below="@+id/chat_accueil"
-        android:layout_marginTop="24dp" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-            
-            
-    <ExpandableListView
-        android:id="@+id/expandableListView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true" >
-    </ExpandableListView>
-        </LinearLayout>
-    </ScrollView>
-
-    <RatingBar
-        android:id="@+id/ratingBar1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="128dp" />
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/imageProfil"
+        android:src="@drawable/ic_tab_profil_unselected" />
 
-    <ImageButton
-        android:id="@+id/chat_accueil"
+    <TextView
+        android:id="@+id/prenomTexte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/textView2"
-        android:layout_below="@+id/imageView1"
-        android:layout_marginTop="140dp"
-        android:src="@drawable/ic_launcher" />
+        android:layout_alignBottom="@+id/imageProfil"
+        android:layout_alignLeft="@+id/nomTexte"
+        android:text="@string/prenomTexte" />
 
+    <TextView
+        android:id="@+id/nomTexte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageProfil"
+        android:layout_marginLeft="27dp"
+        android:layout_toRightOf="@+id/imageProfil"
+        android:text="@string/nomTexte" />
+
+    <ImageButton
+        android:id="@+id/imageLoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/prenomTexte"
+        android:layout_alignLeft="@+id/imageDial"
+        android:layout_below="@+id/imageDial"
+        android:src="@drawable/ic_menu_loc" />
+
+    <ImageButton
+        android:id="@+id/imageDial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/nomTexte"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/prenomTexte"
+        android:src="@drawable/ic_tab_dial" />
+
+    <Gallery
+        android:id="@+id/gallery1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prenomTexte"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp" />
 </RelativeLayout>
