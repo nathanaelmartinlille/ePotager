@@ -13,8 +13,8 @@
 
     <ImageButton
         android:id="@+id/imageProfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/imageProfil"
@@ -24,52 +24,57 @@
         android:id="@+id/prenomTexte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageProfil"
-        android:layout_alignLeft="@+id/nomTexte"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:text="@string/prenomTexte" />
 
     <TextView
         android:id="@+id/nomTexte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageProfil"
-        android:layout_marginLeft="27dp"
-        android:layout_toRightOf="@+id/imageProfil"
+        android:layout_alignLeft="@+id/prenomTexte"
+        android:layout_alignTop="@+id/prenomTexte"
+        android:layout_marginTop="20dp"
         android:text="@string/nomTexte" />
-
-    <ImageButton
-        android:id="@+id/imageLoc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/prenomTexte"
-        android:layout_alignLeft="@+id/imageDial"
-        android:layout_below="@+id/imageDial"
-        android:src="@drawable/ic_menu_loc" />
-
-    <ImageButton
+    
+       <ImageButton
         android:id="@+id/imageDial"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/nomTexte"
-        android:layout_marginLeft="16dp"
-        android:layout_toRightOf="@+id/prenomTexte"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+         android:layout_alignParentRight="true"
         android:src="@drawable/ic_tab_dial" />
     
-     <HorizontalScrollView android:layout_width="fill_parent"  
-        android:layout_height="wrap_content">  
-          
-        <LinearLayout android:id="@+id/_linearLayout"  
-          android:layout_width="fill_parent"  
-          android:layout_height="wrap_content"  
-          android:orientation="horizontal">  
-            
-        </LinearLayout>  
-          
-      </HorizontalScrollView>  
-     <android.support.v4.view.ViewPager android:id="@+id/_viewPager"  
-          android:layout_width="fill_parent"  
-          android:layout_height="fill_parent"  
-          android:background="#000000"  
-          android:visibility="gone" />  
-        
+    <ImageButton
+        android:id="@+id/imageLoc"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/imageDial"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_menu_loc" />
+
+   
+    
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/imageProfil" >
+
+        <LinearLayout
+            android:id="@+id/_linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal" >
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:visibility="gone" >
+    </android.support.v4.view.ViewPager>
+
 </RelativeLayout>

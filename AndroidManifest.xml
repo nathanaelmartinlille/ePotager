@@ -82,6 +82,10 @@
             android:name="com.example.potago.infos.CGU_Infos"
             android:label="@string/title_activity_cgu__infos" >
         </activity>
+        <activity
+            android:name="com.example.potago.ProfilActivity"
+            android:label="@string/titreProfil" >
+        </activity>
     </application>
 
 </manifest>

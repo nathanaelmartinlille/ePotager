@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class ProfilActivity extends Activity {
 
@@ -15,10 +14,9 @@ public class ProfilActivity extends Activity {
 	private LinearLayout mainLayout;
 
 	// this is an array that holds the IDs of the drawables ...
-	private int[] images = { R.drawable.dd1, R.drawable.dd2, R.drawable.dd3, R.drawable.dd4, R.drawable.dd5, R.drawable.dd6, R.drawable.dd7 };
+	private int[] images = { R.drawable.dd1, R.drawable.dd2, R.drawable.dd3, R.drawable.dd4, R.drawable.dd5 };
 
 	private View cell;
-	private TextView text;
 
 	private ViewPager viewPager;
 
@@ -63,10 +61,7 @@ public class ProfilActivity extends Activity {
 
 			imageView.setId(i);
 
-			text = (TextView) cell.findViewById(R.id._imageName);
-
 			imageView.setImageResource(images[i]);
-			text.setText("Image#" + (i + 1));
 
 			mainLayout.addView(cell);
 		}
