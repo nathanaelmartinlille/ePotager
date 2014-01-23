@@ -38,3 +38,10 @@ Laura - 31/12/2013
   - Quels sont les meilleurs fruits et légumes -> permettra, selon le mois, de voir quels fruits et légumes planter et    récolter
 
 ==================
+Laura - 23/01/2014
+
+- Mise en ligne d'une page php de test pour le web service (http://www.lauraleclercq.com/ePotager/test.php)
+- Configuration des services google
+- Récupération des données dans le BDD par le web service
+
+==================
