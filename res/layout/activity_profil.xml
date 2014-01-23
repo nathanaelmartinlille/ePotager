@@ -1,16 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/layoutHaut"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:addStatesFromChildren="false"
+    android:background="@color/gray"
     android:clipToPadding="false"
     android:paddingBottom="0dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
     android:splitMotionEvents="false"
-    android:background="@color/gray"
     tools:context=".ProfilActivity" >
 
     <ImageView
@@ -21,20 +21,20 @@
         android:layout_alignParentTop="true"
         android:adjustViewBounds="false"
         android:baselineAlignBottom="false"
+        android:contentDescription="@string/app_name"
         android:cropToPadding="false"
         android:scaleType="fitXY"
-        android:contentDescription="@string/app_name"
         android:src="@drawable/haut" />
-    
-       <ImageButton
+
+    <ImageButton
         android:id="@+id/boutonBack"
         android:layout_width="40dp"
         android:layout_height="35dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="7dp"
         android:background="@null"
-        android:scaleType="fitCenter"
         android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
         android:src="@drawable/back" />
 
     <ImageButton
@@ -45,8 +45,8 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="7dp"
         android:background="@null"
-        android:scaleType="fitCenter"
         android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
         android:src="@drawable/home" />
 
     <TextView
@@ -59,8 +59,7 @@
         android:text="@string/titreProfil"
         android:textColor="#FFF"
         android:textSize="20sp" />
-    
-    
+
     <ImageButton
         android:id="@+id/imageProfil"
         android:layout_width="100dp"
@@ -74,8 +73,8 @@
         android:id="@+id/prenomTexte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/imageView1"
+        android:layout_centerHorizontal="true"
         android:text="@string/prenomTexte" />
 
     <TextView
@@ -86,25 +85,23 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="@string/nomTexte" />
-    
-       <ImageButton
+
+    <ImageButton
         android:id="@+id/imageDial"
         android:layout_width="60dp"
         android:layout_height="50dp"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="50dp"
-         android:layout_alignParentRight="true"
         android:src="@drawable/ic_tab_dial" />
-    
+
     <ImageButton
         android:id="@+id/imageLoc"
         android:layout_width="60dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/imageDial"
         android:layout_alignParentRight="true"
+        android:layout_below="@+id/imageDial"
         android:src="@drawable/ic_menu_loc" />
 
-   
-    
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView1"
         android:layout_width="wrap_content"
@@ -126,39 +123,47 @@
         android:layout_height="wrap_content"
         android:background="#000000"
         android:visibility="gone" >
-
     </android.support.v4.view.ViewPager>
 
-	<RelativeLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_below="@id/imageProfil" 
-	    android:layout_marginTop="60dp"
-	    android:background="@color/black"
-	    android:splitMotionEvents="false" >
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageProfil"
+        android:layout_marginTop="60dp"
+        android:background="@color/black"
+        android:splitMotionEvents="false" >
 
-	    <TextView
-	        android:id="@+id/description"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_centerHorizontal="true"
-	        android:layout_marginTop="20dp"
-	        android:text="@string/description" />
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/description" />
 
-	    <TextView
-	        android:id="@+id/descriptionValeur"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_centerHorizontal="true"
-	        android:layout_marginTop="20dp"
-	        android:text="@string/description" />
+        <TextView
+            android:id="@+id/descriptionValeur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/description" />
 
-	    <TextView
-	        android:id="@+id/commentaire"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_centerHorizontal="true"
-	        android:text="@string/description" />
-	</RelativeLayout>
+        <TextView
+            android:id="@+id/commentaire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/description" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/relativeLayout2" >
+    </ListView>
 
 </RelativeLayout>
