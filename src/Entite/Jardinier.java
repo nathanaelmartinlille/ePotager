@@ -24,6 +24,19 @@ public class Jardinier {
 		this.vendLegumes = vendLegumes;
 		this.estDispo = estDispo;
 	}
+	
+	public Jardinier(String nom, String prenom, String latitude,
+			String longitude, boolean vendFruits, boolean vendLegumes,
+			boolean estDispo) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.latitude = Double.parseDouble(latitude);
+		this.longitude = Double.parseDouble(longitude);
+		this.vendFruits = vendFruits;
+		this.vendLegumes = vendLegumes;
+		this.estDispo = estDispo;
+	}
 
 	public Jardinier(String nom, String prenom, double latitude, double longitude) {
 		super();

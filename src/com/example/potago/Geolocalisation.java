@@ -55,12 +55,12 @@ public class Geolocalisation extends FragmentActivity{
 	CheckBox dispo;
 
 	// Liste des jardiniers
-	ArrayList<Jardinier> listeJardiniers;
+	static ArrayList<Jardinier> listeJardiniers;
 
 
 	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
 	static final LatLng KIEL = new LatLng(53.551, 9.993);
-	private GoogleMap map;
+	private static GoogleMap map;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -91,8 +91,7 @@ public class Geolocalisation extends FragmentActivity{
 		TextView titre = (TextView)this.findViewById(R.id.titre);
 		titre.setText("Géolocalisation");
 
-		donnesPourTester();
-		afficherJardinier();
+
 
 		//FIXME:la location est toujours à null
 		Location location = map.getMyLocation();
@@ -156,12 +155,15 @@ public class Geolocalisation extends FragmentActivity{
 		dispo.setOnCheckedChangeListener(listener);
 
 		accessWebService();
+		
 	}
 
 	// On accède au web service
 	public void accessWebService() {
+		System.out.println("accessWebService");
 		JsonReadTask task = new JsonReadTask();
 		// passes values for the urls string array
+		System.out.println("url : "+url);
 		task.execute(new String[] { url });
 	}
 
@@ -172,24 +174,24 @@ public class Geolocalisation extends FragmentActivity{
 	public static void recupererDonnees()
 	{
 		System.out.println("Je fais la mise à jour des données");
+		listeJardiniers = new ArrayList<Jardinier>();
 		try {
 			JSONObject jsonResponse = new JSONObject(jsonResult);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("Jardiniers");
 
 			for (int i = 0; i < jsonMainNode.length(); i++) {
 				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
-				String nom = jsonChildNode.optString("Nom");
-				String prenom = jsonChildNode.optString("Prenom");
-				String description = jsonChildNode.optString("Description");
-				String outPut = nom + "-" + prenom +"-"+description;
-				System.out.println(outPut);
+				Jardinier jardinier = new Jardinier(jsonChildNode.optString("Nom"), jsonChildNode.optString("Prenom"), 
+						jsonChildNode.optString("Latitude"),jsonChildNode.optString("Longitude"),true, true,true);
+				listeJardiniers.add(jardinier);
 			}
 		} catch (JSONException e) {
 			System.out.println("je catch une exception");
 		}
+		afficherJardinier();
 	}
 
-	public void afficherJardinier()
+	public static void afficherJardinier()
 	{
 		for (Jardinier j : listeJardiniers) {
 			LatLng jLatLng = new LatLng(j.getLatitude(), j.getLongitude());
@@ -238,6 +240,7 @@ public class Geolocalisation extends FragmentActivity{
 			try {
 				while ((rLine = rd.readLine()) != null) {
 					answer.append(rLine);
+					//System.out.println("answer : "+answer);
 				}
 			}
 
