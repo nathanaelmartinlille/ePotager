@@ -1,11 +1,25 @@
 package com.example.potago;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import Entite.Jardinier;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -15,6 +29,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import android.support.v4.app.Fragment;
@@ -30,6 +45,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 @SuppressLint("NewApi")
 public class Geolocalisation extends FragmentActivity{
 
+	private static String jsonResult;
+	private String url = "http://lauraleclercq.com/ePotager/test.php";
 	// On garde les éléments de la géolocalisation
 	TextView rayon;
 	SeekBar distance;
@@ -76,7 +93,7 @@ public class Geolocalisation extends FragmentActivity{
 
 		donnesPourTester();
 		afficherJardinier();
-		
+
 		//FIXME:la location est toujours à null
 		Location location = map.getMyLocation();
 		if (location != null) {
@@ -138,6 +155,14 @@ public class Geolocalisation extends FragmentActivity{
 		legumes.setOnCheckedChangeListener(listener);
 		dispo.setOnCheckedChangeListener(listener);
 
+		accessWebService();
+	}
+
+	// On accède au web service
+	public void accessWebService() {
+		JsonReadTask task = new JsonReadTask();
+		// passes values for the urls string array
+		task.execute(new String[] { url });
 	}
 
 	/**
@@ -147,6 +172,21 @@ public class Geolocalisation extends FragmentActivity{
 	public static void recupererDonnees()
 	{
 		System.out.println("Je fais la mise à jour des données");
+		try {
+			JSONObject jsonResponse = new JSONObject(jsonResult);
+			JSONArray jsonMainNode = jsonResponse.optJSONArray("Jardiniers");
+
+			for (int i = 0; i < jsonMainNode.length(); i++) {
+				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
+				String nom = jsonChildNode.optString("Nom");
+				String prenom = jsonChildNode.optString("Prenom");
+				String description = jsonChildNode.optString("Description");
+				String outPut = nom + "-" + prenom +"-"+description;
+				System.out.println(outPut);
+			}
+		} catch (JSONException e) {
+			System.out.println("je catch une exception");
+		}
 	}
 
 	public void afficherJardinier()
@@ -170,6 +210,51 @@ public class Geolocalisation extends FragmentActivity{
 		listeJardiniers.add(j2);
 	}
 
+	//Async Task to access the web
+	class JsonReadTask extends AsyncTask<String, Void, String> {
+		@Override
+		protected String doInBackground(String... params) {
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost(params[0]);
+			try {
+				HttpResponse response = httpclient.execute(httppost);
+				jsonResult = inputStreamToString(
+						response.getEntity().getContent()).toString();
+			}
+
+			catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		private StringBuilder inputStreamToString(InputStream is) {
+			String rLine = "";
+			StringBuilder answer = new StringBuilder();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+			try {
+				while ((rLine = rd.readLine()) != null) {
+					answer.append(rLine);
+				}
+			}
+
+			catch (IOException e) {
+				// e.printStackTrace();
+				Toast.makeText(getApplicationContext(),
+						"Error..." + e.toString(), Toast.LENGTH_LONG).show();
+			}
+			return answer;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			recupererDonnees();
+		}
+	}// end async task
+
 }
 
 class MonClickListener implements OnCheckedChangeListener {
@@ -184,3 +269,5 @@ class MonClickListener implements OnCheckedChangeListener {
 	}
 
 }
+
+
