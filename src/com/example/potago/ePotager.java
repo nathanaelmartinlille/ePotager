@@ -19,8 +19,8 @@ public class ePotager extends Activity {
 
 			@Override
 			public void onClick(final View v) {
-				// Intent myIntent = new Intent(ePotager.this, Geolocalisation.class);
-				// ePotager.this.startActivity(myIntent);
+				 Intent myIntent = new Intent(ePotager.this, Geolocalisation.class);
+				 ePotager.this.startActivity(myIntent);
 			}
 		});
 

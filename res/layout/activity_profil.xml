@@ -100,6 +100,7 @@
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/imageDial"
+        android:background="@android:color/transparent"
         android:src="@drawable/ic_menu_loc" />
 
     <HorizontalScrollView

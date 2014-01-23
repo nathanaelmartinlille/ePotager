@@ -76,7 +76,7 @@ public class ProfilActivity extends Activity {
 
 				@Override
 				public void onClick(final View v) {
-
+					viewPager.bringToFront();
 					viewPager.setVisibility(View.VISIBLE);
 					viewPager.setAdapter(new GalleryPagerAdapter(ProfilActivity.this, images));
 					viewPager.setCurrentItem(v.getId());
