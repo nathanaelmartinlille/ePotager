@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutHaut"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:addStatesFromChildren="false"
     android:background="@color/gray"
     android:clipToPadding="false"
@@ -103,68 +103,140 @@
         android:background="@android:color/transparent"
         android:src="@drawable/ic_menu_loc" />
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView1"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/imageProfil" >
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="500dp"
+        android:layout_marginTop="150dp" >
 
         <LinearLayout
-            android:id="@+id/_linearLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal" >
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/_linearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:orientation="horizontal" >
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/_viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                android:visibility="gone" >
+            </android.support.v4.view.ViewPager>
+
+            <RelativeLayout
+                android:id="@+id/partieAvis"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:splitMotionEvents="false" >
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/description"
+                     />
+
+                <TextView
+                    android:id="@+id/contenuDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/description"
+                    android:layout_below="@id/description"
+                     />
+
+                <TextView
+                    android:id="@+id/commentaire"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/commentaire"
+                    android:layout_below="@id/contenuDescription"
+                     />
+
+                <!-- on affiche ici  deux commentaires et on propose d'afficher plus avec un bouton qui va amener à une autre vue -->
+
+                <RelativeLayout
+                    android:id="@+id/ligneCommentaire1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                     android:layout_below="@id/commentaire"
+                     >
+
+                    <ImageButton
+                        android:id="@+id/imageAuteur1"
+                        android:layout_height="40dp"
+                        android:layout_width="40dp"
+                        android:contentDescription="@string/description"
+                        android:scaleType="centerInside" />
+
+                    <LinearLayout
+                        android:id="@+id/colonneNomEtCom1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <TextView
+                            android:id="@+id/nomAuteurCommentaire1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/auteurCommentaire1" />
+
+                        <TextView
+                            android:id="@+id/contenuCommentaire1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/contenuCommentaire1" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+					android:id="@+id/ligneCommentaire2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ligneCommentaire1"
+                     >
+
+                    <ImageButton
+                        android:id="@+id/imageAuteur2"
+                        android:layout_height="40dp"
+                        android:layout_width="40dp"
+                        android:contentDescription="@string/description" />
+
+                    <LinearLayout
+                        android:id="@+id/colonneNomEtCom2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <TextView
+                            android:id="@+id/nomAuteurCommentaire2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/auteurCommentaire2" />
+
+                        <TextView
+                            android:id="@+id/contenuCommentaire2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/contenuCommentaire2" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
         </LinearLayout>
-    </HorizontalScrollView>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/_viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#000000"
-        android:visibility="gone" >
-    </android.support.v4.view.ViewPager>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageProfil"
-        android:layout_marginTop="60dp"
-        android:background="@color/black"
-        android:splitMotionEvents="false" >
-
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="@string/description" />
-
-        <TextView
-            android:id="@+id/descriptionValeur"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="@string/description" />
-
-        <TextView
-            android:id="@+id/commentaire"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/description" />
-    </RelativeLayout>
-
-    <ListView
-        android:id="@+id/listView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/relativeLayout2" >
-    </ListView>
+    </ScrollView>
 
 </RelativeLayout>

@@ -90,6 +90,10 @@
             android:name="com.example.potago.ProfilActivity"
             android:label="@string/titreProfil" >
         </activity>
+        <activity
+            android:name="com.example.potago.AffichageCommentaireActivity"
+            android:label="@string/title_activity_affichage_commentaires">
+        </activity>
     </application>
 
 </manifest>

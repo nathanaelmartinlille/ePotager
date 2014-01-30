@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -80,6 +81,7 @@ public class ProfilActivity extends Activity {
 					viewPager.setVisibility(View.VISIBLE);
 					viewPager.setAdapter(new GalleryPagerAdapter(ProfilActivity.this, images));
 					viewPager.setCurrentItem(v.getId());
+					System.out.println("on va dedans " );
 				}
 			});
 
@@ -92,7 +94,20 @@ public class ProfilActivity extends Activity {
 	}
 
 	private void initialiserFilCommentaire() {
-
+		final TextView contenuDescription = (TextView) this.findViewById(R.id.contenuDescription);
+		final TextView contenuCommentaire1 = (TextView) this.findViewById(R.id.contenuCommentaire1);
+		final TextView contenuCommentaire2 = (TextView) this.findViewById(R.id.contenuCommentaire2);
+		
+		final TextView auteurCommentaire = (TextView) this.findViewById(R.id.nomAuteurCommentaire1);
+		final TextView auteurCommentaire2 = (TextView) this.findViewById(R.id.nomAuteurCommentaire2);
+		
+		contenuDescription.setText("J'ai un potager de 60 m2 dans lequel j'adore planter mes carottes dans la terre");
+		contenuCommentaire1.setText("j'ai adoré ses carottes, je pense que c'est sa spécialité hummm ! ");
+		contenuCommentaire2.setText("Ce mec est un gros pervers, en fait c'est pas vraiment des carottes qu'il plante !");
+		
+		auteurCommentaire.setText("Matthieu");
+		auteurCommentaire2.setText("Elodie");
+	
 	}
 
 	@Override

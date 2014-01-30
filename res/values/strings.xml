@@ -19,8 +19,14 @@
     <string name="nomTexte">Nom à recup </string>
     <string name="prenomTexte">Prenom à recup</string>
     <string name="description">Description</string>
-    <string name="commentaire">ProfilActivity</string>
+    <string name="commentaire">Commentaire</string>
     <string name="imageProfil">Image de profil</string>
+    <string name="auteurCommentaire1">Commentaire</string>
+    <string name="auteurCommentaire2">Commentaire</string>
+    <string name="contenuCommentaire1">AffichageCommentaireActivity</string>
+    <string name="contenuCommentaire2">AffichageCommentaireActivity</string>
+	<string name="title_activity_affichage_commentaires">Commentaires</string>
     
-
+    
+    
 </resources>
