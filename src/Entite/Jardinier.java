@@ -4,6 +4,7 @@ public class Jardinier {
 	
 	String nom;
 	String prenom;
+	String description;
 	double latitude;
 	double longitude;
 	boolean vendFruits;
@@ -12,12 +13,13 @@ public class Jardinier {
 	
 	
 
-	public Jardinier(String nom, String prenom, double latitude,
+	public Jardinier(String nom, String prenom,String description, double latitude,
 			double longitude, boolean vendFruits, boolean vendLegumes,
 			boolean estDispo) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
+		this.description = description;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.vendFruits = vendFruits;
@@ -25,12 +27,13 @@ public class Jardinier {
 		this.estDispo = estDispo;
 	}
 	
-	public Jardinier(String nom, String prenom, String latitude,
+	public Jardinier(String nom, String prenom,String description, String latitude,
 			String longitude, boolean vendFruits, boolean vendLegumes,
 			boolean estDispo) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
+		this.description = description;
 		this.latitude = Double.parseDouble(latitude);
 		this.longitude = Double.parseDouble(longitude);
 		this.vendFruits = vendFruits;
@@ -38,12 +41,21 @@ public class Jardinier {
 		this.estDispo = estDispo;
 	}
 
-	public Jardinier(String nom, String prenom, double latitude, double longitude) {
+	public Jardinier(String nom, String prenom,String description, double latitude, double longitude) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
+		this.description = description;
 		this.latitude = latitude;
 		this.longitude = longitude;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getNom() {

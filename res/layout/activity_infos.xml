@@ -12,7 +12,7 @@
     tools:context=".InfosActivity" >
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/photo_profil_marker"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
@@ -60,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/imageView1" >
+        android:layout_below="@+id/photo_profil_marker" >
 
     </ListView>
 

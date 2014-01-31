@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -20,9 +21,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -34,16 +35,17 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.maps.GeoPoint;
 
 @SuppressLint("NewApi")
 public class Geolocalisation extends FragmentActivity{
@@ -57,11 +59,13 @@ public class Geolocalisation extends FragmentActivity{
 	static CheckBox legumes;
 	static CheckBox dispo;
 
-	static LocationManager lm;
+	static LatLng userLocation;
 	// Liste des jardiniers
 	static ArrayList<Jardinier> listeJardiniers;
+	static HashMap<Marker, Jardinier> listeMarkers;
 
-
+	private static Context context;
+	
 	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
 	static final LatLng KIEL = new LatLng(53.551, 9.993);
 	private static GoogleMap map;
@@ -71,6 +75,12 @@ public class Geolocalisation extends FragmentActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_geoloc);
+		
+		listeMarkers = new HashMap<Marker, Jardinier>();
+		listeJardiniers = new ArrayList<Jardinier>();
+		
+		// On prend le contexte de l'activity
+		context = this.getBaseContext();
 
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 		map = mapFragment.getMap();
@@ -95,28 +105,17 @@ public class Geolocalisation extends FragmentActivity{
 		TextView titre = (TextView)this.findViewById(R.id.titre);
 		titre.setText("Géolocalisation");
 
+		map.setMyLocationEnabled(true);
+		map.setOnMyLocationChangeListener(new OnMyLocationChangeListener() {
 
-
-	
-		GeoPoint gp;        
-		lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-		Location lastKnownLoc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		if (lastKnownLoc != null){
-		  int longTemp = (int)(lastKnownLoc.getLongitude()* 1000000);
-		  int latTemp = (int)(lastKnownLoc.getLatitude() * 1000000);
-		  gp =  new GeoPoint(latTemp, longTemp);
-			LatLng myLocation = new LatLng(latTemp,longTemp);
-			map.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation,
-					15));
-		}
-		//FIXME:la location est toujours à null
-		/*Location location = map.getMyLocation();
-		if (location != null) {
-			LatLng myLocation = new LatLng(location.getLatitude(),
-					location.getLongitude());
-			map.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation,
-					15));
-		}*/
+			@Override
+			public void onMyLocationChange(Location arg0) {
+				userLocation = new LatLng(arg0.getLatitude(),arg0.getLongitude());
+				map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+				recupererDonnees();
+			}
+			
+		});
 
 
 		// On récupère les éléments
@@ -147,7 +146,6 @@ public class Geolocalisation extends FragmentActivity{
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -190,15 +188,18 @@ public class Geolocalisation extends FragmentActivity{
 	public static void recupererDonnees()
 	{
 		System.out.println("Je fais la mise à jour des données");
-		listeJardiniers = new ArrayList<Jardinier>();
+		listeJardiniers.clear();
+		listeMarkers.clear();
+		System.out.println("liste : "+listeJardiniers);
 		try {
+			//FIXME:Des fois ça bug ici.....
 			JSONObject jsonResponse = new JSONObject(jsonResult);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("Jardiniers");
 
 			for (int i = 0; i < jsonMainNode.length(); i++) {
 				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
 				System.out.println(jsonChildNode.optBoolean("Legumes"));
-				Jardinier jardinier = new Jardinier(jsonChildNode.optString("Nom"), jsonChildNode.optString("Prenom"), 
+				Jardinier jardinier = new Jardinier(jsonChildNode.optString("Nom"), jsonChildNode.optString("Prenom"),jsonChildNode.optString("Description"), 
 						jsonChildNode.optString("Latitude"),jsonChildNode.optString("Longitude"),jsonChildNode.optBoolean("Fruits"), 
 						jsonChildNode.optBoolean("Legumes"),jsonChildNode.optBoolean("Disponible"));
 				listeJardiniers.add(jardinier);
@@ -211,66 +212,121 @@ public class Geolocalisation extends FragmentActivity{
 
 	public static void afficherJardinier()
 	{
+		// J'enlève tous les anciens markers
+		map.clear();
 		for (Jardinier j : listeJardiniers) {
 			boolean aLeDroitDexister = true;
 			LatLng jLatLng = new LatLng(j.getLatitude(), j.getLongitude());
 			float[] results = new float[5];
-			
-			// Je récupère la position de l'user
-			GeoPoint gp;        
-			Location lastKnownLoc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			if (lastKnownLoc != null){
-			  int longTemp = (int)(lastKnownLoc.getLongitude()* 1000000);
-			  int latTemp = (int)(lastKnownLoc.getLatitude() * 1000000);
-			  gp =  new GeoPoint(latTemp, longTemp);
-				LatLng myLocation = new LatLng(latTemp,longTemp);
-				Location.distanceBetween(jLatLng.latitude, jLatLng.longitude, latTemp,  longTemp, results);
 
-			}
-			
-			
+			// Je récupère la position de l'user et je calcule la distance entre l'user et le jardinier
+			if(userLocation != null)
+				Location.distanceBetween(jLatLng.latitude, jLatLng.longitude, userLocation.latitude, userLocation.longitude, results);
+
+
 			// On regarde si ils sont plus loins que la distance
-			System.out.println("distance : "+results[0]+" d2 : "+distance.getProgress());
-			/*if(results[0] < distance.getProgress())
+			// Attention ! la distance est en mètres !
+			System.out.println("distance : "+results[0]/1000+" d2 : "+distance.getProgress());
+			if(results[0]/1000 < distance.getProgress())
+			{
+				aLeDroitDexister = true;
+				if((dispo.isChecked() && j.isEstDispo()) || (!dispo.isChecked() && !j.isEstDispo()))
+				{
+					aLeDroitDexister = true;
+					if((fruits.isChecked() && j.isVendFruits()) || (!fruits.isChecked() && !j.isVendFruits()))
+					{	
+						aLeDroitDexister = true;
+						if((legumes.isChecked() && j.isVendLegumes()) || (!legumes.isChecked() && !j.isVendLegumes()))
+							aLeDroitDexister = true;
+						else
+							aLeDroitDexister = false;
+					}
+					else
+					{
+						aLeDroitDexister = false;
+					}
+				}
+				else
+					aLeDroitDexister = false;
+			}
+			else
 				aLeDroitDexister = false;
-			else
-				aLeDroitDexister = true;
-
-			// On vérifie qu'il correspond aux critères de recherche
-			if((dispo.isChecked() && j.isEstDispo()) || (!dispo.isChecked() && !j.isEstDispo()))
-				aLeDroitDexister = true;
-			else
-				aLeDroitDexister = false;
-
-			if((fruits.isChecked() && j.isVendFruits()) || (!fruits.isChecked() && !j.isVendFruits()))
-				aLeDroitDexister = true;
-			else
-				aLeDroitDexister = false;
-
-			if((legumes.isChecked() && j.isVendLegumes()) || (!legumes.isChecked() && !j.isVendLegumes()))
-				aLeDroitDexister = true;
-			else
-				aLeDroitDexister = false;*/
-
+			
 			if(aLeDroitDexister)
 			{
+				System.out.println("j'ai le droit d'exister + "+j);
 				Marker jardinier = map.addMarker(new MarkerOptions().position(jLatLng)
 						.title(j.getNom())
 						.snippet(j.getPrenom())
 						.icon(BitmapDescriptorFactory
-								.fromResource(R.drawable.ic_launcher)));
+								.fromResource(R.drawable.repere)));
+				listeMarkers.put(jardinier, j);
 			}
 		}
-	}
+		
+		/**
+		 * On définit la vue quand on clique sur le jardinier
+		 */
+		map.setInfoWindowAdapter(new InfoWindowAdapter() {
+			
 
+			@Override
+			public View getInfoWindow(Marker arg0) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public View getInfoContents(Marker arg0) {
+				 LayoutInflater li = LayoutInflater.from(context);
+                View v = li.inflate(R.layout.marker_jardinier, null);
+ 
+                Jardinier jar = listeMarkers.get(arg0);
+                System.out.println("jardinier : "+jar);
+ 
+                // Getting reference to the TextView to set latitude
+                TextView nomPrenom = (TextView) v.findViewById(R.id.nom_prenom_marker);
+ 
+                // Getting reference to the TextView to set longitude
+                TextView description = (TextView) v.findViewById(R.id.description_marker);
+ 
+                // Setting the latitude
+                nomPrenom.setText(jar.getPrenom()+" "+jar.getNom());
+ 
+                // Setting the longitude
+                description.setText(""+jar.getDescription());
+ 
+                // Returning the view containing InfoWindow contents
+                return v;
+			}
+		});
+		
+		/**
+		 * Quand on clique sur un jardinier sur la map
+		 */
+		map.setOnMarkerClickListener(new OnMarkerClickListener() {
+			
+			@Override
+			public boolean onMarkerClick(Marker arg0) {
+				// TODO Auto-generated method stub
+				System.out.println("j'ai cliqué sur le marker du jardinier");
+				return false;
+			}
+		});
+		
+		/**
+		 * Quand on clique sur les informations d'un jardinier,
+		 * on va sur son profil.
+		 */
+		map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+			
+			@Override
+			public void onInfoWindowClick(Marker arg0) {
+				// TODO Auto-generated method stub
 
-	public void donnesPourTester()
-	{
-		listeJardiniers = new ArrayList<Jardinier>();
-		Jardinier j1 = new Jardinier("Leclercq", "Laura", 50.639221,3.155543,true, true,true);
-		Jardinier j2 = new Jardinier("Martin", "Nathanaël", 50.610927,3.149669,false,true,true);
-		listeJardiniers.add(j1);
-		listeJardiniers.add(j2);
+				System.out.println("j'ai cliqué sur les infos du jardinier");
+			}
+		});
 	}
 
 	//Async Task to access the web

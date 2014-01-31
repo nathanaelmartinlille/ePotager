@@ -13,7 +13,7 @@
         android:src="@drawable/fond" />
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/photo_profil_marker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -25,7 +25,7 @@
         android:id="@+id/geoloc_accueil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView1"
+        android:layout_below="@+id/photo_profil_marker"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="31dp"
         android:layout_marginLeft="20dp"
