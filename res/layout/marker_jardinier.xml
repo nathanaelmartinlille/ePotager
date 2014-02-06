@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:addStatesFromChildren="false"
     android:background="#3C99DC"
-    android:orientation="vertical" >
+    android:clipToPadding="false"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:splitMotionEvents="false"
+    tools:context=".Geolocalisation" >
 
     <ImageView
         android:id="@+id/photo_profil_marker"
@@ -14,23 +23,27 @@
     <TextView
         android:id="@+id/nom_prenom_marker"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true" />
 
     <TextView
         android:id="@+id/description_marker"
         android:layout_width="132dp"
+        android:layout_height="wrap_content" />
+
+    <ImageButton
+        android:id="@+id/mail_marker"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_plusone_medium_off_client" />
 
     <RatingBar
         android:id="@+id/note_marker"
         android:layout_width="144dp"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/bouton_mail_marker"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
-
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" />
+    
+</RelativeLayout>

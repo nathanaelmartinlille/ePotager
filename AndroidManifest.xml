@@ -10,7 +10,7 @@
         android:targetSdkVersion="17" />
 
     <!-- Google Maps related permissions -->
-    
+
     <permission
         android:name="com.ecs.google.maps.v2.actionbarsherlock.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -45,8 +45,8 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
         <meta-data
-    android:name="com.google.android.gms.version"
-    android:value="@integer/google_play_services_version" />
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBBl-FnZ71MEMY52zeOielmzhjQzWrNacI" />
@@ -92,7 +92,11 @@
         </activity>
         <activity
             android:name="com.example.potago.AffichageCommentaireActivity"
-            android:label="@string/title_activity_affichage_commentaires">
+            android:label="@string/title_activity_affichage_commentaires" >
+        </activity>
+        <activity
+            android:name="com.example.potago.Tchat"
+            android:label="@string/title_activity_tchat" >
         </activity>
     </application>
 

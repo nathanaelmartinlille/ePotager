@@ -20,11 +20,13 @@ import Entite.Jardinier;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -268,11 +270,8 @@ public class Geolocalisation extends FragmentActivity{
 		 * On définit la vue quand on clique sur le jardinier
 		 */
 		map.setInfoWindowAdapter(new InfoWindowAdapter() {
-			
-
 			@Override
 			public View getInfoWindow(Marker arg0) {
-				// TODO Auto-generated method stub
 				return null;
 			}
 			
@@ -284,17 +283,28 @@ public class Geolocalisation extends FragmentActivity{
                 Jardinier jar = listeMarkers.get(arg0);
                 System.out.println("jardinier : "+jar);
  
-                // Getting reference to the TextView to set latitude
+                // Nom et prenom du jardinier
                 TextView nomPrenom = (TextView) v.findViewById(R.id.nom_prenom_marker);
- 
-                // Getting reference to the TextView to set longitude
-                TextView description = (TextView) v.findViewById(R.id.description_marker);
- 
-                // Setting the latitude
                 nomPrenom.setText(jar.getPrenom()+" "+jar.getNom());
  
-                // Setting the longitude
+                // Description du jardinier
+                TextView description = (TextView) v.findViewById(R.id.description_marker);
                 description.setText(""+jar.getDescription());
+
+                // Quand on appuie sur le bouton mail
+                ImageButton mail = (ImageButton)v.findViewById(R.id.mail_marker);
+                mail.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						// On va sur la vue de chat avec l'id du jardinier
+						Geolocalisation g = new Geolocalisation();
+						Intent myIntent = new Intent(g, Tchat.class);
+						 g.startActivity(myIntent);
+					}
+				});
+               
  
                 // Returning the view containing InfoWindow contents
                 return v;
@@ -310,6 +320,10 @@ public class Geolocalisation extends FragmentActivity{
 			public boolean onMarkerClick(Marker arg0) {
 				// TODO Auto-generated method stub
 				System.out.println("j'ai cliqué sur le marker du jardinier");
+				// On va sur le profil du jardinier
+				Geolocalisation g = new Geolocalisation();
+				Intent myIntent = new Intent(g, ProfilActivity.class);
+				 g.startActivity(myIntent);
 				return false;
 			}
 		});
