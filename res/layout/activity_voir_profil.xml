@@ -1,0 +1,250 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutHaut"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:addStatesFromChildren="false"
+    android:background="@color/gray"
+    android:clipToPadding="false"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:splitMotionEvents="false"
+    tools:context=".ProfilActivity" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="false"
+        android:baselineAlignBottom="false"
+        android:contentDescription="@string/app_name"
+        android:cropToPadding="false"
+        android:scaleType="fitXY"
+        android:src="@drawable/haut" />
+
+    <ImageButton
+        android:id="@+id/boutonBack"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7dp"
+        android:background="@null"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
+        android:src="@drawable/back" />
+
+    <ImageButton
+        android:id="@+id/boutonHome"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="7dp"
+        android:background="@null"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
+        android:src="@drawable/home" />
+
+    <TextView
+        android:id="@+id/titre"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_alignBottom="@+id/boutonBack"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/titreProfil"
+        android:textColor="#FFF"
+        android:textSize="20sp" />
+
+    <ImageButton
+        android:id="@+id/imageProfil"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/imageView1"
+        android:background="@null"
+        android:contentDescription="@string/imageProfil"
+        android:src="@drawable/image_profil_vide" />
+
+    <TextView
+        android:id="@+id/prenomTexte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:text="@string/prenomTexte" />
+
+    <TextView
+        android:id="@+id/nomTexte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/prenomTexte"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/nomTexte" />
+
+    <ImageButton
+        android:id="@+id/imageDial"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="50dp"
+        android:background="@null"
+        android:contentDescription="@string/imageDial"
+        android:src="@drawable/ic_tab_dial" />
+
+    <ImageButton
+        android:id="@+id/imageLoc"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/imageDial"
+		android:background="@null"
+		android:contentDescription="@string/imageLoc"
+        android:src="@drawable/ic_menu_loc" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="500dp"
+        android:layout_marginTop="150dp" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp" >
+
+                <LinearLayout
+                    android:id="@+id/_linearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:orientation="horizontal" >
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/_viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                android:visibility="gone" >
+            </android.support.v4.view.ViewPager>
+
+            <RelativeLayout
+                android:id="@+id/partieAvis"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:splitMotionEvents="false" >
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/description" />
+
+                <TextView
+                    android:id="@+id/contenuDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/description"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/description" />
+
+                <TextView
+                    android:id="@+id/commentaire"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/contenuDescription"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/commentaire" />
+
+<!--                 on affiche la ratingbar afin d'ajouter un commentaire -->
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/commentaire" />
+
+                <!-- on affiche ici  deux commentaires et on propose d'afficher plus avec un bouton qui va amener à une autre vue -->
+
+                <RelativeLayout
+                    android:id="@+id/ligneCommentaire1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ratingBar" >
+
+                    <ImageButton
+                        android:id="@+id/imageAuteur1"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:contentDescription="@string/description"
+                        android:scaleType="centerInside" />
+
+                    <LinearLayout
+                        android:id="@+id/colonneNomEtCom1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/imageAuteur1" >
+
+                        <TextView
+                            android:id="@+id/nomAuteurCommentaire1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/auteurCommentaire1" />
+
+                        <TextView
+                            android:id="@+id/contenuCommentaire1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/contenuCommentaire1" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ligneCommentaire2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ligneCommentaire1" >
+
+                    <ImageButton
+                        android:id="@+id/imageAuteur2"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:contentDescription="@string/description" />
+
+                    <LinearLayout
+                        android:id="@+id/colonneNomEtCom2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <TextView
+                            android:id="@+id/nomAuteurCommentaire2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/auteurCommentaire2" />
+
+                        <TextView
+                            android:id="@+id/contenuCommentaire2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/contenuCommentaire2" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

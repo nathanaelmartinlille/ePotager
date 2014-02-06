@@ -1,12 +1,18 @@
 package com.example.potago;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -29,14 +35,64 @@ public class ProfilActivity extends Activity {
 	public void onCreate(final Bundle icicle) {
 		super.onCreate(icicle);
 
-		setContentView(R.layout.activity_profil);
+		setContentView(R.layout.activity_voir_profil);
 		creerProfil();
 	}
 
 	private void creerProfil() {
 		initialiserEnteteProfil();
 		initialiserGalerieImage();
+		initialiserRatingBar(this);
 		initialiserFilCommentaire();
+	}
+
+	/**Initialise la partie ratingbar en mettant des evenements dessus
+	 * @param profilActivity
+	 */
+	private void initialiserRatingBar(final ProfilActivity profilActivity) {
+		RatingBar rating = (RatingBar) this.findViewById(R.id.ratingBar);
+		rating.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+			
+			@Override
+			public void onRatingChanged(RatingBar ratingBar, float rating,
+					boolean fromUser) {
+				LayoutInflater factory = LayoutInflater.from(profilActivity);
+		        final View alertDialogView = factory.inflate(R.layout.ajout_commentaire_dialog, null);
+		        RatingBar ratingConfirm = (RatingBar) alertDialogView.findViewById(R.id.ratingBarConfirm);
+		        ratingConfirm.setProgress(ratingBar.getProgress());
+		        //Création de l'AlertDialog
+		        AlertDialog.Builder adb = new AlertDialog.Builder(profilActivity);
+		 
+		        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
+		        adb.setView(alertDialogView);
+		 
+		        //On donne un titre à l'AlertDialog
+		        adb.setTitle("Ajouter un commentaire");
+		 
+		        //On modifie l'icône de l'AlertDialog pour le fun ;)
+		        adb.setIcon(android.R.drawable.ic_dialog_alert);
+		 
+		        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
+		        adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int which) {
+		 
+		            	//Lorsque l'on cliquera sur le bouton "OK", on récupère l'EditText correspondant à notre vue personnalisée (cad à alertDialogView)
+		            	EditText et = (EditText)alertDialogView.findViewById(R.id.saisieLibelleCommentaire);
+		 
+		            	//On affiche dans un Toast le texte contenu dans l'EditText de notre AlertDialog
+		            	Toast.makeText(ProfilActivity.this, et.getText(), Toast.LENGTH_SHORT).show();
+		          } });
+		 
+		        //On crée un bouton "Annuler" à notre AlertDialog et on lui affecte un évènement
+		        adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int which) {
+		            	dialog.cancel();
+		          } });
+		        adb.show();
+				
+			}
+		});
+		
 	}
 
 	/**
