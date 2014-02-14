@@ -1,0 +1,18 @@
+<resources>
+
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in_register"><b>Se connecter</b> ou s\'enregistrer</string>
+    <string name="action_sign_in_short">Connexion</string>
+    <string name="action_forgot_password">Récuperer mot de passe oublié</string>
+    <string name="login_progress_signing_in">Se connecter&#8230;</string>
+    <string name="error_invalid_email">Veuillez inserer une adresse email valide</string>
+    <string name="error_invalid_password">Le mot de passe est trop court</string>
+    <string name="error_incorrect_password">Le mot de passe est incorrect</string>
+    <string name="error_not_the_same_password">Les mots de passe ne sont pas identique</string>
+    <string name="error_field_required">Ce champ est requis</string>
+
+</resources>

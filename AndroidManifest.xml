@@ -98,6 +98,15 @@
             android:name="com.example.potago.Tchat"
             android:label="@string/title_activity_tchat" >
         </activity>
+        <activity
+            android:name="com.example.potago.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
+        <activity
+            android:name="com.example.potago.InscriptionActivity"
+            android:label="@string/title_activity_inscription" >
+        </activity>
     </application>
 
 </manifest>

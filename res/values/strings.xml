@@ -26,8 +26,10 @@
     <string name="contenuCommentaire1">AffichageCommentaireActivity</string>
     <string name="contenuCommentaire2">AffichageCommentaireActivity</string>
     <string name="title_activity_tchat">Tchat</string>
-	<string name="title_activity_affichage_commentaires">Commentaires</string>
-     <string name="hintSaisieCommentaire">Entrez un commentaire ici</string>
-     <string name="imageDial">Image bouton dial</string>
-	<string name="imageLoc">Image bouton loc</string>
+    <string name="title_activity_affichage_commentaires">Commentaires</string>
+    <string name="hintSaisieCommentaire">Entrez un commentaire ici</string>
+    <string name="imageDial">Image bouton dial</string>
+    <string name="imageLoc">Image bouton loc</string>
+    <string name="title_activity_inscription">InscriptionActivity</string>
+
 </resources>

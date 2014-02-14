@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="valider">valider</string>
+    <string name="hint_login">login / pseudo</string>
+    <string name="hint_password">mot de passe</string>
+    <string name="hint_email">e-mail</string>
+    <string name="hint_confirm_password">confirmer le mot de passe</string>
+    <string name="informationSaisie">Veuillez saisir les informations demandées afin de creer un nouveau compte.</string>
+    
+</resources>

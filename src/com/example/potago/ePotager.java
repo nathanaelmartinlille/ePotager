@@ -1,7 +1,9 @@
 package com.example.potago;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -9,6 +11,8 @@ import android.widget.ImageButton;
 
 public class ePotager extends Activity {
 
+	private SharedPreferences sharedPreferences;
+	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,8 +33,7 @@ public class ePotager extends Activity {
 
 			@Override
 			public void onClick(final View v) {
-				final Intent myIntent = new Intent(ePotager.this, ProfilActivity.class);
-				ePotager.this.startActivity(myIntent);
+				testerConnexion(ProfilActivity.class);
 			}
 		});
 
@@ -39,8 +42,7 @@ public class ePotager extends Activity {
 
 			@Override
 			public void onClick(final View v) {
-				// TODO Auto-generated method stub
-
+				testerConnexion(Tchat.class);
 			}
 		});
 
@@ -54,6 +56,19 @@ public class ePotager extends Activity {
 
 			}
 		});
+	}
+	
+	/**Cette methode permet de tester si l'utilisateur est connecté ou non. Si non connecté alors on bacule vers l'activity de login. Sinon on va sur la rubrique.
+	 * @param activitySuivante
+	 */
+	public void testerConnexion(Class<? extends Activity> activitySuivante){
+		sharedPreferences = getSharedPreferences(Constantes.NOM_PREFERENCE, Context.MODE_PRIVATE);
+		if(sharedPreferences.contains(Constantes.LOGIN) && sharedPreferences.contains(Constantes.PASSWORD)) {
+			// si on a un login dans la base et que le mot de passe est renseigné alors on autorise
+			ePotager.this.startActivity(new Intent(ePotager.this, activitySuivante));
+		}else{
+			ePotager.this.startActivity(new Intent(ePotager.this, LoginActivity.class ));
+		}
 	}
 
 	@Override
