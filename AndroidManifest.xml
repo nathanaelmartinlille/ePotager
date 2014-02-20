@@ -107,6 +107,10 @@
             android:name="com.example.potago.InscriptionActivity"
             android:label="@string/title_activity_inscription" >
         </activity>
+        <activity
+            android:name="com.example.potago.DialogConfirmationInscription"
+            android:label="@string/title_activity_dialog_confirmation_inscription" >
+        </activity>
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -179,6 +180,7 @@ public class LoginActivity extends Activity {
 	 * Represents an asynchronous login/registration task used to authenticate the user.
 	 */
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			// TODO: APPEL WS POUR CHECKLOGIN(STRING, STRING)
@@ -194,20 +196,24 @@ public class LoginActivity extends Activity {
 				String[] pieces = credential.split(":");
 				if (pieces[0].equals(mEmail)) {
 					// Account exists, return true if the password matches.
-					System.out.println("BOOL LOOP : " + pieces[1].equals(mPassword));
 					return pieces[1].equals(mPassword);
 				}
 			}
-			return false;
+			return null;
 		}
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
+			super.onPostExecute(success);
+
 			mAuthTask = null;
 			showProgress(false);
-			System.err.println("BOOL : " + success);
 
-			if (success) {
+			if (success == null) {
+				// on est dans le cas où aucun mail n'a été trouvé qui correspond à celui entré
+				finish();
+				startActivity(new Intent(LoginActivity.this, DialogConfirmationInscription.class));
+			} else if (success) {
 				finish();
 			} else {
 				mPasswordView.setError(getString(R.string.error_incorrect_password));

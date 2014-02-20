@@ -31,5 +31,6 @@
     <string name="imageDial">Image bouton dial</string>
     <string name="imageLoc">Image bouton loc</string>
     <string name="title_activity_inscription">InscriptionActivity</string>
+    <string name="title_activity_dialog_confirmation_inscription">DialogConfirmationInscription</string>
 
 </resources>
