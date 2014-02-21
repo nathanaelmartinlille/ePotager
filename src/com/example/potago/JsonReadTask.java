@@ -4,6 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -17,6 +22,23 @@ import android.os.AsyncTask;
 public abstract class JsonReadTask extends AsyncTask<String, Void, String> {
 
 	public JsonReadTask(String url) {
+		execute(new String[] { url });
+	}
+	
+	public JsonReadTask(String url, Map<String, String> params) {
+		
+		String enPlus = "?";
+		Set cles = params.keySet();
+		Iterator it = cles.iterator();
+		while (it.hasNext()){
+		   String cle = (String)it.next();
+		   String valeur = (String)params.get(cle); 
+		   enPlus += cle + "=" + valeur;
+		}
+		url += enPlus;
+
+		
+		System.out.println("url : "+url);
 		execute(new String[] { url });
 	}
 

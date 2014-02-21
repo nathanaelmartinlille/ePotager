@@ -43,5 +43,12 @@
         android:background="@null"
         android:scaleType="fitCenter"
         android:src="@drawable/home" />
+
+    <WebView
+        android:id="@+id/webViewMoment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/boutonBack" />
     
 </RelativeLayout>
