@@ -7,16 +7,16 @@ show a filled cookie. -->
  
     <item android:state_pressed="true"
           android:state_window_focused="true"
-          android:drawable="@drawable/logo" />
+          android:drawable="@drawable/icone_verte" />
  
     <item android:state_focused="true"
           android:state_window_focused="true"
-          android:drawable="@drawable/logo" />
+          android:drawable="@drawable/icone_verte" />
  
     <item android:state_selected="true"
           android:state_window_focused="true"
-          android:drawable="@drawable/logo" />
+          android:drawable="@drawable/icone_verte" />
  
-    <item android:drawable="@drawable/logo" />
+    <item android:drawable="@drawable/icone_verte" />
  
 </selector>
