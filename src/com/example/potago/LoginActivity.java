@@ -4,11 +4,20 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -23,12 +32,14 @@ public class LoginActivity extends Activity {
 	/**
 	 * A dummy authentication store containing known user names and passwords. TODO: remove after connecting to a real authentication system.
 	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] { "foo@example.com:hello", "bar@example.com:world" };
+	private static final String[] DUMMY_CREDENTIALS = new String[] { "toto@toto.com:toto" };
 
 	/**
 	 * The default email to populate the email field with.
 	 */
 	public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
+
+	public Context context = this;
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
@@ -204,19 +215,57 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
+
 			super.onPostExecute(success);
 
 			mAuthTask = null;
 			showProgress(false);
-
 			if (success == null) {
 				// on est dans le cas où aucun mail n'a été trouvé qui correspond à celui entré
-				finish();
-				startActivity(new Intent(LoginActivity.this, DialogConfirmationInscription.class));
+
+				Builder alertDialogBuilder = new AlertDialog.Builder(context);
+
+				// on est dans le cas où aucun mail n'a été trouvé qui correspond à celui entré
+				DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						switch (which) {
+						case DialogInterface.BUTTON_POSITIVE:
+							startActivity(new Intent(LoginActivity.this, InscriptionActivity.class));
+							finish();
+							break;
+
+						case DialogInterface.BUTTON_NEGATIVE:
+							dialog.dismiss();
+							int ecolor = Color.BLACK; // whatever color you want
+							String estring = "Tapez une adresse correcte"; // your error message
+							ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
+							SpannableStringBuilder ssbuilder = new SpannableStringBuilder(estring);
+							ssbuilder.setSpan(fgcspan, 0, estring.length(), 0);
+							mEmailView.setError(ssbuilder);
+							break;
+						}
+					}
+				};
+
+				alertDialogBuilder.setMessage("Votre email n'existe pas encore, voulez-vous vous inscrire plutot ?")
+						.setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+
 			} else if (success) {
+				// le login et mot de passe correct.
+				SharedPreferences reference = getSharedPreferences(Constantes.NOM_PREFERENCE, Context.MODE_PRIVATE);
+				Editor edit = reference.edit();
+				edit.putString(Constantes.LOGIN, mEmailView.getText().toString());
+				edit.putString(Constantes.PASSWORD, mPasswordView.getText().toString());
+				edit.commit();
 				finish();
 			} else {
-				mPasswordView.setError(getString(R.string.error_incorrect_password));
+				int ecolor = Color.BLACK; // whatever color you want
+				String estring = "Tapez une adresse correcte"; // your error message
+				ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
+				SpannableStringBuilder ssbuilder = new SpannableStringBuilder(getString(R.string.error_incorrect_password));
+				ssbuilder.setSpan(fgcspan, 0, estring.length(), 0);
+				mPasswordView.setError(ssbuilder);
 				mPasswordView.requestFocus();
 			}
 		}

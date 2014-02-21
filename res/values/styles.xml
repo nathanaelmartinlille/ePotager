@@ -24,4 +24,10 @@
         <item name="android:padding">16dp</item>
     </style>
 
+    <style name="tomateRating" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/tomate_ratingbar_full</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:maxHeight">48dip</item>
+    </style>
+
 </resources>
