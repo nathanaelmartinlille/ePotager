@@ -131,12 +131,10 @@
             </HorizontalScrollView>
 
             <android.support.v4.view.ViewPager
-                android:id="@+id/_viewPager"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#000000"
-                android:visibility="gone" >
-            </android.support.v4.view.ViewPager>
+                android:layout_height="match_parent" />
 
             <RelativeLayout
                 android:id="@+id/partieAvis"
