@@ -87,7 +87,7 @@
             android:label="@string/title_activity_cgu__infos" >
         </activity>
         <activity
-            android:name="com.example.potago.ProfilActivity"
+            android:name="com.example.potago.profil.ProfilActivity"
             android:label="@string/titreProfil" >
         </activity>
         <activity

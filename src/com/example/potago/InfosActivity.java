@@ -1,20 +1,19 @@
 package com.example.potago;
 
-import com.example.potago.infos.CGU_Infos;
-import com.example.potago.infos.EnCeMoment;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.example.potago.infos.CGU_Infos;
+import com.example.potago.infos.EnCeMoment;
+import com.example.potago.utils.Utils;
 
 public class InfosActivity extends Activity {
 
@@ -22,37 +21,21 @@ public class InfosActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_infos);
-		
-		TextView titre = (TextView)this.findViewById(R.id.titre);
+
+		TextView titre = (TextView) this.findViewById(R.id.titre);
 		titre.setText("Informations");
-		
-		ImageButton back = (ImageButton)this.findViewById(R.id.boutonBack);
-		back.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
-		
-		ImageButton home = (ImageButton)this.findViewById(R.id.boutonHome);
-		home.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
-		
+		Utils.initialisationBoutonNavigation(this);
+
 		// Liste des informations
-		final ListView listeInfos = (ListView)this.findViewById(R.id.listeInfos);
-		String[] listeStrings = {"Quels sont les meilleurs fruits et légumes en ce moment ?","Conditions générales d'utilisation","Informations"};
-		listeInfos.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listeStrings));
+		final ListView listeInfos = (ListView) this.findViewById(R.id.listeInfos);
+		String[] listeStrings = { "Quels sont les meilleurs fruits et légumes en ce moment ?", "Conditions générales d'utilisation", "Informations" };
+		listeInfos.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listeStrings));
 		listeInfos.setClickable(true);
 		listeInfos.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+
 				// On regarde sur quelle ligne il a cliqué
 				switch (arg2) {
 				case 0:
@@ -77,7 +60,6 @@ public class InfosActivity extends Activity {
 			}
 		});
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

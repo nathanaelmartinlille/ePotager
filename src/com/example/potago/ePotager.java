@@ -1,5 +1,7 @@
 package com.example.potago;
 
+import com.example.potago.profil.ProfilActivity;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +14,7 @@ import android.widget.ImageButton;
 public class ePotager extends Activity {
 
 	private SharedPreferences sharedPreferences;
-	
+
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,8 +25,7 @@ public class ePotager extends Activity {
 
 			@Override
 			public void onClick(final View v) {
-				 Intent myIntent = new Intent(ePotager.this, Geolocalisation.class);
-				 ePotager.this.startActivity(myIntent);
+				ePotager.this.startActivity(new Intent(ePotager.this, Geolocalisation.class));
 			}
 		});
 
@@ -51,23 +52,25 @@ public class ePotager extends Activity {
 
 			@Override
 			public void onClick(final View v) {
-				final Intent myIntent = new Intent(ePotager.this, InfosActivity.class);
-				ePotager.this.startActivity(myIntent);
+				ePotager.this.startActivity(new Intent(ePotager.this, InfosActivity.class));
 
 			}
 		});
 	}
-	
-	/**Cette methode permet de tester si l'utilisateur est connecté ou non. Si non connecté alors on bacule vers l'activity de login. Sinon on va sur la rubrique.
+
+	/**
+	 * Cette methode permet de tester si l'utilisateur est connecté ou non. Si non connecté alors on bacule vers l'activity de login. Sinon on va sur la
+	 * rubrique.
+	 * 
 	 * @param activitySuivante
 	 */
-	public void testerConnexion(Class<? extends Activity> activitySuivante){
+	public void testerConnexion(Class<? extends Activity> activitySuivante) {
 		sharedPreferences = getSharedPreferences(Constantes.NOM_PREFERENCE, Context.MODE_PRIVATE);
-		if(sharedPreferences.contains(Constantes.LOGIN) && sharedPreferences.contains(Constantes.PASSWORD)) {
+		if (sharedPreferences.contains(Constantes.LOGIN) && sharedPreferences.contains(Constantes.PASSWORD)) {
 			// si on a un login dans la base et que le mot de passe est renseigné alors on autorise
 			ePotager.this.startActivity(new Intent(ePotager.this, activitySuivante));
-		}else{
-			ePotager.this.startActivity(new Intent(ePotager.this, LoginActivity.class ));
+		} else {
+			ePotager.this.startActivity(new Intent(ePotager.this, LoginActivity.class));
 		}
 	}
 

@@ -1,21 +1,12 @@
-package Entite;
+package com.example.potago.entite;
 
-public class Jardinier {
-	
-	String nom;
-	String prenom;
-	String description;
-	double latitude;
-	double longitude;
+public class Jardinier extends Utilisateur {
+
 	boolean vendFruits;
 	boolean vendLegumes;
 	boolean estDispo;
-	
-	
 
-	public Jardinier(String nom, String prenom,String description, double latitude,
-			double longitude, boolean vendFruits, boolean vendLegumes,
-			boolean estDispo) {
+	public Jardinier(String nom, String prenom, String description, double latitude, double longitude, boolean vendFruits, boolean vendLegumes, boolean estDispo) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -26,10 +17,8 @@ public class Jardinier {
 		this.vendLegumes = vendLegumes;
 		this.estDispo = estDispo;
 	}
-	
-	public Jardinier(String nom, String prenom,String description, String latitude,
-			String longitude, boolean vendFruits, boolean vendLegumes,
-			boolean estDispo) {
+
+	public Jardinier(String nom, String prenom, String description, String latitude, String longitude, boolean vendFruits, boolean vendLegumes, boolean estDispo) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -41,7 +30,7 @@ public class Jardinier {
 		this.estDispo = estDispo;
 	}
 
-	public Jardinier(String nom, String prenom,String description, double latitude, double longitude) {
+	public Jardinier(String nom, String prenom, String description, double latitude, double longitude) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -89,7 +78,7 @@ public class Jardinier {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
-	
+
 	public boolean isVendFruits() {
 		return vendFruits;
 	}
@@ -113,5 +102,5 @@ public class Jardinier {
 	public void setEstDispo(boolean estDispo) {
 		this.estDispo = estDispo;
 	}
-	
+
 }

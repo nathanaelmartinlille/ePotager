@@ -1,10 +1,10 @@
 package com.example.potago;
 
-import android.os.Bundle;
+import com.example.potago.utils.Utils;
+
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
-import android.widget.ImageButton;
 
 public class Tchat extends Activity {
 
@@ -12,22 +12,7 @@ public class Tchat extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tchat);
-		
-		ImageButton back = (ImageButton)this.findViewById(R.id.boutonBack);
-		back.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
-
-		ImageButton home = (ImageButton)this.findViewById(R.id.boutonHome);
-		home.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// On écrit un nouveau message
-			}
-		});
+		Utils.initialisationBoutonNavigation(this);
 	}
 
 	@Override
