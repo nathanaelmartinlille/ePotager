@@ -16,10 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import com.example.potago.JsonReadTask;
 import com.example.potago.R;
 import com.example.potago.Tchat;
 import com.example.potago.utils.Utils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ProfilActivity extends Activity {
 
@@ -58,13 +61,13 @@ public class ProfilActivity extends Activity {
 	 * Cette fonction permet d'initialiser les handler pour acceder au dial et au systeme de localisation
 	 */
 	private void initialiserHandlerBoutonEnteteProfil() {
-		ImageButton imageDial = (ImageButton) this.findViewById(R.id.imageDial);
-		ImageButton imageLoc = (ImageButton) this.findViewById(R.id.imageLoc);
+		final ImageButton imageDial = (ImageButton) this.findViewById(R.id.imageDial);
+		final ImageButton imageLoc = (ImageButton) this.findViewById(R.id.imageLoc);
 
 		imageDial.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				startActivity(new Intent(ProfilActivity.this, Tchat.class));
 			}
 		});
@@ -72,8 +75,8 @@ public class ProfilActivity extends Activity {
 		imageLoc.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
-				Intent geoIntent = new Intent();
+			public void onClick(final View v) {
+				final Intent geoIntent = new Intent();
 				geoIntent.putExtra("idProfil", recupererIdProfilCourant());
 				startActivity(geoIntent);
 			}
@@ -91,17 +94,17 @@ public class ProfilActivity extends Activity {
 	 * @param profilActivity
 	 */
 	private void initialiserRatingBar(final ProfilActivity profilActivity) {
-		RatingBar rating = (RatingBar) this.findViewById(R.id.ratingBar);
+		final RatingBar rating = (RatingBar) this.findViewById(R.id.ratingBar);
 		rating.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 
 			@Override
-			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-				LayoutInflater factory = LayoutInflater.from(profilActivity);
+			public void onRatingChanged(final RatingBar ratingBar, final float rating, final boolean fromUser) {
+				final LayoutInflater factory = LayoutInflater.from(profilActivity);
 				final View alertDialogView = factory.inflate(R.layout.ajout_commentaire_dialog, null);
-				RatingBar ratingConfirm = (RatingBar) alertDialogView.findViewById(R.id.ratingBarConfirm);
+				final RatingBar ratingConfirm = (RatingBar) alertDialogView.findViewById(R.id.ratingBarConfirm);
 				ratingConfirm.setProgress(ratingBar.getProgress());
 				// Création de l'AlertDialog
-				AlertDialog.Builder adb = new AlertDialog.Builder(profilActivity);
+				final AlertDialog.Builder adb = new AlertDialog.Builder(profilActivity);
 
 				// On affecte la vue personnalisé que l'on a crée à notre AlertDialog
 				adb.setView(alertDialogView);
@@ -115,10 +118,10 @@ public class ProfilActivity extends Activity {
 				// On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
 				adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
+					public void onClick(final DialogInterface dialog, final int which) {
 
 						// Lorsque l'on cliquera sur le bouton "OK", on récupère l'EditText correspondant à notre vue personnalisée (cad à alertDialogView)
-						EditText et = (EditText) alertDialogView.findViewById(R.id.saisieLibelleCommentaire);
+						final EditText et = (EditText) alertDialogView.findViewById(R.id.saisieLibelleCommentaire);
 
 						// On affiche dans un Toast le texte contenu dans l'EditText de notre AlertDialog
 						Toast.makeText(ProfilActivity.this, et.getText(), Toast.LENGTH_SHORT).show();
@@ -128,7 +131,7 @@ public class ProfilActivity extends Activity {
 				// On crée un bouton "Annuler" à notre AlertDialog et on lui affecte un évènement
 				adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
+					public void onClick(final DialogInterface dialog, final int which) {
 						dialog.cancel();
 					}
 				});
@@ -164,34 +167,30 @@ public class ProfilActivity extends Activity {
 	 * Cette methode permet de recuperer une galerie d'image qui correspond à un certain profil.
 	 */
 	private void initialiserGalerieImage() {
-		LinearLayout mainLayout;
-		viewPager = (ViewPager) findViewById(R.id.pager);
+		ImageLoader imageLoader = null;
+		ListView listview = null;
 
-		mainLayout = (LinearLayout) findViewById(R.id._linearLayout);
+		final ProfilActivity profil = this;
+		listview = (ListView) findViewById(R.id.listView_image);
+		imageLoader = ImageLoader.getInstance();
 
-		for (int i = 0; i < images.length; i++) {
+		// TODO RECUPERATION LISTE LIEN VERS IMAGE GALERY
+		final String[] imageUrls = Constants.IMAGES;
+		// FIN TODONE
+		final CustomAdapter adapter = new CustomAdapter(ProfilActivity.this, imageUrls);
+		listview.setAdapter(adapter);
 
-			cell = getLayoutInflater().inflate(R.layout.image_scroll, null);
+		listview.setOnItemClickListener(new OnItemClickListener() {
 
-			final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
-			imageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onItemClick(final AdapterView<?> arg0, final View arg1, final int position, final long arg3) {
+				final Intent intent = new Intent(profil, ImagePagerActivity.class);
+				intent.putExtra("imageurlpostion", imageUrls);
+				intent.putExtra("imagepostion", position);
+				startActivity(intent);
+			}
+		});
 
-				@Override
-				public void onClick(final View v) {
-
-					viewPager.setVisibility(View.VISIBLE);
-					viewPager.setAdapter(new GalleryPagerAdapter(ProfilActivity.this, images));
-					viewPager.setCurrentItem(v.getId());
-					viewPager.bringToFront();
-				}
-			});
-
-			imageView.setId(i);
-
-			imageView.setImageResource(images[i]);
-
-			mainLayout.addView(cell);
-		}
 	}
 
 	private void initialiserFilCommentaire() {
@@ -212,16 +211,16 @@ public class ProfilActivity extends Activity {
 		new JsonReadTask(Constantes.RECUPERATION_COMMENTAIRE) {
 
 			@Override
-			public void recuperationDonnee(String reponse) {
+			public void recuperationDonnee(final String reponse) {
 				try {
-					JSONObject response = new JSONObject(reponse);
-					JSONArray commentaires = response.getJSONArray("commentaires");
+					final JSONObject response = new JSONObject(reponse);
+					final JSONArray commentaires = response.getJSONArray("commentaires");
 
 					for (int i = 0; i < commentaires.length(); i++) {
-						Integer idProfil = commentaires.getJSONObject(i).getInt("idProfil");
+						final Integer idProfil = commentaires.getJSONObject(i).getInt("idProfil");
 					}
 
-				} catch (JSONException e) {
+				} catch (final JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -252,15 +251,15 @@ public class ProfilActivity extends Activity {
 		}
 
 		@Override
-		public boolean isViewFromObject(View view, Object object) {
+		public boolean isViewFromObject(final View view, final Object object) {
 			return view == ((ImageView) object);
 		}
 
 		@Override
-		public Object instantiateItem(ViewGroup container, int position) {
-			Context context = ProfilActivity.this;
-			ImageView imageView = new ImageView(context);
-			int padding = context.getResources().getDimensionPixelSize(R.dimen.padding_medium);
+		public Object instantiateItem(final ViewGroup container, final int position) {
+			final Context context = ProfilActivity.this;
+			final ImageView imageView = new ImageView(context);
+			final int padding = context.getResources().getDimensionPixelSize(R.dimen.padding_medium);
 			imageView.setPadding(padding, padding, padding, padding);
 			imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 			imageView.setImageResource(mImages[position]);
@@ -269,7 +268,7 @@ public class ProfilActivity extends Activity {
 		}
 
 		@Override
-		public void destroyItem(ViewGroup container, int position, Object object) {
+		public void destroyItem(final ViewGroup container, final int position, final Object object) {
 			((ViewPager) container).removeView((ImageView) object);
 		}
 	}

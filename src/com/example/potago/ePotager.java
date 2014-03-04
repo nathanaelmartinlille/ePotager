@@ -1,7 +1,5 @@
 package com.example.potago;
 
-import com.example.potago.profil.ProfilActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
+
+import com.example.potago.profil.ProfilActivity;
 
 public class ePotager extends Activity {
 
@@ -35,6 +35,7 @@ public class ePotager extends Activity {
 			@Override
 			public void onClick(final View v) {
 				testerConnexion(ProfilActivity.class);
+				// ePotager.this.startActivity(new Intent(ePotager.this, ImageListActivity.class));
 			}
 		});
 
@@ -59,12 +60,11 @@ public class ePotager extends Activity {
 	}
 
 	/**
-	 * Cette methode permet de tester si l'utilisateur est connecté ou non. Si non connecté alors on bacule vers l'activity de login. Sinon on va sur la
-	 * rubrique.
+	 * Cette methode permet de tester si l'utilisateur est connecté ou non. Si non connecté alors on bacule vers l'activity de login. Sinon on va sur la rubrique.
 	 * 
 	 * @param activitySuivante
 	 */
-	public void testerConnexion(Class<? extends Activity> activitySuivante) {
+	public void testerConnexion(final Class<? extends Activity> activitySuivante) {
 		sharedPreferences = getSharedPreferences(Constantes.NOM_PREFERENCE, Context.MODE_PRIVATE);
 		if (sharedPreferences.contains(Constantes.LOGIN) && sharedPreferences.contains(Constantes.PASSWORD)) {
 			// si on a un login dans la base et que le mot de passe est renseigné alors on autorise

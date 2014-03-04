@@ -28,15 +28,15 @@ public class ImageListActivity extends Activity implements OnItemClickListener {
 	protected ImageLoader imageLoader = null;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.imagelist);
 
 		listview = (ListView) findViewById(R.id.listView_image);
 		imageLoader = ImageLoader.getInstance();
-		Bundle bundle = getIntent().getExtras();
-		imageUrls = bundle.getStringArray("stringarrayimage");
-		CustomAdapter adapter = new CustomAdapter(ImageListActivity.this, imageUrls);
+		final Bundle bundle = getIntent().getExtras();
+		imageUrls = Constants.IMAGES;
+		final CustomAdapter adapter = new CustomAdapter(ImageListActivity.this, imageUrls);
 		listview.setAdapter(adapter);
 
 		listview.setOnItemClickListener(this);
@@ -44,8 +44,8 @@ public class ImageListActivity extends Activity implements OnItemClickListener {
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-		Intent intent = new Intent(this, ImagePagerActivity.class);
+	public void onItemClick(final AdapterView<?> arg0, final View arg1, final int position, final long arg3) {
+		final Intent intent = new Intent(this, ImagePagerActivity.class);
 		intent.putExtra("imageurlpostion", imageUrls);
 		intent.putExtra("imagepostion", position);
 		startActivity(intent);
@@ -63,10 +63,10 @@ public class ImageListActivity extends Activity implements OnItemClickListener {
 		static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
 
 		@Override
-		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+		public void onLoadingComplete(final String imageUri, final View view, final Bitmap loadedImage) {
 			if (loadedImage != null) {
-				ImageView imageView = (ImageView) view;
-				boolean firstDisplay = !displayedImages.contains(imageUri);
+				final ImageView imageView = (ImageView) view;
+				final boolean firstDisplay = !displayedImages.contains(imageUri);
 				if (firstDisplay) {
 					FadeInBitmapDisplayer.animate(imageView, 500);
 					displayedImages.add(imageUri);
@@ -76,13 +76,13 @@ public class ImageListActivity extends Activity implements OnItemClickListener {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(final Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.item_clear_memory_cache:
 			imageLoader.clearMemoryCache();
