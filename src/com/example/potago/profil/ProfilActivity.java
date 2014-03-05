@@ -1,16 +1,19 @@
 package com.example.potago.profil;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,27 +21,34 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.devsmart.android.ui.HorizontalListView;
 import com.example.potago.Constantes;
 import com.example.potago.JsonReadTask;
 import com.example.potago.R;
 import com.example.potago.Tchat;
 import com.example.potago.utils.Utils;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 public class ProfilActivity extends Activity {
 
 	private ViewPager viewPager;
-	private final int[] images = { R.drawable.dd1, R.drawable.dd2, R.drawable.dd3, R.drawable.dd4, R.drawable.dd5 };
-	private View cell;
+	DisplayImageOptions options;
+	String[] imageUrls = null;
+	ImageLoader imageLoader = null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -167,18 +177,18 @@ public class ProfilActivity extends Activity {
 	 * Cette methode permet de recuperer une galerie d'image qui correspond à un certain profil.
 	 */
 	private void initialiserGalerieImage() {
-		ImageLoader imageLoader = null;
-		ListView listview = null;
-
 		final ProfilActivity profil = this;
-		listview = (ListView) findViewById(R.id.listView_image);
 		imageLoader = ImageLoader.getInstance();
 
 		// TODO RECUPERATION LISTE LIEN VERS IMAGE GALERY
-		final String[] imageUrls = Constants.IMAGES;
+		imageUrls = Constants.IMAGES;
 		// FIN TODONE
-		final CustomAdapter adapter = new CustomAdapter(ProfilActivity.this, imageUrls);
-		listview.setAdapter(adapter);
+
+		options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.ic_stub).showImageForEmptyUri(R.drawable.ic_empty).showImageOnFail(R.drawable.ic_error)
+				.cacheInMemory(true).cacheOnDisc(true).considerExifParams(true).displayer(new RoundedBitmapDisplayer(20)).build();
+
+		final HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
+		listview.setAdapter(new ItemAdapter());
 
 		listview.setOnItemClickListener(new OnItemClickListener() {
 
@@ -242,34 +252,62 @@ public class ProfilActivity extends Activity {
 		}
 	}
 
-	private class ImagePagerAdapter extends PagerAdapter {
-		private final int[] mImages = new int[] { R.drawable.dd1, R.drawable.dd2, R.drawable.dd3, R.drawable.dd4, R.drawable.dd5 };
+	class ItemAdapter extends BaseAdapter {
+
+		private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
+
+		private class ViewHolder {
+			public ImageView image;
+		}
 
 		@Override
 		public int getCount() {
-			return mImages.length;
+			return imageUrls.length;
 		}
 
 		@Override
-		public boolean isViewFromObject(final View view, final Object object) {
-			return view == ((ImageView) object);
+		public Object getItem(final int position) {
+			return position;
 		}
 
 		@Override
-		public Object instantiateItem(final ViewGroup container, final int position) {
-			final Context context = ProfilActivity.this;
-			final ImageView imageView = new ImageView(context);
-			final int padding = context.getResources().getDimensionPixelSize(R.dimen.padding_medium);
-			imageView.setPadding(padding, padding, padding, padding);
-			imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-			imageView.setImageResource(mImages[position]);
-			((ViewPager) container).addView(imageView, 0);
-			return imageView;
+		public long getItemId(final int position) {
+			return position;
 		}
 
 		@Override
-		public void destroyItem(final ViewGroup container, final int position, final Object object) {
-			((ViewPager) container).removeView((ImageView) object);
+		public View getView(final int position, final View convertView, final ViewGroup parent) {
+			View view = convertView;
+			final ViewHolder holder;
+			if (convertView == null) {
+				view = getLayoutInflater().inflate(R.layout.item_list_image, parent, false);
+				holder = new ViewHolder();
+				holder.image = (ImageView) view.findViewById(R.id.image);
+				view.setTag(holder);
+			} else {
+				holder = (ViewHolder) view.getTag();
+			}
+			imageLoader.displayImage(imageUrls[position], holder.image, options, animateFirstListener);
+
+			return view;
+		}
+
+	}
+
+	private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+
+		static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
+
+		@Override
+		public void onLoadingComplete(final String imageUri, final View view, final Bitmap loadedImage) {
+			if (loadedImage != null) {
+				final ImageView imageView = (ImageView) view;
+				final boolean firstDisplay = !displayedImages.contains(imageUri);
+				if (firstDisplay) {
+					FadeInBitmapDisplayer.animate(imageView, 500);
+					displayedImages.add(imageUri);
+				}
+			}
 		}
 	}
 }

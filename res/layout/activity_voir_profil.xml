@@ -107,33 +107,24 @@
 		android:contentDescription="@string/imageLoc"
         android:src="@drawable/ic_menu_loc" />
 
+    <com.devsmart.android.ui.HorizontalListView
+                android:id="@+id/listview"
+                android:layout_below="@+id/imageLoc"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="#ddd" />
+    
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="500dp"
-        android:layout_marginTop="150dp" >
+        android:layout_below="@+id/listview"
+         >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
-            <HorizontalScrollView
-                android:id="@+id/horizontalScrollView1"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp" >
-                    <ListView
-                        android:id="@+id/listView_image"
-                        android:layout_height="match_parent"
-                        android:layout_width="match_parent"
-                         >
-                    </ListView>
-            </HorizontalScrollView>
-            <android.support.v4.view.ViewPager
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/pager"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" />
-
+            
             <RelativeLayout
                 android:id="@+id/partieAvis"
                 android:layout_width="fill_parent"
