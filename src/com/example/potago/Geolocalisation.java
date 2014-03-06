@@ -87,8 +87,11 @@ public class Geolocalisation extends FragmentActivity {
 			@Override
 			public void onMapLoaded() {
 				// TODO Auto-generated method stub
+				System.out.println("ma localisation : "+map.getMyLocation());
+				if(map.getMyLocation() != null){
 				userLocation = new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude());
 				map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+				}
 			}
 		});
 		map.setOnMyLocationChangeListener(new OnMyLocationChangeListener() {
