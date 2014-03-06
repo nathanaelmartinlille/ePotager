@@ -231,6 +231,14 @@
                             android:text="@string/contenuCommentaire2" />
                     </LinearLayout>
                 </RelativeLayout>
+                <Button
+                    android:id="@+id/boutonPlusCommentaire"
+                    android:text="@string/voir_plus_de_commentaire"
+                    android:visibility="invisible"
+                    android:layout_width="30dp"
+                    android:layout_height="10dp"
+                    
+                    />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

@@ -105,7 +105,7 @@
             android:label="@string/titreProfil" >
         </activity>
         <activity
-            android:name="com.example.potago.AffichageCommentaireActivity"
+            android:name="com.example.potago.profil.AffichageCommentaireActivity"
             android:label="@string/title_activity_affichage_commentaires" >
         </activity>
         <activity

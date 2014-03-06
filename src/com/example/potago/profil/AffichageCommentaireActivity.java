@@ -1,4 +1,8 @@
-package com.example.potago;
+package com.example.potago.profil;
+
+import com.example.potago.R;
+import com.example.potago.R.layout;
+import com.example.potago.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;
