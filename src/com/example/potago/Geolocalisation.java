@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -90,7 +91,7 @@ public class Geolocalisation extends FragmentActivity {
 				System.out.println("ma localisation : "+map.getMyLocation());
 				if(map.getMyLocation() != null){
 				userLocation = new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude());
-				map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+				map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 35));
 				}
 			}
 		});
@@ -262,20 +263,8 @@ public class Geolocalisation extends FragmentActivity {
 				nomPrenom.setText(jar.getPrenom() + " " + jar.getNom());
 				description.setText("" + jar.getDescription());
 
-				// Quand on appuie sur le bouton mail
-				ImageButton mail = (ImageButton) v.findViewById(R.id.mail_marker);
-				mail.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View v) {
-						// TODO faire cette fonction
-						// On va sur la vue de chat avec l'id du jardinier
-						/*
-						 * Geolocalisation g = new Geolocalisation(); Intent myIntent = new Intent(g, Tchat.class); g.startActivity(myIntent);
-						 */
-					}
-				});
-
+				v.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 				// Returning the view containing InfoWindow contents
 				return v;
 			}
