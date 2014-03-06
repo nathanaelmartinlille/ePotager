@@ -1,7 +1,5 @@
 package com.example.potago;
 
-import com.example.potago.utils.Utils;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -23,14 +21,17 @@ import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.potago.utils.Utils;
+
 /**
  * Activity which displays a login screen to the user, offering registration as well.
  */
-public class LoginActivity extends Activity {
+public class Login extends Activity {
 	/**
 	 * A dummy authentication store containing known user names and passwords. TODO: remove after connecting to a real authentication system.
 	 */
@@ -60,7 +61,7 @@ public class LoginActivity extends Activity {
 	private TextView mLoginStatusMessageView;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		Utils.initialisationBoutonNavigation(this);
@@ -72,7 +73,7 @@ public class LoginActivity extends Activity {
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
-			public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+			public boolean onEditorAction(final TextView textView, final int id, final KeyEvent keyEvent) {
 				if (id == R.id.login || id == EditorInfo.IME_NULL) {
 					attemptLogin();
 					return true;
@@ -87,22 +88,31 @@ public class LoginActivity extends Activity {
 
 		findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View view) {
+			public void onClick(final View view) {
 				attemptLogin();
+			}
+		});
+
+		findViewById(R.id.bouton_enregistrement).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(final View v) {
+				// appel de l'activity enregistrement
+				startActivity(new Intent(Login.this, InscriptionActivity.class));
 			}
 		});
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(final Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
 	}
 
 	/**
-	 * Attempts to sign in or register the account specified by the login form. If there are form errors (invalid email, missing fields, etc.), the errors are
-	 * presented and no actual login attempt is made.
+	 * Attempts to sign in or register the account specified by the login form. If there are form errors (invalid email, missing fields, etc.), the errors are presented and no
+	 * actual login attempt is made.
 	 */
 	public void attemptLogin() {
 		if (mAuthTask != null) {
@@ -126,18 +136,30 @@ public class LoginActivity extends Activity {
 			focusView = mPasswordView;
 			cancel = true;
 		} else if (mPassword.length() < 4) {
-			mPasswordView.setError(getString(R.string.error_invalid_password));
+			final int ecolor = Color.BLACK; // whatever color you want
+			final ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
+			final SpannableStringBuilder ssbuilder = new SpannableStringBuilder(getString(R.string.error_invalid_password));
+			ssbuilder.setSpan(fgcspan, 0, getString(R.string.error_invalid_password).length(), 0);
+			mPasswordView.setError(ssbuilder);
 			focusView = mPasswordView;
 			cancel = true;
 		}
 
 		// Check for a valid email address.
 		if (TextUtils.isEmpty(mEmail)) {
-			mEmailView.setError(getString(R.string.error_field_required));
+			final int ecolor = Color.BLACK; // whatever color you want
+			final ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
+			final SpannableStringBuilder ssbuilder = new SpannableStringBuilder(getString(R.string.error_field_required));
+			ssbuilder.setSpan(fgcspan, 0, getString(R.string.error_field_required).length(), 0);
+			mEmailView.setError(ssbuilder);
 			focusView = mEmailView;
 			cancel = true;
 		} else if (!mEmail.contains("@")) {
-			mEmailView.setError(getString(R.string.error_invalid_email));
+			final int ecolor = Color.BLACK; // whatever color you want
+			final ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
+			final SpannableStringBuilder ssbuilder = new SpannableStringBuilder(getString(R.string.error_invalid_email));
+			ssbuilder.setSpan(fgcspan, 0, getString(R.string.error_field_required).length(), 0);
+			mEmailView.setError(ssbuilder);
 			focusView = mEmailView;
 			cancel = true;
 		}
@@ -165,12 +187,12 @@ public class LoginActivity extends Activity {
 		// for very easy animations. If available, use these APIs to fade-in
 		// the progress spinner.
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-			int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+			final int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
 			mLoginStatusView.setVisibility(View.VISIBLE);
 			mLoginStatusView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
 				@Override
-				public void onAnimationEnd(Animator animation) {
+				public void onAnimationEnd(final Animator animation) {
 					mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
 				}
 			});
@@ -178,7 +200,7 @@ public class LoginActivity extends Activity {
 			mLoginFormView.setVisibility(View.VISIBLE);
 			mLoginFormView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
 				@Override
-				public void onAnimationEnd(Animator animation) {
+				public void onAnimationEnd(final Animator animation) {
 					mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 				}
 			});
@@ -196,18 +218,18 @@ public class LoginActivity extends Activity {
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
 		@Override
-		protected Boolean doInBackground(Void... params) {
+		protected Boolean doInBackground(final Void... params) {
 			// TODO: APPEL WS POUR CHECKLOGIN(STRING, STRING)
 
 			try {
 				// Simulate network access.
 				Thread.sleep(2000);
-			} catch (InterruptedException e) {
+			} catch (final InterruptedException e) {
 				return false;
 			}
 
-			for (String credential : DUMMY_CREDENTIALS) {
-				String[] pieces = credential.split(":");
+			for (final String credential : DUMMY_CREDENTIALS) {
+				final String[] pieces = credential.split(":");
 				if (pieces[0].equals(mEmail)) {
 					// Account exists, return true if the password matches.
 					return pieces[1].equals(mPassword);
@@ -226,24 +248,24 @@ public class LoginActivity extends Activity {
 			if (success == null) {
 				// on est dans le cas où aucun mail n'a été trouvé qui correspond à celui entré
 
-				Builder alertDialogBuilder = new AlertDialog.Builder(context);
+				final Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
 				// on est dans le cas où aucun mail n'a été trouvé qui correspond à celui entré
-				DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+				final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
+					public void onClick(final DialogInterface dialog, final int which) {
 						switch (which) {
 						case DialogInterface.BUTTON_POSITIVE:
-							startActivity(new Intent(LoginActivity.this, InscriptionActivity.class));
+							startActivity(new Intent(Login.this, InscriptionActivity.class));
 							finish();
 							break;
 
 						case DialogInterface.BUTTON_NEGATIVE:
 							dialog.dismiss();
-							int ecolor = Color.BLACK; // whatever color you want
-							String estring = "Tapez une adresse correcte"; // your error message
-							ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
-							SpannableStringBuilder ssbuilder = new SpannableStringBuilder(estring);
+							final int ecolor = Color.BLACK; // whatever color you want
+							final String estring = "Tapez une adresse correcte"; // your error message
+							final ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
+							final SpannableStringBuilder ssbuilder = new SpannableStringBuilder(estring);
 							ssbuilder.setSpan(fgcspan, 0, estring.length(), 0);
 							mEmailView.setError(ssbuilder);
 							break;
@@ -251,22 +273,22 @@ public class LoginActivity extends Activity {
 					}
 				};
 
-				alertDialogBuilder.setMessage("Votre email n'existe pas encore, voulez-vous vous inscrire plutot ?")
-						.setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+				alertDialogBuilder.setMessage("Votre email n'existe pas encore, voulez-vous vous inscrire plutot ?").setPositiveButton("Yes", dialogClickListener)
+						.setNegativeButton("No", dialogClickListener).show();
 
 			} else if (success) {
 				// le login et mot de passe correct.
-				SharedPreferences reference = getSharedPreferences(Constantes.NOM_PREFERENCE, Context.MODE_PRIVATE);
-				Editor edit = reference.edit();
+				final SharedPreferences reference = getSharedPreferences(Constantes.NOM_PREFERENCE, Context.MODE_PRIVATE);
+				final Editor edit = reference.edit();
 				edit.putString(Constantes.LOGIN, mEmailView.getText().toString());
 				edit.putString(Constantes.PASSWORD, mPasswordView.getText().toString());
 				edit.commit();
 				finish();
 			} else {
-				int ecolor = Color.BLACK; // whatever color you want
-				String estring = "Tapez une adresse correcte"; // your error message
-				ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
-				SpannableStringBuilder ssbuilder = new SpannableStringBuilder(getString(R.string.error_incorrect_password));
+				final int ecolor = Color.BLACK; // whatever color you want
+				final String estring = "Tapez une adresse correcte"; // your error message
+				final ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
+				final SpannableStringBuilder ssbuilder = new SpannableStringBuilder(getString(R.string.error_incorrect_password));
 				ssbuilder.setSpan(fgcspan, 0, estring.length(), 0);
 				mPasswordView.setError(ssbuilder);
 				mPasswordView.requestFocus();

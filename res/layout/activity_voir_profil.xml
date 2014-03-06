@@ -161,9 +161,10 @@
                 <RatingBar
                     android:id="@+id/ratingBar"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                      style="@style/tomateRatingSmall"
                     android:layout_alignParentLeft="true"
+                    
                     android:layout_below="@+id/commentaire" />
 
                 <!-- on affiche ici  deux commentaires et on propose d'afficher plus avec un bouton qui va amener à une autre vue -->
@@ -172,7 +173,8 @@
                     android:id="@+id/ligneCommentaire1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/ratingBar" >
+                    android:layout_below="@id/ratingBar"
+                     >
 
                     <ImageButton
                         android:id="@+id/imageAuteur1"

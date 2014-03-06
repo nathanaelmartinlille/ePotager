@@ -19,7 +19,7 @@
     <string name="nomTexte">Nom à recup </string>
     <string name="prenomTexte">Prenom à recup</string>
     <string name="description">Description</string>
-    <string name="commentaire">Commentaire</string>
+    <string name="commentaire">Avis et commentaire</string>
     <string name="imageProfil">Image de profil</string>
     <string name="auteurCommentaire1">Commentaire</string>
     <string name="auteurCommentaire2">Commentaire</string>
@@ -33,12 +33,13 @@
     <string name="voir_plus_de_commentaire">Voir plus de commentaires</string>
     <string name="title_activity_inscription">InscriptionActivity</string>
     <string name="title_activity_dialog_confirmation_inscription">DialogConfirmationInscription</string>
-	
-    
-    
     <string name="menu_item_clear_memory_cache">Clear memory cache</string>
     <string name="menu_item_clear_disc_cache">Clear disc cache</string>
     <string name="menu_item_pause_on_scroll">Pause on scroll</string>
     <string name="menu_item_pause_on_fling">Pause on fling</string>
-    
+    <string name="title_activity_editer_profil">EditerProfil</string>
+	<string name="informationChoixJardinier">Choisir votre type de profil</string>
+	<string name="radioChoixConsommateur">Consommateur</string>
+	<string name="radioChoixProducteur">Producteur</string>
+	
 </resources>

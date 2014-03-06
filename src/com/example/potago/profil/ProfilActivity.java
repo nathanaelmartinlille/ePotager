@@ -63,7 +63,8 @@ public class ProfilActivity extends Activity {
 	private void creerProfil() {
 		initialiserEnteteProfil();
 		initialiserRatingBar(this);
-		initialiserFilCommentaire();
+		initialiserContenuProfilEtFilCommentaire();
+		// TODO init galerie seulement si c'est un jardinier.
 		initialiserGalerieImage();
 		initialiserHandlerBoutonEnteteProfil();
 	}
@@ -185,9 +186,8 @@ public class ProfilActivity extends Activity {
 		imageUrls = Constants.IMAGES;
 		// FIN TODONE
 
-		options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.ic_stub).showImageForEmptyUri(R.drawable.ic_empty)
-				.showImageOnFail(R.drawable.ic_error).cacheInMemory(true).cacheOnDisc(true).considerExifParams(true).displayer(new RoundedBitmapDisplayer(20))
-				.build();
+		options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.ic_stub).showImageForEmptyUri(R.drawable.ic_empty).showImageOnFail(R.drawable.ic_error)
+				.cacheInMemory(true).cacheOnDisc(true).considerExifParams(true).displayer(new RoundedBitmapDisplayer(20)).build();
 
 		final HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
 		listview.setAdapter(new ItemAdapter());
@@ -205,22 +205,21 @@ public class ProfilActivity extends Activity {
 
 	}
 
-	private void initialiserFilCommentaire() {
+	private void initialiserContenuProfilEtFilCommentaire() {
 		final ProfilActivity profil = this;
 		new JsonReadTask(Constantes.RECUPERATION_COMMENTAIRE) {
 
 			@Override
 			public void recuperationDonnee(final String reponse) {
-				TextView contenuDescription = (TextView) profil.findViewById(R.id.contenuDescription);
-				TextView contenuCommentaire1 = (TextView) profil.findViewById(R.id.contenuCommentaire1);
-				TextView contenuCommentaire2 = (TextView) profil.findViewById(R.id.contenuCommentaire2);
-
-				TextView auteurCommentaire = (TextView) profil.findViewById(R.id.nomAuteurCommentaire1);
-				TextView auteurCommentaire2 = (TextView) profil.findViewById(R.id.nomAuteurCommentaire2);
+				final TextView contenuCommentaire1 = (TextView) profil.findViewById(R.id.contenuCommentaire1);
+				final TextView contenuCommentaire2 = (TextView) profil.findViewById(R.id.contenuCommentaire2);
+				final TextView contenuDescription = (TextView) profil.findViewById(R.id.contenuDescription);
+				final TextView auteurCommentaire = (TextView) profil.findViewById(R.id.nomAuteurCommentaire1);
+				final TextView auteurCommentaire2 = (TextView) profil.findViewById(R.id.nomAuteurCommentaire2);
 				try {
 
-					JSONObject response = new JSONObject(reponse);
-					JSONArray commentaires = response.getJSONArray("commentaires");
+					final JSONObject response = new JSONObject(reponse);
+					final JSONArray commentaires = response.getJSONArray("commentaires");
 					contenuDescription.setText(response.getString("description"));
 					switch (commentaires.length()) {
 					case 0:
@@ -242,12 +241,12 @@ public class ProfilActivity extends Activity {
 						auteurCommentaire2.setText(commentaires.getJSONObject(1).getString("auteurCommentaire"));
 						if (commentaires.length() > 2) {
 							// si on a plus de 2 commentaires alors on affiche "voir plus de commentaire"
-							Button boutonMoreCommentaire = (Button) profil.findViewById(R.id.boutonPlusCommentaire);
+							final Button boutonMoreCommentaire = (Button) profil.findViewById(R.id.boutonPlusCommentaire);
 							boutonMoreCommentaire.setVisibility(View.VISIBLE);
 							boutonMoreCommentaire.setOnClickListener(new OnClickListener() {
 
 								@Override
-								public void onClick(View v) {
+								public void onClick(final View v) {
 									profil.startActivity(new Intent(profil, AffichageCommentaireActivity.class));
 
 								}

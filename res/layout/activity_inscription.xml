@@ -12,9 +12,9 @@
         android:id="@+id/email_inscription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/consigne_inscription"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:layout_below="@+id/consigne_inscription"
         android:hint="@string/hint_email"
         android:inputType="textEmailAddress" />
 
@@ -48,11 +48,39 @@
         android:gravity="center_horizontal"
         android:text="@string/informationSaisie" />
 
+    <RadioGroup
+        android:id="@+id/radio_type_utilisateur"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/informationChoixJardinier"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/radio_consommateur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radioChoixConsommateur" />
+
+        <RadioButton
+            android:id="@+id/radioProducteur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radioChoixProducteur" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/informationChoixJardinier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password_confirm_inscription"
+        android:layout_centerHorizontal="true"
+        android:text="@string/informationChoixJardinier" />
+
     <Button
         android:id="@+id/valider_bouton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/password_confirm_inscription"
+        android:layout_below="@+id/radio_type_utilisateur"
         android:layout_centerHorizontal="true"
         android:text="@string/valider" />
 

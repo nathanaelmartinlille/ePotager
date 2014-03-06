@@ -35,7 +35,6 @@ public class ePotager extends Activity {
 			@Override
 			public void onClick(final View v) {
 				testerConnexion(ProfilActivity.class);
-				// ePotager.this.startActivity(new Intent(ePotager.this, ImageListActivity.class));
 			}
 		});
 
@@ -70,7 +69,7 @@ public class ePotager extends Activity {
 			// si on a un login dans la base et que le mot de passe est renseigné alors on autorise
 			ePotager.this.startActivity(new Intent(ePotager.this, activitySuivante));
 		} else {
-			ePotager.this.startActivity(new Intent(ePotager.this, LoginActivity.class));
+			ePotager.this.startActivity(new Intent(ePotager.this, Login.class));
 		}
 	}
 

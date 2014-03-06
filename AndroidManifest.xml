@@ -39,7 +39,8 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <application android:name="MyApplication"
+    <application
+        android:name="com.example.potago.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/icone"
         android:label="@string/app_name"
@@ -72,7 +73,6 @@
             android:label="@string/title_activity_geoloc"
             android:screenOrientation="portrait" >
         </activity>
-        
         <activity
             android:name="com.example.potago.profil.ImageListActivity"
             android:configChanges="orientation"
@@ -85,7 +85,6 @@
             android:label="@string/title_activity_geoloc"
             android:screenOrientation="portrait" >
         </activity>
-        
         <activity
             android:name="com.example.potago.InfosActivity"
             android:configChanges="orientation"
@@ -113,7 +112,7 @@
             android:label="@string/title_activity_tchat" >
         </activity>
         <activity
-            android:name="com.example.potago.LoginActivity"
+            android:name="com.example.potago.Login"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
@@ -124,6 +123,10 @@
         <activity
             android:name="com.example.potago.DialogConfirmationInscription"
             android:label="@string/title_activity_dialog_confirmation_inscription" >
+        </activity>
+        <activity
+            android:name="com.example.potago.profil.EditerProfil"
+            android:label="@string/title_activity_editer_profil" >
         </activity>
     </application>
 
