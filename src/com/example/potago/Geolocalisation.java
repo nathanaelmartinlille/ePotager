@@ -172,7 +172,7 @@ public class Geolocalisation extends FragmentActivity {
 				try {
 					// FIXME:Des fois ça bug ici.....
 					JSONObject jsonResponse = new JSONObject(result);
-					JSONArray jsonMainNode = jsonResponse.optJSONArray("Utilisateurs");
+					JSONArray jsonMainNode = jsonResponse.optJSONArray("Jardiniers");
 
 					for (int i = 0; i < jsonMainNode.length(); i++) {
 						JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
@@ -273,11 +273,7 @@ public class Geolocalisation extends FragmentActivity {
 			public boolean onMarkerClick(Marker arg0) {
 				// TODO faire cette fonction
 				System.out.println("j'ai cliqué sur le marker du Utilisateur");
-				// On va sur le profil du Utilisateur
-				Utilisateur jar = listeMarkers.get(arg0);
-				Geolocalisation g = new Geolocalisation();
-				Intent myIntent = new Intent(g, ProfilActivity.class); g.startActivity(myIntent);
-				myIntent.putExtra("mail", jar.getMail());
+
 				 
 				return false;
 			}
@@ -291,7 +287,11 @@ public class Geolocalisation extends FragmentActivity {
 			@Override
 			public void onInfoWindowClick(Marker arg0) {
 				// TODO Auto-generated method stub
-
+				// On va sur le profil du Utilisateur
+				Utilisateur jar = listeMarkers.get(arg0);
+				Geolocalisation g = new Geolocalisation();
+				Intent myIntent = new Intent(g, ProfilActivity.class); g.startActivity(myIntent);
+				myIntent.putExtra("mail", jar.getMail());
 				System.out.println("j'ai cliqué sur les infos du Utilisateur");
 			}
 		});

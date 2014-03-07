@@ -36,6 +36,7 @@ import com.example.potago.Constantes;
 import com.example.potago.JsonReadTask;
 import com.example.potago.R;
 import com.example.potago.Tchat;
+import com.example.potago.entite.Utilisateur;
 import com.example.potago.utils.Utils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -50,6 +51,7 @@ public class ProfilActivity extends Activity {
 	DisplayImageOptions options;
 	String[] imageUrls = null;
 	ImageLoader imageLoader = null;
+	Utilisateur user = null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -57,7 +59,10 @@ public class ProfilActivity extends Activity {
 		super.onCreate(icicle);
 		Utils.initialisationBoutonNavigation(this);
 		setContentView(R.layout.activity_voir_profil);
-		// requete recup
+		// requete recuperer les informations de l'utilisateur
+		
+		
+		
 		creerProfil();
 	}
 
