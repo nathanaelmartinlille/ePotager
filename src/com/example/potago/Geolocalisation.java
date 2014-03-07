@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -24,7 +25,8 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.example.potago.entite.Jardinier;
+import com.example.potago.entite.Utilisateur;
+import com.example.potago.profil.ProfilActivity;
 import com.example.potago.utils.Utils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,9 +52,9 @@ public class Geolocalisation extends FragmentActivity {
 	static CheckBox dispo;
 
 	static LatLng userLocation;
-	// Liste des jardiniers
-	static ArrayList<Jardinier> listeJardiniers;
-	static HashMap<Marker, Jardinier> listeMarkers;
+	// Liste des Utilisateurs
+	static ArrayList<Utilisateur> listeUtilisateurs;
+	static HashMap<Marker, Utilisateur> listeMarkers;
 
 	private static Context context;
 
@@ -69,8 +71,8 @@ public class Geolocalisation extends FragmentActivity {
 		setContentView(R.layout.activity_geoloc);
 		Utils.initialisationBoutonNavigation(this);
 
-		listeMarkers = new HashMap<Marker, Jardinier>();
-		listeJardiniers = new ArrayList<Jardinier>();
+		listeMarkers = new HashMap<Marker, Utilisateur>();
+		listeUtilisateurs = new ArrayList<Utilisateur>();
 
 		// On prend le contexte de l'activity
 		context = this.getBaseContext();
@@ -91,7 +93,7 @@ public class Geolocalisation extends FragmentActivity {
 				System.out.println("ma localisation : "+map.getMyLocation());
 				if(map.getMyLocation() != null){
 				userLocation = new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude());
-				map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 35));
+				map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 8));
 				}
 			}
 		});
@@ -101,7 +103,7 @@ public class Geolocalisation extends FragmentActivity {
 			public void onMyLocationChange(Location arg0) {
 				userLocation = new LatLng(arg0.getLatitude(), arg0.getLongitude());
 				// map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
-				// afficherJardinier();
+				// afficherUtilisateur();
 			}
 
 		});
@@ -129,7 +131,7 @@ public class Geolocalisation extends FragmentActivity {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				rayon.setText(seekBar.getProgress() + "km");
-				afficherJardinier();
+				afficherUtilisateur();
 			}
 
 			@Override
@@ -161,54 +163,48 @@ public class Geolocalisation extends FragmentActivity {
 
 	// On accède au web service
 	public void accessWebService() {
-		System.out.println("accessWebService");
 		new JsonReadTask(Constantes.RECUPERATION_GEOLOC) {
 
 			@Override
 			public void recuperationDonnee(String result) {
-
-				System.out.println("Je fais la mise à jour des données");
-				listeJardiniers.clear();
+				listeUtilisateurs.clear();
 				listeMarkers.clear();
-				System.out.println("liste : " + listeJardiniers);
 				try {
 					// FIXME:Des fois ça bug ici.....
 					JSONObject jsonResponse = new JSONObject(result);
-					JSONArray jsonMainNode = jsonResponse.optJSONArray("Jardiniers");
+					JSONArray jsonMainNode = jsonResponse.optJSONArray("Utilisateurs");
 
 					for (int i = 0; i < jsonMainNode.length(); i++) {
 						JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
-						System.out.println(jsonChildNode.optBoolean("Legumes"));
-						Jardinier jardinier = new Jardinier(jsonChildNode.optString("Nom"), jsonChildNode.optString("Prenom"),
+						Utilisateur Utilisateur = new Utilisateur(jsonChildNode.optString("Nom"), jsonChildNode.optString("Prenom"),
 								jsonChildNode.optString("description"), jsonChildNode.optString("latitude"), jsonChildNode.optString("longitude"),
 								jsonChildNode.optBoolean("vend_fruit"), jsonChildNode.optBoolean("vend_legume"), jsonChildNode.optBoolean("est_dispo"));
-						listeJardiniers.add(jardinier);
+						listeUtilisateurs.add(Utilisateur);
 					}
 				} catch (JSONException e) {
 					System.out.println("je catch une exception : " + e);
 				}
-				afficherJardinier();
+				afficherUtilisateur();
 			}
 
 		};
 	}
 
-	public static void afficherJardinier() {
+	public static void afficherUtilisateur() {
 		// J'enlève tous les anciens markers
 		map.clear();
-		for (Jardinier j : listeJardiniers) {
+		for (Utilisateur j : listeUtilisateurs) {
 			boolean aLeDroitDexister = true;
 			LatLng jLatLng = new LatLng(j.getLatitude(), j.getLongitude());
 			float[] results = new float[5];
 
-			// Je récupère la position de l'user et je calcule la distance entre l'user et le jardinier
+			// Je récupère la position de l'user et je calcule la distance entre l'user et le Utilisateur
 			if (userLocation != null) {
 				Location.distanceBetween(jLatLng.latitude, jLatLng.longitude, userLocation.latitude, userLocation.longitude, results);
 			}
 
 			// On regarde si ils sont plus loins que la distance
 			// Attention ! la distance est en mètres !
-			System.out.println("distance : " + results[0] / 1000 + " d2 : " + distance.getProgress());
 			if (results[0] / 1000 < distance.getProgress()) {
 				aLeDroitDexister = true;
 				if ((dispo.isChecked() && j.isEstDispo()) || (!dispo.isChecked() && !j.isEstDispo())) {
@@ -231,15 +227,14 @@ public class Geolocalisation extends FragmentActivity {
 			}
 
 			if (aLeDroitDexister) {
-				System.out.println("j'ai le droit d'exister + " + j);
-				Marker jardinier = map.addMarker(new MarkerOptions().position(jLatLng).title(j.getNom()).snippet(j.getPrenom())
+				Marker Utilisateur = map.addMarker(new MarkerOptions().position(jLatLng).title(j.getNom()).snippet(j.getPrenom())
 						.icon(BitmapDescriptorFactory.fromResource(R.drawable.repere)));
-				listeMarkers.put(jardinier, j);
+				listeMarkers.put(Utilisateur, j);
 			}
 		}
 
 		/**
-		 * On définit la vue quand on clique sur le jardinier
+		 * On définit la vue quand on clique sur le Utilisateur
 		 */
 		map.setInfoWindowAdapter(new InfoWindowAdapter() {
 
@@ -254,8 +249,7 @@ public class Geolocalisation extends FragmentActivity {
 				LayoutInflater li = LayoutInflater.from(context);
 				View v = li.inflate(R.layout.marker_jardinier, null);
 
-				Jardinier jar = listeMarkers.get(arg0);
-				System.out.println("jardinier : " + jar);
+				Utilisateur jar = listeMarkers.get(arg0);
 
 				TextView nomPrenom = (TextView) v.findViewById(R.id.nom_prenom_marker);
 				TextView description = (TextView) v.findViewById(R.id.description_marker);
@@ -271,24 +265,26 @@ public class Geolocalisation extends FragmentActivity {
 		});
 
 		/**
-		 * Quand on clique sur un jardinier sur la map
+		 * Quand on clique sur un Utilisateur sur la map
 		 */
 		map.setOnMarkerClickListener(new OnMarkerClickListener() {
 
 			@Override
 			public boolean onMarkerClick(Marker arg0) {
 				// TODO faire cette fonction
-				System.out.println("j'ai cliqué sur le marker du jardinier");
-				// On va sur le profil du jardinier
-				/*
-				 * Geolocalisation g = new Geolocalisation(); Intent myIntent = new Intent(g, ProfilActivity.class); g.startActivity(myIntent);
-				 */
+				System.out.println("j'ai cliqué sur le marker du Utilisateur");
+				// On va sur le profil du Utilisateur
+				Utilisateur jar = listeMarkers.get(arg0);
+				Geolocalisation g = new Geolocalisation();
+				Intent myIntent = new Intent(g, ProfilActivity.class); g.startActivity(myIntent);
+				myIntent.putExtra("mail", jar.getMail());
+				 
 				return false;
 			}
 		});
 
 		/**
-		 * Quand on clique sur les informations d'un jardinier, on va sur son profil.
+		 * Quand on clique sur les informations d'un Utilisateur, on va sur son profil.
 		 */
 		map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 
@@ -296,7 +292,7 @@ public class Geolocalisation extends FragmentActivity {
 			public void onInfoWindowClick(Marker arg0) {
 				// TODO Auto-generated method stub
 
-				System.out.println("j'ai cliqué sur les infos du jardinier");
+				System.out.println("j'ai cliqué sur les infos du Utilisateur");
 			}
 		});
 	}
@@ -310,7 +306,7 @@ class MonClickListener implements OnCheckedChangeListener {
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		Geolocalisation.afficherJardinier();
+		Geolocalisation.afficherUtilisateur();
 	}
 
 }
