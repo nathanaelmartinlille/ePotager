@@ -180,8 +180,8 @@ public class Geolocalisation extends FragmentActivity {
 						JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
 						System.out.println(jsonChildNode.optBoolean("Legumes"));
 						Jardinier jardinier = new Jardinier(jsonChildNode.optString("Nom"), jsonChildNode.optString("Prenom"),
-								jsonChildNode.optString("Description"), jsonChildNode.optString("Latitude"), jsonChildNode.optString("Longitude"),
-								jsonChildNode.optBoolean("Fruits"), jsonChildNode.optBoolean("Legumes"), jsonChildNode.optBoolean("Disponible"));
+								jsonChildNode.optString("description"), jsonChildNode.optString("latitude"), jsonChildNode.optString("longitude"),
+								jsonChildNode.optBoolean("vend_fruit"), jsonChildNode.optBoolean("vend_legume"), jsonChildNode.optBoolean("est_dispo"));
 						listeJardiniers.add(jardinier);
 					}
 				} catch (JSONException e) {
