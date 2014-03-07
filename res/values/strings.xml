@@ -41,6 +41,6 @@
     <string name="informationChoixJardinier">Choisir votre type de profil</string>
     <string name="radioChoixConsommateur">Consommateur</string>
     <string name="radioChoixProducteur">Producteur</string>
-    <string name="title_activity_upload">Téléverser</string>
+    <string name="title_activity_message_texte">MessageTexte</string>
 
 </resources>

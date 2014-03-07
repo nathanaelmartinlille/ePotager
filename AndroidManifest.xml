@@ -129,8 +129,8 @@
             android:label="@string/title_activity_editer_profil" >
         </activity>
         <activity
-            android:name="com.example.potago.Upload"
-            android:label="@string/title_activity_upload" >
+            android:name="com.example.potago.MessageTexte"
+            android:label="@string/title_activity_message_texte" >
         </activity>
     </application>
 
