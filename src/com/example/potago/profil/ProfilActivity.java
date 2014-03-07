@@ -1,5 +1,6 @@
 package com.example.potago.profil;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -37,6 +38,7 @@ import com.example.potago.Constantes;
 import com.example.potago.JsonReadTask;
 import com.example.potago.R;
 import com.example.potago.Tchat;
+import com.example.potago.entite.Commentaire;
 import com.example.potago.entite.Utilisateur;
 import com.example.potago.utils.Utils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -51,7 +53,7 @@ public class ProfilActivity extends Activity {
 	DisplayImageOptions options;
 	String[] imageUrls = null;
 	ImageLoader imageLoader = null;
-	Utilisateur user = null;
+	Utilisateur utilisateurProfil = null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -73,13 +75,52 @@ public class ProfilActivity extends Activity {
 	private void chargerUtilisateur(String adresseMail) {
 		Map<String, String> mapArgument = new HashMap<String, String>();
 		mapArgument.put("mail", adresseMail);
-
+		final ProfilActivity profil = this;
 		new JsonReadTask(Utils.convertirURLAvecParam(Constantes.RECUPERATION_INFO_PROFIL, mapArgument)) {
 
 			@Override
-			public void recuperationDonnee(String result) {
-				// TODO Auto-generated method stub
+			public void recuperationDonnee(String jsonResult) {
+				try {
+					Utilisateur utilisateur = new Utilisateur();
+					List<Commentaire> commentaires = new ArrayList<Commentaire>();
+					JSONObject response;
 
+					response = new JSONObject(jsonResult);
+					utilisateur.setDescription(response.getString("description"));
+					utilisateur.setIdUtilisateur(response.getInt("idUtilisateur"));
+					final JSONArray commentairesJSONArray = response.getJSONArray("commentaires");
+					for (int i = 0; i < commentairesJSONArray.length(); i++) {
+						Commentaire commentaire = new Commentaire();
+						commentaire.setUtilisateur(utilisateur);
+						Utilisateur auteurCommentaire = new Utilisateur();
+						auteurCommentaire.setNom(commentairesJSONArray.getJSONObject(i).getString("nomAuteur"));
+						auteurCommentaire.setPrenom(commentairesJSONArray.getJSONObject(i).getString("prenomAuteur"));
+						auteurCommentaire.setMail(commentairesJSONArray.getJSONObject(i).getString("mailAuteur"));
+						auteurCommentaire.setIdUtilisateur(commentairesJSONArray.getJSONObject(i).getInt("idAuteur"));
+
+						commentaire.setContenu(commentairesJSONArray.getJSONObject(i).getString("contenu"));
+						commentaire.setNote(commentairesJSONArray.getJSONObject(i).getDouble("note"));
+						commentaire.setAuteur(auteurCommentaire);
+						commentaires.add(commentaire);
+					}
+
+					if (commentaires.size() > 2) {
+						// si on a plus de 2 commentaires alors on affiche "voir plus de commentaire"
+						final Button boutonMoreCommentaire = (Button) profil.findViewById(R.id.boutonPlusCommentaire);
+						boutonMoreCommentaire.setVisibility(View.VISIBLE);
+						boutonMoreCommentaire.setOnClickListener(new OnClickListener() {
+
+							@Override
+							public void onClick(final View v) {
+								profil.startActivity(new Intent(profil, AffichageCommentaireActivity.class));
+
+							}
+						});
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		};
 
@@ -89,7 +130,7 @@ public class ProfilActivity extends Activity {
 	private void creerProfil() {
 		initialiserEnteteProfil();
 		initialiserRatingBar(this);
-		initialiserContenuProfilEtFilCommentaire();
+		initialiserContenuProfilEtFilCommentaire(utilisateurProfil);
 		// TODO init galerie seulement si c'est un jardinier.
 		initialiserGalerieImage();
 		initialiserHandlerBoutonEnteteProfil();
@@ -226,63 +267,100 @@ public class ProfilActivity extends Activity {
 
 	}
 
-	private void initialiserContenuProfilEtFilCommentaire() {
-		final ProfilActivity profil = this;
-		new JsonReadTask(Constantes.RECUPERATION_COMMENTAIRE) {
+	private void initialiserContenuProfilEtFilCommentaire(Utilisateur utilisateur) {
+		cacherLignesCommentaire();
+		if (utilisateur.getCommentaires().size() == 1) {
+			chargerLigne1Commentaire(utilisateur);
+		} else if (utilisateur.getCommentaires().size() == 2) {
+			chargerLigne1Commentaire(utilisateur);
+		} else {
+			// on a beaucoup plus que deux commentaires on affiche donc un bouton +
+			chargerLigne1Commentaire(utilisateur);
+			chargerLigne2Commentaire(utilisateur);
+			chargerBoutonPlusDeCommentaire(utilisateur);
+		}
+
+		if (utilisateur.getCommentaires().size() > 0) {
+			// dans le cas où on a au moins un commentaire on calcule la note globale
+			Double total = 0D;
+			Integer totalVote = 0;
+			for (Commentaire comm : utilisateur.getCommentaires()) {
+				if (comm.getNote() != null) {
+					total += comm.getNote();
+					totalVote++;
+				}
+			}
+			Double noteFinale = total / totalVote;
+			RatingBar ratingGlobal = (RatingBar) findViewById(R.id.ratingBar);
+			ratingGlobal.setRating(noteFinale.floatValue());
+		}
+	}
+
+	/**
+	 * Cette methode permet de cacher l'ensemble des lignes de commentaire
+	 */
+	private void cacherLignesCommentaire() {
+		this.findViewById(R.id.contenuCommentaire).setVisibility(View.GONE);
+		this.findViewById(R.id.nomAuteurCommentaire1).setVisibility(View.GONE);
+		this.findViewById(R.id.imageAuteur1).setVisibility(View.GONE);
+
+		this.findViewById(R.id.contenuCommentaire2).setVisibility(View.GONE);
+		this.findViewById(R.id.nomAuteurCommentaire2).setVisibility(View.GONE);
+		this.findViewById(R.id.imageAuteur2).setVisibility(View.GONE);
+
+		this.findViewById(R.id.boutonPlusCommentaire).setVisibility(View.GONE);
+
+	}
+
+	/**
+	 * Methode qui permet de charger la premiere ligne de commentaire
+	 * 
+	 * @param utilisateur
+	 */
+	private void chargerLigne1Commentaire(Utilisateur utilisateur) {
+		final TextView contenuCommentaire1 = (TextView) this.findViewById(R.id.contenuCommentaire1);
+		final TextView auteurCommentaire = (TextView) this.findViewById(R.id.nomAuteurCommentaire1);
+		final ImageView imageAuteur1 = (ImageView) this.findViewById(R.id.imageAuteur1);
+		contenuCommentaire1.setVisibility(View.VISIBLE);
+		auteurCommentaire.setVisibility(View.VISIBLE);
+		imageAuteur1.setVisibility(View.VISIBLE);
+		// on charge les données
+		auteurCommentaire.setText(utilisateur.getCommentaires().get(0).getAuteur().getNom() + " "
+				+ utilisateur.getCommentaires().get(0).getAuteur().getPrenom());
+		imageLoader.displayImage(Constantes.REPERTOIRE_STOCKAGE_IMAGE + utilisateur.getCommentaires().get(0).getAuteur().getIdUtilisateur(), imageAuteur1);
+	}
+
+	/**
+	 * Methode qui permet de charger la premiere ligne de commentaire
+	 * 
+	 * @param utilisateur
+	 */
+	private void chargerLigne2Commentaire(Utilisateur utilisateur) {
+		final TextView contenuCommentaire2 = (TextView) this.findViewById(R.id.contenuCommentaire1);
+		final TextView auteurCommentaire2 = (TextView) this.findViewById(R.id.nomAuteurCommentaire1);
+		final ImageView imageAuteur2 = (ImageView) this.findViewById(R.id.imageAuteur1);
+		contenuCommentaire2.setVisibility(View.VISIBLE);
+		auteurCommentaire2.setVisibility(View.VISIBLE);
+		imageAuteur2.setVisibility(View.VISIBLE);
+		// on charge les données
+		auteurCommentaire2.setText(utilisateur.getCommentaires().get(1).getAuteur().getNom() + " "
+				+ utilisateur.getCommentaires().get(1).getAuteur().getPrenom());
+
+		imageLoader.displayImage(Constantes.REPERTOIRE_STOCKAGE_IMAGE + utilisateur.getCommentaires().get(1).getAuteur().getIdUtilisateur(), imageAuteur2);
+
+	}
+
+	private void chargerBoutonPlusDeCommentaire(final Utilisateur utilisateur) {
+		final Button boutonPlusCom = (Button) this.findViewById(R.id.boutonPlusCommentaire);
+		boutonPlusCom.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void recuperationDonnee(final String reponse) {
-				final TextView contenuCommentaire1 = (TextView) profil.findViewById(R.id.contenuCommentaire1);
-				final TextView contenuCommentaire2 = (TextView) profil.findViewById(R.id.contenuCommentaire2);
-				final TextView contenuDescription = (TextView) profil.findViewById(R.id.contenuDescription);
-				final TextView auteurCommentaire = (TextView) profil.findViewById(R.id.nomAuteurCommentaire1);
-				final TextView auteurCommentaire2 = (TextView) profil.findViewById(R.id.nomAuteurCommentaire2);
-				try {
-
-					final JSONObject response = new JSONObject(reponse);
-					final JSONArray commentaires = response.getJSONArray("commentaires");
-					contenuDescription.setText(response.getString("description"));
-					switch (commentaires.length()) {
-					case 0:
-						break;
-					case 1:
-						contenuCommentaire1.setText(commentaires.getJSONObject(0).getString("contenuCommentaire"));
-						auteurCommentaire.setText(commentaires.getJSONObject(0).getString("auteurCommentaire"));
-						break;
-					case 2:
-						contenuCommentaire1.setText(commentaires.getJSONObject(0).getString("contenuCommentaire"));
-						auteurCommentaire.setText(commentaires.getJSONObject(0).getString("auteurCommentaire"));
-						contenuCommentaire2.setText(commentaires.getJSONObject(1).getString("contenuCommentaire"));
-						auteurCommentaire2.setText(commentaires.getJSONObject(1).getString("auteurCommentaire"));
-						break;
-					default:
-						contenuCommentaire1.setText(commentaires.getJSONObject(0).getString("contenuCommentaire"));
-						auteurCommentaire.setText(commentaires.getJSONObject(0).getString("auteurCommentaire"));
-						contenuCommentaire2.setText(commentaires.getJSONObject(1).getString("contenuCommentaire"));
-						auteurCommentaire2.setText(commentaires.getJSONObject(1).getString("auteurCommentaire"));
-						if (commentaires.length() > 2) {
-							// si on a plus de 2 commentaires alors on affiche "voir plus de commentaire"
-							final Button boutonMoreCommentaire = (Button) profil.findViewById(R.id.boutonPlusCommentaire);
-							boutonMoreCommentaire.setVisibility(View.VISIBLE);
-							boutonMoreCommentaire.setOnClickListener(new OnClickListener() {
-
-								@Override
-								public void onClick(final View v) {
-									profil.startActivity(new Intent(profil, AffichageCommentaireActivity.class));
-
-								}
-							});
-						}
-					}
-
-				} catch (final JSONException e) {
-
-					e.printStackTrace();
-				}
-
+			public void onClick(View v) {
+				Intent intent = new Intent(ProfilActivity.this, AffichageCommentaireActivity.class);
+				intent.putExtra("idUtilisateur", utilisateur.getIdUtilisateur());
+				startActivity(intent);
 			}
-		};
-
+		});
 	}
 
 	class ItemAdapter extends BaseAdapter {

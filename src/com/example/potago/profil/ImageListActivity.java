@@ -34,11 +34,9 @@ public class ImageListActivity extends Activity implements OnItemClickListener {
 
 		listview = (ListView) findViewById(R.id.listView_image);
 		imageLoader = ImageLoader.getInstance();
-		final Bundle bundle = getIntent().getExtras();
 		imageUrls = Constants.IMAGES;
 		final CustomAdapter adapter = new CustomAdapter(ImageListActivity.this, imageUrls);
 		listview.setAdapter(adapter);
-
 		listview.setOnItemClickListener(this);
 
 	}

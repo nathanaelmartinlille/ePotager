@@ -30,4 +30,6 @@ public class Constantes {
 
 	public static final String CHECKLOGIN = "http://lauraleclercq.com/ePotager/checkLogin.php";
 
+	public static final String REPERTOIRE_STOCKAGE_IMAGE = "http://lauraleclercq.com/ePotager/images/";
+
 }
