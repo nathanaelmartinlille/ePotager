@@ -57,6 +57,7 @@ public class ProfilActivity extends Activity {
 		super.onCreate(icicle);
 		Utils.initialisationBoutonNavigation(this);
 		setContentView(R.layout.activity_voir_profil);
+		// requete recup
 		creerProfil();
 	}
 
