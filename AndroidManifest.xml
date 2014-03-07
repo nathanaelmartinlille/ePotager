@@ -117,7 +117,7 @@
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
-            android:com.example.potago.login.InscriptionActivitytivity"
+            android:name="com.example.potago.login.InscriptionActivitytivity"
             android:label="@string/title_activity_inscription" >
         </activity>
         <activity
