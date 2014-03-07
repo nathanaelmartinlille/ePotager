@@ -1,4 +1,4 @@
-package com.example.potago;
+package com.example.potago.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -26,6 +26,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.potago.Constantes;
+import com.example.potago.R;
+import com.example.potago.R.id;
+import com.example.potago.R.layout;
+import com.example.potago.R.menu;
+import com.example.potago.R.string;
 import com.example.potago.utils.Utils;
 
 /**

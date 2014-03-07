@@ -1,13 +1,21 @@
-package com.example.potago;
+package com.example.potago.login;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import com.example.potago.Constantes;
+import com.example.potago.JsonReadTask;
+import com.example.potago.R;
+import com.example.potago.profil.ProfilActivity;
 
 public class InscriptionActivity extends Activity {
 
@@ -26,13 +34,10 @@ public class InscriptionActivity extends Activity {
 		final TextView password2 = (TextView) this.findViewById(R.id.password_confirm_inscription);
 
 		final RadioGroup radioGroupChoixUtilisateur = (RadioGroup) this.findViewById(R.id.radio_type_utilisateur);
-		final RadioButton choixUtilisateur;
 
 		final int selectedId = radioGroupChoixUtilisateur.getCheckedRadioButtonId();
 
 		// find the radiobutton by returned id
-		choixUtilisateur = (RadioButton) findViewById(selectedId);
-
 		loginEmail.setError(null);
 		password.setError(null);
 
@@ -79,8 +84,28 @@ public class InscriptionActivity extends Activity {
 			focusView = loginEmail;
 			cancel = true;
 		}
+		if (cancel) {
+			return cancel;
+		}
+		// si tout est ok alors on va enregistrer le nouvel utilisateur
+		// on creer une MAP de clé valeur afin de passer en parametre les données
+		Map<String, String> mappingInscription = new HashMap<String, String>();
+		mappingInscription.put("mail", loginEmail.getText().toString());
+		mappingInscription.put("mdp", password.getText().toString());
+		mappingInscription.put("est_jardinier", (selectedId == R.id.radioProducteur ? "true" : "false"));
+		new JsonReadTask(Constantes.INSERTION_COMPTE_UTILISATEUR, mappingInscription) {
+
+			@Override
+			public void recuperationDonnee(String result) {
+				// TODO CHECK si une erreur est survenu par exemple adresse mail existante ou autre.
+				if (result != null && !"".equals(result)) {
+					loginEmail.setError(getString(R.string.error_invalid_email));
+				} else {
+					startActivity(new Intent(InscriptionActivity.this, ProfilActivity.class));
+				}
+			}
+		};
 
 		return true;
 	}
-
 }

@@ -26,4 +26,6 @@ public class Constantes {
 
 	public static final String RECUPERATION_GEOLOC = "http://lauraleclercq.com/ePotager/test.php";
 
+	public static final String INSERTION_COMPTE_UTILISATEUR = "http://lauraleclercq.com/ePotager/insererCompteUtilisateur.php";
+
 }

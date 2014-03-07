@@ -112,12 +112,12 @@
             android:label="@string/title_activity_tchat" >
         </activity>
         <activity
-            android:name="com.example.potago.Login"
+            android:name="com.example.potago.login.Login"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
-            android:name="com.example.potago.InscriptionActivity"
+            android:com.example.potago.login.InscriptionActivitytivity"
             android:label="@string/title_activity_inscription" >
         </activity>
         <activity
