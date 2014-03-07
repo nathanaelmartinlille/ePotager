@@ -4,7 +4,7 @@
     <string name="app_name">ePotager</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_accueil">Accueil</string>
+    <string name="title_activity_accueil">EPotager</string>
     <string name="titreProfil">Profil</string>
     <string name="title_activity_geoloc">Geolocalisation</string>
     <string name="title_activity_infos">Infos</string>

@@ -1,5 +1,14 @@
 package com.example.potago.login;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -19,7 +28,6 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -28,10 +36,6 @@ import android.widget.TextView;
 
 import com.example.potago.Constantes;
 import com.example.potago.R;
-import com.example.potago.R.id;
-import com.example.potago.R.layout;
-import com.example.potago.R.menu;
-import com.example.potago.R.string;
 import com.example.potago.utils.Utils;
 
 /**
@@ -104,21 +108,14 @@ public class Login extends Activity {
 			@Override
 			public void onClick(final View v) {
 				// appel de l'activity enregistrement
-				startActivity(new Intent(Login.this, InscriptionActivity.class));
+				startActivity(new Intent(Login.this, Inscription.class));
 			}
 		});
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(final Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.login, menu);
-		return true;
-	}
-
 	/**
-	 * Attempts to sign in or register the account specified by the login form. If there are form errors (invalid email, missing fields, etc.), the errors are presented and no
-	 * actual login attempt is made.
+	 * Attempts to sign in or register the account specified by the login form. If there are form errors (invalid email, missing fields, etc.), the errors are
+	 * presented and no actual login attempt is made.
 	 */
 	public void attemptLogin() {
 		if (mAuthTask != null) {
@@ -180,7 +177,10 @@ public class Login extends Activity {
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
 			mAuthTask = new UserLoginTask();
-			mAuthTask.execute((Void) null);
+			// TODO mettre les parametres de login et mot de passe
+			Map<String, String> mapsInfoLogin = new HashMap<String, String>();
+
+			mAuthTask.execute(Utils.convertirURLAvecParam(Constantes.CHECKLOGIN, mapsInfoLogin));
 		}
 	}
 
@@ -221,27 +221,33 @@ public class Login extends Activity {
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate the user.
 	 */
-	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+	public class UserLoginTask extends AsyncTask<String, Void, Boolean> {
 
 		@Override
-		protected Boolean doInBackground(final Void... params) {
+		protected Boolean doInBackground(final String... params) {
 			// TODO: APPEL WS POUR CHECKLOGIN(STRING, STRING)
 
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost(params[0]);
+			HttpResponse response;
 			try {
-				// Simulate network access.
-				Thread.sleep(2000);
-			} catch (final InterruptedException e) {
-				return false;
-			}
+				response = httpclient.execute(httppost);
+				String reponseStr;
 
-			for (final String credential : DUMMY_CREDENTIALS) {
-				final String[] pieces = credential.split(":");
-				if (pieces[0].equals(mEmail)) {
-					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
+				reponseStr = Utils.inputStreamToString(response.getEntity().getContent()).toString();
+
+				if (reponseStr != null) {
+					return Boolean.parseBoolean(reponseStr);
+				} else {
+					return null;
 				}
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+				return null;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
 			}
-			return null;
 		}
 
 		@Override
@@ -262,7 +268,7 @@ public class Login extends Activity {
 					public void onClick(final DialogInterface dialog, final int which) {
 						switch (which) {
 						case DialogInterface.BUTTON_POSITIVE:
-							startActivity(new Intent(Login.this, InscriptionActivity.class));
+							startActivity(new Intent(Login.this, Inscription.class));
 							finish();
 							break;
 
@@ -279,8 +285,8 @@ public class Login extends Activity {
 					}
 				};
 
-				alertDialogBuilder.setMessage("Votre email n'existe pas encore, voulez-vous vous inscrire plutot ?").setPositiveButton("Yes", dialogClickListener)
-						.setNegativeButton("No", dialogClickListener).show();
+				alertDialogBuilder.setMessage("Votre email n'existe pas encore, voulez-vous vous inscrire plutot ?")
+						.setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
 
 			} else if (success) {
 				// le login et mot de passe correct.

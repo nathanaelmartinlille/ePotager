@@ -1,8 +1,10 @@
 package com.example.potago.profil;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,7 +16,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,7 +48,6 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 public class ProfilActivity extends Activity {
 
-	private ViewPager viewPager;
 	DisplayImageOptions options;
 	String[] imageUrls = null;
 	ImageLoader imageLoader = null;
@@ -60,9 +60,29 @@ public class ProfilActivity extends Activity {
 		Utils.initialisationBoutonNavigation(this);
 		setContentView(R.layout.activity_voir_profil);
 		// requete recuperer les informations de l'utilisateur
-		
-		
-		
+		Intent intent = getIntent();
+		String mail = intent.getStringExtra("mail");
+
+		chargerUtilisateur(mail);
+
+	}
+
+	/**
+	 * Cette methode va rechercher l'utilisateur mis en parametre
+	 */
+	private void chargerUtilisateur(String adresseMail) {
+		Map<String, String> mapArgument = new HashMap<String, String>();
+		mapArgument.put("mail", adresseMail);
+
+		new JsonReadTask(Utils.convertirURLAvecParam(Constantes.RECUPERATION_INFO_PROFIL, mapArgument)) {
+
+			@Override
+			public void recuperationDonnee(String result) {
+				// TODO Auto-generated method stub
+
+			}
+		};
+
 		creerProfil();
 	}
 
@@ -167,12 +187,6 @@ public class ProfilActivity extends Activity {
 		final ImageButton imageProfil = (ImageButton) this.findViewById(R.id.imageProfil);
 		imageProfil.setBackgroundResource(R.drawable.image_profil_vide);
 
-		// final ImageButton imageDial = (ImageButton) this.findViewById(R.id.imageDial);
-		// imageDial.setBackgroundResource(R.drawable.ic_tab_dial);
-		//
-		// final ImageButton imageLoc = (ImageButton) this.findViewById(R.id.imageLoc);
-		// imageLoc.setBackgroundResource(R.drawable.ic_menu_loc);
-
 		final TextView prenomProfil = (TextView) this.findViewById(R.id.prenomTexte);
 		prenomProfil.setText("Nathanael");
 
@@ -192,8 +206,9 @@ public class ProfilActivity extends Activity {
 		imageUrls = Constants.IMAGES;
 		// FIN TODONE
 
-		options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.ic_stub).showImageForEmptyUri(R.drawable.ic_empty).showImageOnFail(R.drawable.ic_error)
-				.cacheInMemory(true).cacheOnDisc(true).considerExifParams(true).displayer(new RoundedBitmapDisplayer(20)).build();
+		options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.ic_stub).showImageForEmptyUri(R.drawable.ic_empty)
+				.showImageOnFail(R.drawable.ic_error).cacheInMemory(true).cacheOnDisc(true).considerExifParams(true).displayer(new RoundedBitmapDisplayer(20))
+				.build();
 
 		final HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
 		listview.setAdapter(new ItemAdapter());
@@ -268,18 +283,6 @@ public class ProfilActivity extends Activity {
 			}
 		};
 
-	}
-
-	@Override
-	public void onBackPressed() {
-
-		if (viewPager != null && viewPager.isShown()) {
-
-			viewPager.setVisibility(View.GONE);
-		} else {
-
-			super.onBackPressed();
-		}
 	}
 
 	class ItemAdapter extends BaseAdapter {

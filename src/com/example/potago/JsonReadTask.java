@@ -1,14 +1,7 @@
 package com.example.potago;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -18,28 +11,18 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
 
+import com.example.potago.utils.Utils;
+
 //Async Task to access the web
 public abstract class JsonReadTask extends AsyncTask<String, Void, String> {
 
 	public JsonReadTask(String url) {
 		execute(new String[] { url });
 	}
-	
-	public JsonReadTask(String url, Map<String, String> params) {
-		
-		String enPlus = "?";
-		Set cles = params.keySet();
-		Iterator it = cles.iterator();
-		while (it.hasNext()){
-		   String cle = (String)it.next();
-		   String valeur = (String)params.get(cle); 
-		   enPlus += cle + "=" + valeur;
-		}
-		url += enPlus;
 
-		
-		System.out.println("url : "+url);
-		execute(new String[] { url });
+	public JsonReadTask(String url, Map<String, String> params) {
+
+		execute(new String[] { Utils.convertirURLAvecParam(url, params) });
 	}
 
 	@Override
@@ -48,7 +31,7 @@ public abstract class JsonReadTask extends AsyncTask<String, Void, String> {
 		HttpPost httppost = new HttpPost(params[0]);
 		try {
 			HttpResponse response = httpclient.execute(httppost);
-			return inputStreamToString(response.getEntity().getContent()).toString();
+			return Utils.inputStreamToString(response.getEntity().getContent()).toString();
 		}
 
 		catch (ClientProtocolException e) {
@@ -58,24 +41,6 @@ public abstract class JsonReadTask extends AsyncTask<String, Void, String> {
 			e.printStackTrace();
 			return null;
 		}
-	}
-
-	private StringBuilder inputStreamToString(InputStream is) {
-		String rLine = "";
-		StringBuilder answer = new StringBuilder();
-		BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-
-		try {
-			while ((rLine = rd.readLine()) != null) {
-				answer.append(rLine);
-				// System.out.println("answer : "+answer);
-			}
-		}
-
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		return answer;
 	}
 
 	@Override

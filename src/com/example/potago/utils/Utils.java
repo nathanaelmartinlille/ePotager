@@ -1,5 +1,13 @@
 package com.example.potago.utils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -69,4 +77,33 @@ public class Utils {
 		}
 	}
 
+	public static String convertirURLAvecParam(String url, Map<String, String> params) {
+		String enPlus = "?";
+		Set<String> cles = params.keySet();
+		Iterator<String> it = cles.iterator();
+		while (it.hasNext()) {
+			String cle = it.next();
+			String valeur = params.get(cle);
+			enPlus += cle + "=" + valeur;
+		}
+		url += enPlus;
+		return url;
+	}
+
+	public static StringBuilder inputStreamToString(InputStream is) {
+		String rLine = "";
+		StringBuilder answer = new StringBuilder();
+		BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+		try {
+			while ((rLine = rd.readLine()) != null) {
+				answer.append(rLine);
+			}
+		}
+
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return answer;
+	}
 }

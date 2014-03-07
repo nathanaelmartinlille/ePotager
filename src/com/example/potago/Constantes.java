@@ -28,4 +28,6 @@ public class Constantes {
 
 	public static final String INSERTION_COMPTE_UTILISATEUR = "http://lauraleclercq.com/ePotager/insererCompteUtilisateur.php";
 
+	public static final String CHECKLOGIN = "http://lauraleclercq.com/ePotager/checkLogin.php";
+
 }

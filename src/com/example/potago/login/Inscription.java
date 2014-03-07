@@ -7,8 +7,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -17,18 +18,24 @@ import com.example.potago.JsonReadTask;
 import com.example.potago.R;
 import com.example.potago.profil.ProfilActivity;
 
-public class InscriptionActivity extends Activity {
+public class Inscription extends Activity {
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_inscription);
+		Button valider = (Button) findViewById(R.id.valider_bouton);
+		valider.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				validerInscription();
+			}
+		});
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(final Menu menu) {
+	public void validerInscription() {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.inscription, menu);
 		final TextView loginEmail = (TextView) this.findViewById(R.id.email_inscription);
 		final TextView password = (TextView) this.findViewById(R.id.password_inscription);
 		final TextView password2 = (TextView) this.findViewById(R.id.password_confirm_inscription);
@@ -85,7 +92,7 @@ public class InscriptionActivity extends Activity {
 			cancel = true;
 		}
 		if (cancel) {
-			return cancel;
+			return;
 		}
 		// si tout est ok alors on va enregistrer le nouvel utilisateur
 		// on creer une MAP de clé valeur afin de passer en parametre les données
@@ -97,15 +104,12 @@ public class InscriptionActivity extends Activity {
 
 			@Override
 			public void recuperationDonnee(String result) {
-				// TODO CHECK si une erreur est survenu par exemple adresse mail existante ou autre.
 				if (result != null && !"".equals(result)) {
 					loginEmail.setError(getString(R.string.error_invalid_email));
 				} else {
-					startActivity(new Intent(InscriptionActivity.this, ProfilActivity.class));
+					startActivity(new Intent(Inscription.this, ProfilActivity.class));
 				}
 			}
 		};
-
-		return true;
 	}
 }
