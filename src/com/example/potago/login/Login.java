@@ -13,20 +13,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,11 +36,6 @@ import com.example.potago.utils.Utils;
  * Activity which displays a login screen to the user, offering registration as well.
  */
 public class Login extends Activity {
-	/**
-	 * A dummy authentication store containing known user names and passwords. TODO: remove after connecting to a real authentication system.
-	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] { "toto@toto.com:toto" };
-
 	/**
 	 * The default email to populate the email field with.
 	 */
@@ -114,8 +103,8 @@ public class Login extends Activity {
 	}
 
 	/**
-	 * Attempts to sign in or register the account specified by the login form. If there are form errors (invalid email, missing fields, etc.), the errors are
-	 * presented and no actual login attempt is made.
+	 * Attempts to sign in or register the account specified by the login form. If there are form errors (invalid email, missing fields, etc.), the errors are presented and no
+	 * actual login attempt is made.
 	 */
 	public void attemptLogin() {
 		if (mAuthTask != null) {
@@ -136,34 +125,19 @@ public class Login extends Activity {
 		// Check for a valid password.
 		if (TextUtils.isEmpty(mPassword)) {
 			mPasswordView.setError(getString(R.string.error_field_required));
-			focusView = mPasswordView;
+			focusView = Utils.setErreur(mPasswordView, getString(R.string.error_field_required));
 			cancel = true;
 		} else if (mPassword.length() < 4) {
-			final int ecolor = Color.BLACK; // whatever color you want
-			final ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
-			final SpannableStringBuilder ssbuilder = new SpannableStringBuilder(getString(R.string.error_invalid_password));
-			ssbuilder.setSpan(fgcspan, 0, getString(R.string.error_invalid_password).length(), 0);
-			mPasswordView.setError(ssbuilder);
-			focusView = mPasswordView;
+			focusView = Utils.setErreur(mPasswordView, getString(R.string.error_invalid_password));
 			cancel = true;
 		}
 
 		// Check for a valid email address.
 		if (TextUtils.isEmpty(mEmail)) {
-			final int ecolor = Color.BLACK; // whatever color you want
-			final ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
-			final SpannableStringBuilder ssbuilder = new SpannableStringBuilder(getString(R.string.error_field_required));
-			ssbuilder.setSpan(fgcspan, 0, getString(R.string.error_field_required).length(), 0);
-			mEmailView.setError(ssbuilder);
-			focusView = mEmailView;
+			focusView = Utils.setErreur(mEmailView, getString(R.string.error_field_required));
 			cancel = true;
 		} else if (!mEmail.contains("@")) {
-			final int ecolor = Color.BLACK; // whatever color you want
-			final ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
-			final SpannableStringBuilder ssbuilder = new SpannableStringBuilder(getString(R.string.error_invalid_email));
-			ssbuilder.setSpan(fgcspan, 0, getString(R.string.error_field_required).length(), 0);
-			mEmailView.setError(ssbuilder);
-			focusView = mEmailView;
+			focusView = Utils.setErreur(mEmailView, getString(R.string.error_invalid_email));
 			cancel = true;
 		}
 
@@ -178,8 +152,9 @@ public class Login extends Activity {
 			showProgress(true);
 			mAuthTask = new UserLoginTask();
 			// TODO mettre les parametres de login et mot de passe
-			Map<String, String> mapsInfoLogin = new HashMap<String, String>();
-
+			final Map<String, String> mapsInfoLogin = new HashMap<String, String>();
+			mapsInfoLogin.put("mail", mEmail);
+			mapsInfoLogin.put("mdp", mPassword);
 			mAuthTask.execute(Utils.convertirURLAvecParam(Constantes.CHECKLOGIN, mapsInfoLogin));
 		}
 	}
@@ -227,24 +202,24 @@ public class Login extends Activity {
 		protected Boolean doInBackground(final String... params) {
 			// TODO: APPEL WS POUR CHECKLOGIN(STRING, STRING)
 
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(params[0]);
+			final HttpClient httpclient = new DefaultHttpClient();
+			final HttpPost httppost = new HttpPost(params[0]);
 			HttpResponse response;
 			try {
 				response = httpclient.execute(httppost);
 				String reponseStr;
 
 				reponseStr = Utils.inputStreamToString(response.getEntity().getContent()).toString();
-
-				if (reponseStr != null) {
-					return Boolean.parseBoolean(reponseStr);
+				System.out.println("REPONSE LOGIN OK :" + reponseStr);
+				if (reponseStr != null && reponseStr.length() > 10) {
+					return true;
 				} else {
-					return null;
+					return false;
 				}
-			} catch (IllegalStateException e) {
+			} catch (final IllegalStateException e) {
 				e.printStackTrace();
 				return null;
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 				return null;
 			}
@@ -257,38 +232,7 @@ public class Login extends Activity {
 
 			mAuthTask = null;
 			showProgress(false);
-			if (success == null) {
-				// on est dans le cas où aucun mail n'a été trouvé qui correspond à celui entré
-
-				final Builder alertDialogBuilder = new AlertDialog.Builder(context);
-
-				// on est dans le cas où aucun mail n'a été trouvé qui correspond à celui entré
-				final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(final DialogInterface dialog, final int which) {
-						switch (which) {
-						case DialogInterface.BUTTON_POSITIVE:
-							startActivity(new Intent(Login.this, Inscription.class));
-							finish();
-							break;
-
-						case DialogInterface.BUTTON_NEGATIVE:
-							dialog.dismiss();
-							final int ecolor = Color.BLACK; // whatever color you want
-							final String estring = "Tapez une adresse correcte"; // your error message
-							final ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
-							final SpannableStringBuilder ssbuilder = new SpannableStringBuilder(estring);
-							ssbuilder.setSpan(fgcspan, 0, estring.length(), 0);
-							mEmailView.setError(ssbuilder);
-							break;
-						}
-					}
-				};
-
-				alertDialogBuilder.setMessage("Votre email n'existe pas encore, voulez-vous vous inscrire plutot ?")
-						.setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
-
-			} else if (success) {
+			if (success) {
 				// le login et mot de passe correct.
 				final SharedPreferences reference = getSharedPreferences(Constantes.NOM_PREFERENCE, Context.MODE_PRIVATE);
 				final Editor edit = reference.edit();
@@ -297,13 +241,9 @@ public class Login extends Activity {
 				edit.commit();
 				finish();
 			} else {
-				final int ecolor = Color.BLACK; // whatever color you want
-				final String estring = "Tapez une adresse correcte"; // your error message
-				final ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
-				final SpannableStringBuilder ssbuilder = new SpannableStringBuilder(getString(R.string.error_incorrect_password));
-				ssbuilder.setSpan(fgcspan, 0, estring.length(), 0);
-				mPasswordView.setError(ssbuilder);
-				mPasswordView.requestFocus();
+				Utils.setErreur(mPasswordView, getString(R.string.error_incorrect_password));
+				Utils.setErreur(mEmailView, getString(R.string.error_invalid_email));
+				mEmailView.requestFocus();
 			}
 		}
 

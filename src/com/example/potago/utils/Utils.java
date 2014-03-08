@@ -12,8 +12,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface.OnClickListener;
+import android.graphics.Color;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.potago.R;
 
@@ -28,19 +32,14 @@ public class Utils {
 	/**
 	 * Permet d'afficher une boite de dialogue OUI NON
 	 * 
-	 * @param _context
-	 *            le context de l'activity
-	 * @param title
-	 *            le titre de la boite de dialogue
-	 * @param message
-	 *            le message à prompt à lu
-	 * @param onYesListener
-	 *            un listener déjà initialisé lorsque l'utilisateur va cliquer sur OUI
-	 * @param onNoListener
-	 *            un listener déjà initialisé lorsque l'utilisateur va cliquer sur NON
+	 * @param _context le context de l'activity
+	 * @param title le titre de la boite de dialogue
+	 * @param message le message à prompt à lu
+	 * @param onYesListener un listener déjà initialisé lorsque l'utilisateur va cliquer sur OUI
+	 * @param onNoListener un listener déjà initialisé lorsque l'utilisateur va cliquer sur NON
 	 */
-	public static void showYesNoPrompt(Context _context, String title, String message, OnClickListener onYesListener, OnClickListener onNoListener) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+	public static void showYesNoPrompt(final Context _context, final String title, final String message, final OnClickListener onYesListener, final OnClickListener onNoListener) {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(_context);
 		builder.setTitle(title);
 		builder.setIcon(android.R.drawable.ic_dialog_info); // lame icon
 		builder.setMessage(message);
@@ -53,47 +52,49 @@ public class Utils {
 	/**
 	 * Cette methode permet d'initialiser les boutons de navigation en fonction de l'activity courante
 	 * 
-	 * @param activite
-	 *            l'activité qui a besoin d'une initialisation des boutons
+	 * @param activite l'activité qui a besoin d'une initialisation des boutons
 	 */
 	public static void initialisationBoutonNavigation(final Activity activite) {
-		ImageButton back = (ImageButton) activite.findViewById(R.id.boutonBack);
+		final ImageButton back = (ImageButton) activite.findViewById(R.id.boutonBack);
 		if (back != null) {
 			back.setOnClickListener(new View.OnClickListener() {
 				@Override
-				public void onClick(View v) {
+				public void onClick(final View v) {
 					activite.finish();
 				}
 			});
 		}
-		ImageButton home = (ImageButton) activite.findViewById(R.id.boutonHome);
+		final ImageButton home = (ImageButton) activite.findViewById(R.id.boutonHome);
 		if (home != null) {
 			home.setOnClickListener(new View.OnClickListener() {
 				@Override
-				public void onClick(View v) {
+				public void onClick(final View v) {
 					activite.finish();
 				}
 			});
 		}
 	}
 
-	public static String convertirURLAvecParam(String url, Map<String, String> params) {
+	public static String convertirURLAvecParam(String url, final Map<String, String> params) {
 		String enPlus = "?";
-		Set<String> cles = params.keySet();
-		Iterator<String> it = cles.iterator();
+		final Set<String> cles = params.keySet();
+		final Iterator<String> it = cles.iterator();
 		while (it.hasNext()) {
-			String cle = it.next();
-			String valeur = params.get(cle);
-			enPlus += cle + "=" + valeur;
+			final String cle = it.next();
+			final String valeur = params.get(cle);
+			enPlus += cle + "=" + valeur + "&";
 		}
+		enPlus.substring(0, enPlus.length() - 2);
 		url += enPlus;
+
+		System.out.println("on a creer l'URL : " + url);
 		return url;
 	}
 
-	public static StringBuilder inputStreamToString(InputStream is) {
+	public static StringBuilder inputStreamToString(final InputStream is) {
 		String rLine = "";
-		StringBuilder answer = new StringBuilder();
-		BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+		final StringBuilder answer = new StringBuilder();
+		final BufferedReader rd = new BufferedReader(new InputStreamReader(is));
 
 		try {
 			while ((rLine = rd.readLine()) != null) {
@@ -101,9 +102,25 @@ public class Utils {
 			}
 		}
 
-		catch (IOException e) {
+		catch (final IOException e) {
 			e.printStackTrace();
 		}
 		return answer;
+	}
+
+	/**
+	 * Cette methode permet d'afficher un champ en erreur et d'afficher une infobulle au dessus pour spécifier l'erreur.
+	 * 
+	 * @param champ le champ dont l'erreur provient
+	 * @param erreur l'erreur
+	 * @return le textview
+	 */
+	public static View setErreur(final TextView champ, final String erreur) {
+		final int ecolor = Color.BLACK; // whatever color you want
+		final ForegroundColorSpan fgcspan = new ForegroundColorSpan(ecolor);
+		final SpannableStringBuilder ssbuilder = new SpannableStringBuilder(erreur);
+		ssbuilder.setSpan(fgcspan, 0, erreur.length(), 0);
+		champ.setError(ssbuilder);
+		return champ;
 	}
 }
