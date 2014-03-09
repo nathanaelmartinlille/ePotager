@@ -22,7 +22,7 @@ public class Constantes {
 	/**
 	 * Cet URL permet de recuperer les informations à partir d'un ID PROFIL donné
 	 */
-	public static final String RECUPERATION_INFO_PROFIL = "http://lauraleclercq.com/ePotager/recupererInfoProfil.php";
+	public static final String RECUPERATION_INFO_PROFIL = "http://lauraleclercq.com/ePotager/recupererUtilisateur.php";
 
 	public static final String RECUPERATION_GEOLOC = "http://lauraleclercq.com/ePotager/test.php";
 

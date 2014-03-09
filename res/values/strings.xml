@@ -38,8 +38,9 @@
     <string name="menu_item_pause_on_scroll">Pause on scroll</string>
     <string name="menu_item_pause_on_fling">Pause on fling</string>
     <string name="title_activity_editer_profil">EditerProfil</string>
-	<string name="informationChoixJardinier">Choisir votre type de profil</string>
-	<string name="radioChoixConsommateur">Consommateur</string>
-	<string name="radioChoixProducteur">Producteur</string>
-	
+    <string name="informationChoixJardinier">Choisir votre type de profil</string>
+    <string name="radioChoixConsommateur">Consommateur</string>
+    <string name="radioChoixProducteur">Producteur</string>
+    <string name="title_activity_upload">Téléverser</string>
+
 </resources>

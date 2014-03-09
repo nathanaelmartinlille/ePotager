@@ -211,7 +211,7 @@ public class Login extends Activity {
 
 				reponseStr = Utils.inputStreamToString(response.getEntity().getContent()).toString();
 				System.out.println("REPONSE LOGIN OK :" + reponseStr);
-				if (reponseStr != null && reponseStr.length() > 10) {
+				if (reponseStr != null && reponseStr.length() > 0) {
 					return true;
 				} else {
 					return false;

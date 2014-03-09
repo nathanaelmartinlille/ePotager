@@ -128,6 +128,10 @@
             android:name="com.example.potago.profil.EditerProfil"
             android:label="@string/title_activity_editer_profil" >
         </activity>
+        <activity
+            android:name="com.example.potago.Upload"
+            android:label="@string/title_activity_upload" >
+        </activity>
     </application>
 
 </manifest>
