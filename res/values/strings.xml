@@ -42,5 +42,6 @@
     <string name="radioChoixConsommateur">Consommateur</string>
     <string name="radioChoixProducteur">Producteur</string>
     <string name="title_activity_message_texte">MessageTexte</string>
-
+<string name="title_activity_upload">MessageTexte</string>
+    
 </resources>
