@@ -18,6 +18,9 @@
     <string name="texteDispo">Disponible</string>
     <string name="nomTexte">Nom à recup </string>
     <string name="prenomTexte">Prenom à recup</string>
+    <string name="nom">Nom </string>
+    <string name="prenom">Prenom</string>
+    <string name="adresse">Adresse</string>
     <string name="description">Description</string>
     <string name="commentaire">Avis et commentaire</string>
     <string name="imageProfil">Image de profil</string>
@@ -42,6 +45,12 @@
     <string name="radioChoixConsommateur">Consommateur</string>
     <string name="radioChoixProducteur">Producteur</string>
     <string name="title_activity_message_texte">MessageTexte</string>
+    
+     <string name="boutonChargerPhotoProfil">charger photo profil</string>
+     <string name="boutonChargerImageGalery">charger image galerie</string>
+     <string name="boutonSupprimerPhotoGalery">Supprimer les photos</string>
+    
+     
 <string name="title_activity_upload">MessageTexte</string>
     
 </resources>

@@ -1,16 +1,149 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/layoutHaut"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:addStatesFromChildren="false"
+    android:background="@color/gray"
+    android:clipToPadding="false"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:splitMotionEvents="false"
     tools:context=".EditerProfil" >
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="false"
+        android:baselineAlignBottom="false"
+        android:contentDescription="@string/app_name"
+        android:cropToPadding="false"
+        android:scaleType="fitXY"
+        android:src="@drawable/haut" />
+
+    <ImageButton
+        android:id="@+id/boutonBack"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7dp"
+        android:background="@null"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
+        android:src="@drawable/back" />
+
+    <ImageButton
+        android:id="@+id/boutonHome"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="7dp"
+        android:background="@null"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
+        android:src="@drawable/home" />
+
+    
+<!--     debut du contenu -->
+    
     <TextView
+        android:id="@+id/titre"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_alignBottom="@+id/boutonBack"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/titreProfil"
+        android:textColor="#FFF"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/prenomTexte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignLeft="@+id/boutonBack"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginTop="16dp"
+        android:text="@string/prenom" />
 
+    <EditText
+        android:id="@+id/adresse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editionNom"
+        android:layout_alignTop="@+id/adresseText"
+        android:ems="10"
+        android:inputType="textPostalAddress" />
+
+    <EditText
+        android:id="@+id/editionPrenom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/prenomTexte"
+        android:layout_alignBottom="@+id/prenomTexte"
+        android:layout_alignRight="@+id/imageView1"
+        android:ems="10"
+        android:inputType="textPersonName" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/editionNom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/nomTexte"
+        android:layout_alignBottom="@+id/nomTexte"
+        android:layout_alignLeft="@+id/editionPrenom"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/nomTexte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/prenomTexte"
+        android:layout_below="@+id/editionPrenom"
+        android:layout_marginTop="31dp"
+        android:text="@string/nom" />
+
+    <TextView
+        android:id="@+id/adresseText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/nomTexte"
+        android:layout_below="@+id/editionNom"
+        android:layout_marginTop="16dp"
+        android:text="@string/adresse" />
+
+    <Button
+        android:id="@+id/boutonChargerImageGalery"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_toLeftOf="@+id/boutonChargerPhotoProfil"
+        android:layout_below="@+id/adresse"
+        android:text="@string/boutonChargerImageGalery" />
+
+    <Button
+        android:id="@+id/boutonChargerPhotoProfil"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/adresse"
+        android:text="@string/boutonChargerPhotoProfil" />
+
+    <Button
+        android:id="@+id/boutonSupprimerPhotoGalery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/boutonChargerImageGalery"
+        android:layout_centerHorizontal="true"
+        android:text="@string/boutonSupprimerPhotoGalery" />
+   
 </RelativeLayout>

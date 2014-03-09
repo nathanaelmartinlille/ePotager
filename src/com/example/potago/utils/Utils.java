@@ -86,7 +86,7 @@ public class Utils {
 		}
 		enPlus.substring(0, enPlus.length() - 2);
 		url += enPlus;
-
+		url = url.replaceAll(" ", "%20");
 		System.out.println("on a creer l'URL : " + url);
 		return url;
 	}

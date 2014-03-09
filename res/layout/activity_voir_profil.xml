@@ -187,8 +187,9 @@
                         android:id="@+id/colonneNomEtCom1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:layout_toRightOf="@+id/imageAuteur1" >
-
+					
                         <TextView
                             android:id="@+id/nomAuteurCommentaire1"
                             android:layout_width="wrap_content"
@@ -218,7 +219,9 @@
                     <LinearLayout
                         android:id="@+id/colonneNomEtCom2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" >
+                        android:layout_height="wrap_content" 
+                        android:orientation="vertical"
+                        >
 
                         <TextView
                             android:id="@+id/nomAuteurCommentaire2"

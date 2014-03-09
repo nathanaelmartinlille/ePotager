@@ -55,6 +55,7 @@ public class ProfilActivity extends Activity {
 	DisplayImageOptions options;
 	String[] imageUrls = null;
 	ImageLoader imageLoader = null;
+	Utilisateur utilisateurAffiche = null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -100,6 +101,11 @@ public class ProfilActivity extends Activity {
 
 					utilisateur.setDescription(response.getString("description"));
 					utilisateur.setIdUtilisateur(response.getInt("ID_utilisateur"));
+					utilisateur.setMail(response.getString("Mail"));
+					utilisateur.setNom(response.getString("Nom"));
+					utilisateur.setPrenom(response.getString("Prenom"));
+					utilisateur.setLatitude(response.getDouble("latitude"));
+					utilisateur.setLongitude(response.getDouble("longitude"));
 					final JSONArray commentairesJSONArray = commentairesJSON.opt("Commentaires") != null ? commentairesJSON.getJSONArray("Commentaires") : new JSONArray();
 
 					for (int i = 0; i < commentairesJSONArray.length(); i++) {
@@ -118,6 +124,7 @@ public class ProfilActivity extends Activity {
 						commentaires.add(commentaire);
 					}
 					utilisateur.setCommentaires(commentaires);
+					utilisateurAffiche = utilisateur;
 					creerProfil(utilisateur);
 				} catch (final JSONException e) {
 					e.printStackTrace();
@@ -202,17 +209,33 @@ public class ProfilActivity extends Activity {
 
 							// On affiche dans un Toast le texte contenu dans l'EditText de notre AlertDialog
 							Toast.makeText(ProfilActivity.this, et.getText(), Toast.LENGTH_SHORT).show();
-							final Map<String, String> map = new HashMap<String, String>();
+							Map<String, String> map = new HashMap<String, String>();
 							map.put("contenu", et.getText().toString());
 							map.put("note", ratingConfirm.getRating() + "");
-							map.put("mailAuteur", getSharedPreferences(Constantes.NOM_PREFERENCE, MODE_PRIVATE).getString(Constantes.LOGIN, ""));
-							map.put("mailProfil", utilisateur.getMail());
-							new JsonReadTask(Constantes.INSERTION_COMMENTAIRE) {
+							map.put("mail_auteur", getSharedPreferences(Constantes.NOM_PREFERENCE, MODE_PRIVATE).getString(Constantes.LOGIN, ""));
+							map.put("mail_utilisateur", utilisateurAffiche.getMail());
+							new JsonReadTask(Constantes.INSERTION_COMMENTAIRE, map) {
 
 								@Override
 								public void recuperationDonnee(final String result) {
-									// TODO Auto-generated method stub
+									// TODO recuperation id commenrtaire auteur etc
+									try {
+										final JSONObject response = (JSONObject) new JSONObject(result).get("Resultat");
+										Commentaire com = new Commentaire();
+										Utilisateur auteur = new Utilisateur();
+										auteur.setIdUtilisateur(response.getInt("ID_auteur"));
+										auteur.setNom(response.getString("Nom_auteur"));
+										auteur.setPrenom(response.getString("Prenom_auteur"));
 
+										com.setAuteur(auteur);
+										com.setContenu(response.getString("Contenu"));
+										com.setNote(response.getDouble("Note"));
+										com.setUtilisateur(utilisateurAffiche);
+										utilisateurAffiche.getCommentaires().add(com);
+										reinitRatingProfil(utilisateurAffiche);
+									} catch (final JSONException e) {
+										e.printStackTrace();
+									}
 								}
 							};
 
