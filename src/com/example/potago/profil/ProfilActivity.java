@@ -202,6 +202,21 @@ public class ProfilActivity extends Activity {
 
 							// On affiche dans un Toast le texte contenu dans l'EditText de notre AlertDialog
 							Toast.makeText(ProfilActivity.this, et.getText(), Toast.LENGTH_SHORT).show();
+							final Map<String, String> map = new HashMap<String, String>();
+							map.put("contenu", et.getText().toString());
+							map.put("note", ratingConfirm.getRating() + "");
+							map.put("mailAuteur", getSharedPreferences(Constantes.NOM_PREFERENCE, MODE_PRIVATE).getString(Constantes.LOGIN, ""));
+							map.put("mailProfil", utilisateur.getMail());
+							new JsonReadTask(Constantes.INSERTION_COMMENTAIRE) {
+
+								@Override
+								public void recuperationDonnee(final String result) {
+									// TODO Auto-generated method stub
+
+								}
+							};
+
+							reinitRatingProfil(utilisateur);
 						}
 					});
 
@@ -210,6 +225,7 @@ public class ProfilActivity extends Activity {
 						@Override
 						public void onClick(final DialogInterface dialog, final int which) {
 							dialog.cancel();
+							reinitRatingProfil(utilisateur);
 						}
 					});
 					adb.show();
@@ -217,6 +233,23 @@ public class ProfilActivity extends Activity {
 			}
 		});
 
+	}
+
+	private void reinitRatingProfil(final Utilisateur utilisateur) {
+		if (utilisateur.getCommentaires().size() > 0) {
+			// dans le cas où on a au moins un commentaire on calcule la note globale
+			Double total = 0D;
+			Integer totalVote = 0;
+			for (final Commentaire comm : utilisateur.getCommentaires()) {
+				if (comm.getNote() != null) {
+					total += comm.getNote();
+					totalVote++;
+				}
+			}
+			final Double noteFinale = total / totalVote;
+			final RatingBar ratingGlobal = (RatingBar) findViewById(R.id.ratingBar);
+			ratingGlobal.setRating(noteFinale.floatValue());
+		}
 	}
 
 	/**
@@ -279,20 +312,7 @@ public class ProfilActivity extends Activity {
 			chargerBoutonPlusDeCommentaire(utilisateur);
 		}
 
-		if (utilisateur.getCommentaires().size() > 0) {
-			// dans le cas où on a au moins un commentaire on calcule la note globale
-			Double total = 0D;
-			Integer totalVote = 0;
-			for (final Commentaire comm : utilisateur.getCommentaires()) {
-				if (comm.getNote() != null) {
-					total += comm.getNote();
-					totalVote++;
-				}
-			}
-			final Double noteFinale = total / totalVote;
-			final RatingBar ratingGlobal = (RatingBar) findViewById(R.id.ratingBar);
-			ratingGlobal.setRating(noteFinale.floatValue());
-		}
+		reinitRatingProfil(utilisateur);
 	}
 
 	/**

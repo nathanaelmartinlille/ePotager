@@ -3,7 +3,7 @@ package com.example.potago.entite;
 import java.util.List;
 
 public class Utilisateur {
-
+	private Integer idUtilisateur;
 	String nom;
 	String prenom;
 	String description;
@@ -16,7 +16,12 @@ public class Utilisateur {
 	boolean vendLegumes;
 	boolean estDispo;
 
-	public Utilisateur(String nom, String prenom, String description, double latitude, double longitude, boolean vendFruits, boolean vendLegumes, boolean estDispo) {
+	public Utilisateur() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Utilisateur(final String nom, final String prenom, final String description, final double latitude, final double longitude, final boolean vendFruits,
+			final boolean vendLegumes, final boolean estDispo) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -28,7 +33,8 @@ public class Utilisateur {
 		this.estDispo = estDispo;
 	}
 
-	public Utilisateur(String nom, String prenom, String description, String latitude, String longitude, int vendFruits, int vendLegumes, int estDispo) {
+	public Utilisateur(final String nom, final String prenom, final String description, final String latitude, final String longitude, final int vendFruits, final int vendLegumes,
+			final int estDispo) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -40,7 +46,7 @@ public class Utilisateur {
 		this.estDispo = estDispo == 1 ? true : false;
 	}
 
-	public Utilisateur(String nom, String prenom, String description, double latitude, double longitude) {
+	public Utilisateur(final String nom, final String prenom, final String description, final double latitude, final double longitude) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -53,7 +59,7 @@ public class Utilisateur {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -61,7 +67,7 @@ public class Utilisateur {
 		return nom;
 	}
 
-	public void setNom(String nom) {
+	public void setNom(final String nom) {
 		this.nom = nom;
 	}
 
@@ -69,7 +75,7 @@ public class Utilisateur {
 		return prenom;
 	}
 
-	public void setPrenom(String prenom) {
+	public void setPrenom(final String prenom) {
 		this.prenom = prenom;
 	}
 
@@ -77,7 +83,7 @@ public class Utilisateur {
 		return latitude;
 	}
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(final double latitude) {
 		this.latitude = latitude;
 	}
 
@@ -85,7 +91,7 @@ public class Utilisateur {
 		return longitude;
 	}
 
-	public void setLongitude(double longitude) {
+	public void setLongitude(final double longitude) {
 		this.longitude = longitude;
 	}
 
@@ -93,7 +99,7 @@ public class Utilisateur {
 		return vendFruits;
 	}
 
-	public void setVendFruits(boolean vendFruits) {
+	public void setVendFruits(final boolean vendFruits) {
 		this.vendFruits = vendFruits;
 	}
 
@@ -101,7 +107,7 @@ public class Utilisateur {
 		return vendLegumes;
 	}
 
-	public void setVendLegumes(boolean vendLegumes) {
+	public void setVendLegumes(final boolean vendLegumes) {
 		this.vendLegumes = vendLegumes;
 	}
 
@@ -109,15 +115,15 @@ public class Utilisateur {
 		return estDispo;
 	}
 
-	public void setEstDispo(boolean estDispo) {
+	public void setEstDispo(final boolean estDispo) {
 		this.estDispo = estDispo;
 	}
-	
+
 	public List<Commentaire> getCommentaires() {
 		return commentaires;
 	}
 
-	public void setCommentaires(List<Commentaire> commentaires) {
+	public void setCommentaires(final List<Commentaire> commentaires) {
 		this.commentaires = commentaires;
 	}
 
@@ -125,7 +131,7 @@ public class Utilisateur {
 		return estJardinier;
 	}
 
-	public void setEstJardinier(Boolean estJardinier) {
+	public void setEstJardinier(final Boolean estJardinier) {
 		this.estJardinier = estJardinier;
 	}
 
@@ -133,8 +139,16 @@ public class Utilisateur {
 		return mail;
 	}
 
-	public void setMail(String mail) {
+	public void setMail(final String mail) {
 		this.mail = mail;
+	}
+
+	public Integer getIdUtilisateur() {
+		return idUtilisateur;
+	}
+
+	public void setIdUtilisateur(Integer idUtilisateur) {
+		this.idUtilisateur = idUtilisateur;
 	}
 
 }

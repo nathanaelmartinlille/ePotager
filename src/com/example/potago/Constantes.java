@@ -32,4 +32,6 @@ public class Constantes {
 
 	public static final String REPERTOIRE_STOCKAGE_IMAGE = "http://lauraleclercq.com/ePotager/images/";
 
+	public static final String INSERTION_COMMENTAIRE = "http://lauraleclercq.com/ePotager/ajouterCommentaire.php";
+
 }
