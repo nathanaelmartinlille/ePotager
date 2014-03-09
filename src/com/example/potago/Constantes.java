@@ -34,4 +34,6 @@ public class Constantes {
 
 	public static final String INSERTION_COMMENTAIRE = "http://lauraleclercq.com/ePotager/insererCommentaire.php";
 
+	public static final String MODIFICATION_PROFIL = "http://lauraleclercq.com/ePotager/modifierProfil.php";
+
 }

@@ -73,7 +73,7 @@
         android:text="@string/prenom" />
 
     <EditText
-        android:id="@+id/adresse"
+        android:id="@+id/editionAdresse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/editionNom"
@@ -113,6 +113,50 @@
         android:layout_marginTop="31dp"
         android:text="@string/nom" />
 
+    <Button
+        android:id="@+id/boutonSupprimerPhotoGalery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/boutonChargerImageGalery"
+        android:layout_centerHorizontal="true"
+        android:text="@string/boutonSupprimerPhotoGalery" />
+
+    <Button
+        android:id="@+id/boutonChargerPhotoProfil"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/editionAdresse"
+        android:layout_marginTop="124dp"
+        android:text="@string/boutonChargerPhotoProfil" />
+
+    <Button
+        android:id="@+id/boutonChargerImageGalery"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignBaseline="@+id/boutonChargerPhotoProfil"
+        android:layout_alignBottom="@+id/boutonChargerPhotoProfil"
+        android:layout_alignLeft="@+id/adresseText"
+        android:text="@string/boutonChargerImageGalery" />
+
+    <Button
+        android:id="@+id/boutonValiderModification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/boutonChargerImageGalery"
+        android:layout_centerHorizontal="true"
+        android:text="@string/valider" />
+
+    <EditText
+        android:id="@+id/editionDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/boutonValiderModification"
+        android:layout_alignLeft="@+id/editionAdresse"
+        android:layout_below="@+id/editionAdresse"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
     <TextView
         android:id="@+id/adresseText"
         android:layout_width="wrap_content"
@@ -122,28 +166,13 @@
         android:layout_marginTop="16dp"
         android:text="@string/adresse" />
 
-    <Button
-        android:id="@+id/boutonChargerImageGalery"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_toLeftOf="@+id/boutonChargerPhotoProfil"
-        android:layout_below="@+id/adresse"
-        android:text="@string/boutonChargerImageGalery" />
-
-    <Button
-        android:id="@+id/boutonChargerPhotoProfil"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/adresse"
-        android:text="@string/boutonChargerPhotoProfil" />
-
-    <Button
-        android:id="@+id/boutonSupprimerPhotoGalery"
+    <TextView
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/boutonChargerImageGalery"
-        android:layout_centerHorizontal="true"
-        android:text="@string/boutonSupprimerPhotoGalery" />
+        android:layout_alignBaseline="@+id/editionDescription"
+        android:layout_alignBottom="@+id/editionDescription"
+        android:layout_alignLeft="@+id/adresseText"
+        android:text="@string/description" />
    
 </RelativeLayout>

@@ -149,8 +149,9 @@ public class ProfilActivity extends Activity {
 	 * @param utilisateur
 	 */
 	private void initialiserHandlerBoutonEnteteProfil(final Utilisateur utilisateur) {
-		final ImageButton imageDial = (ImageButton) this.findViewById(R.id.imageDial);
-		final ImageButton imageLoc = (ImageButton) this.findViewById(R.id.imageLoc);
+		ImageButton imageDial = (ImageButton) this.findViewById(R.id.imageDial);
+		ImageButton imageLoc = (ImageButton) this.findViewById(R.id.imageLoc);
+		Button boutonModifier = (Button) this.findViewById(R.id.boutonModifier);
 
 		imageDial.setOnClickListener(new OnClickListener() {
 
@@ -164,9 +165,17 @@ public class ProfilActivity extends Activity {
 
 			@Override
 			public void onClick(final View v) {
-				final Intent geoIntent = new Intent();
+				Intent geoIntent = new Intent();
 				geoIntent.putExtra("mail", utilisateur.getMail());
 				startActivity(geoIntent);
+			}
+		});
+
+		boutonModifier.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(ProfilActivity.this, EditerProfil.class));
 			}
 		});
 

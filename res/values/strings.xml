@@ -49,7 +49,7 @@
      <string name="boutonChargerPhotoProfil">charger photo profil</string>
      <string name="boutonChargerImageGalery">charger image galerie</string>
      <string name="boutonSupprimerPhotoGalery">Supprimer les photos</string>
-    
+    <string name="modifierProfil">Editer</string>
      
 <string name="title_activity_upload">MessageTexte</string>
     
