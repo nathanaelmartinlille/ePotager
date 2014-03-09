@@ -4,25 +4,19 @@ import java.util.List;
 
 public class Utilisateur {
 
-	private Integer idUtilisateur;
-	private String nom;
-	private String prenom;
-	private String description;
-	private double latitude;
-	private double longitude;
-	private List<Commentaire> commentaires;
-	private Boolean estJardinier;
-	private String mail;
-	private boolean vendFruits;
-	private boolean vendLegumes;
-	private boolean estDispo;
+	String nom;
+	String prenom;
+	String description;
+	double latitude;
+	double longitude;
+	List<Commentaire> commentaires;
+	Boolean estJardinier;
+	String mail;
+	boolean vendFruits;
+	boolean vendLegumes;
+	boolean estDispo;
 
-	public Utilisateur() {
-
-	}
-
-	public Utilisateur(String nom, String prenom, String description, double latitude, double longitude, boolean vendFruits, boolean vendLegumes,
-			boolean estDispo) {
+	public Utilisateur(String nom, String prenom, String description, double latitude, double longitude, boolean vendFruits, boolean vendLegumes, boolean estDispo) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -34,17 +28,16 @@ public class Utilisateur {
 		this.estDispo = estDispo;
 	}
 
-	public Utilisateur(String nom, String prenom, String description, String latitude, String longitude, boolean vendFruits, boolean vendLegumes,
-			boolean estDispo) {
+	public Utilisateur(String nom, String prenom, String description, String latitude, String longitude, int vendFruits, int vendLegumes, int estDispo) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
 		this.description = description;
 		this.latitude = Double.parseDouble(latitude);
 		this.longitude = Double.parseDouble(longitude);
-		this.vendFruits = vendFruits;
-		this.vendLegumes = vendLegumes;
-		this.estDispo = estDispo;
+		this.vendFruits = vendFruits == 1 ? true : false;
+		this.vendLegumes = vendLegumes == 1 ? true : false;
+		this.estDispo = estDispo == 1 ? true : false;
 	}
 
 	public Utilisateur(String nom, String prenom, String description, double latitude, double longitude) {
@@ -119,7 +112,7 @@ public class Utilisateur {
 	public void setEstDispo(boolean estDispo) {
 		this.estDispo = estDispo;
 	}
-
+	
 	public List<Commentaire> getCommentaires() {
 		return commentaires;
 	}
@@ -142,14 +135,6 @@ public class Utilisateur {
 
 	public void setMail(String mail) {
 		this.mail = mail;
-	}
-
-	public Integer getIdUtilisateur() {
-		return idUtilisateur;
-	}
-
-	public void setIdUtilisateur(Integer idUtilisateur) {
-		this.idUtilisateur = idUtilisateur;
 	}
 
 }

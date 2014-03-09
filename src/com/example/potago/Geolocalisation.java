@@ -178,7 +178,7 @@ public class Geolocalisation extends FragmentActivity {
 						JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
 						Utilisateur Utilisateur = new Utilisateur(jsonChildNode.optString("Nom"), jsonChildNode.optString("Prenom"),
 								jsonChildNode.optString("description"), jsonChildNode.optString("latitude"), jsonChildNode.optString("longitude"),
-								jsonChildNode.optBoolean("vend_fruit"), jsonChildNode.optBoolean("vend_legume"), jsonChildNode.optBoolean("est_dispo"));
+								jsonChildNode.optInt("vend_fruit"), jsonChildNode.optInt("vend_legume"), jsonChildNode.optInt("est_dispo"));
 						listeUtilisateurs.add(Utilisateur);
 					}
 				} catch (JSONException e) {
@@ -194,7 +194,7 @@ public class Geolocalisation extends FragmentActivity {
 		// J'enlève tous les anciens markers
 		map.clear();
 		for (Utilisateur j : listeUtilisateurs) {
-			boolean aLeDroitDexister = true;
+			boolean aLeDroitDexister = false;
 			LatLng jLatLng = new LatLng(j.getLatitude(), j.getLongitude());
 			float[] results = new float[5];
 
@@ -207,20 +207,20 @@ public class Geolocalisation extends FragmentActivity {
 			// Attention ! la distance est en mètres !
 			if (results[0] / 1000 < distance.getProgress()) {
 				aLeDroitDexister = true;
-				if ((dispo.isChecked() && j.isEstDispo()) || (!dispo.isChecked() && !j.isEstDispo())) {
+				if ((dispo.isChecked() && j.isEstDispo()) || (!dispo.isChecked())) {
 					aLeDroitDexister = true;
 					if ((fruits.isChecked() && j.isVendFruits()) || (!fruits.isChecked() && !j.isVendFruits())) {
 						aLeDroitDexister = true;
 						if ((legumes.isChecked() && j.isVendLegumes()) || (!legumes.isChecked() && !j.isVendLegumes())) {
 							aLeDroitDexister = true;
-						} else {
-							aLeDroitDexister = false;
 						}
-					} else {
-						aLeDroitDexister = false;
 					}
-				} else {
-					aLeDroitDexister = false;
+					if ((legumes.isChecked() && j.isVendLegumes()) || (!legumes.isChecked() && !j.isVendLegumes())) {
+						aLeDroitDexister = true;
+						if ((fruits.isChecked() && j.isVendFruits()) || (!fruits.isChecked() && !j.isVendFruits())) {
+							aLeDroitDexister = true;
+						}
+					}
 				}
 			} else {
 				aLeDroitDexister = false;
