@@ -60,5 +60,25 @@
         android:scaleType="fitXY"
         android:src="@drawable/haut" />
 
+    <EditText
+        android:id="@+id/ecrireMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/end_of_view"
+        android:ems="10"
+        android:inputType="textMultiLine" >
+
+        <requestFocus />
+    </EditText>
+
+    <WebView
+        android:id="@+id/webViewMessages"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/end_of_view"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/photo_profil_marker" />
 
 </RelativeLayout>

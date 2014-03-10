@@ -129,8 +129,16 @@
             android:label="@string/title_activity_editer_profil" >
         </activity>
         <activity
-            android:name="com.example.potago.MessageTexte"
+            android:name="tchat.MessageTexte"
             android:label="@string/title_activity_message_texte" >
+        </activity>
+        <activity
+            android:name="com.example.potago.DialogueTchat"
+            android:label="@string/title_activity_dialogue_tchat" >
+        </activity>
+        <activity
+            android:name="tchat.TchatAdapter"
+            android:label="@string/title_activity_tchat_adapter" >
         </activity>
     </application>
 

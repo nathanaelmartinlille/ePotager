@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.example.potago.entite.Commentaire;
+import com.example.potago.entite.Message;
 import com.example.potago.entite.Utilisateur;
 import com.example.potago.utils.Utils;
 
@@ -18,9 +19,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 public class Tchat extends Activity {
+	
+	final List<Message> listeMessages = new ArrayList<Message>();
+	private List<Integer> listeIdReceveur = new ArrayList<Integer>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +34,6 @@ public class Tchat extends Activity {
 		setContentView(R.layout.activity_tchat);
 		Utils.initialisationBoutonNavigation(this);
 		
-		ListView listeTchat = (ListView)findViewById(R.id.listeTchat);
 		
 		final SharedPreferences reference = getSharedPreferences(Constantes.NOM_PREFERENCE, Context.MODE_PRIVATE);
 		final String mail = reference.getString(Constantes.LOGIN, null);
@@ -40,45 +45,76 @@ public class Tchat extends Activity {
 	private void chargerConversations(final String adresseMail) {
 		final Map<String, String> mapArgument = new HashMap<String, String>();
 		mapArgument.put("mail", adresseMail);
-		new JsonReadTask(Utils.convertirURLAvecParam(Constantes.RECUPERATION_INFO_PROFIL, mapArgument)) {
+		new JsonReadTask(Utils.convertirURLAvecParam(Constantes.RECUPERATION_TCHAT, mapArgument)) {
 
 			@Override
 			public void recuperationDonnee(final String jsonResult) {
 				try {
-					final Utilisateur utilisateur = new Utilisateur();
-					final List<Commentaire> commentaires = new ArrayList<Commentaire>();
+					final Utilisateur utilisateurMnt = new Utilisateur();
 					JSONObject response;
-					JSONObject commentairesJSON;
+					JSONObject messagesJSON;
+					System.out.println("jsonResult : "+jsonResult);
 					response = new JSONObject(jsonResult);
-					commentairesJSON = (JSONObject) response.getJSONArray("Resultat").get(1);
-					response = (JSONObject) response.getJSONArray("Resultat").get(0);
-
-					utilisateur.setDescription(response.getString("description"));
-					utilisateur.setIdUtilisateur(response.getInt("ID_utilisateur"));
-					final JSONArray commentairesJSONArray = commentairesJSON.opt("Commentaires") != null ? commentairesJSON.getJSONArray("Commentaires") : new JSONArray();
-
-					for (int i = 0; i < commentairesJSONArray.length(); i++) {
-						final Commentaire commentaire = new Commentaire();
-						commentaire.setUtilisateur(utilisateur);
-						final Utilisateur auteurCommentaire = new Utilisateur();
-						auteurCommentaire.setNom(commentairesJSONArray.getJSONObject(i).getString("Nom_auteur"));
-						auteurCommentaire.setPrenom(commentairesJSONArray.getJSONObject(i).getString("Prenom_auteur"));
-						auteurCommentaire.setMail(commentairesJSONArray.getJSONObject(i).getString("Mail_auteur"));
-						auteurCommentaire.setIdUtilisateur(commentairesJSONArray.getJSONObject(i).getInt("ID_auteur"));
-
-						commentaire.setContenu(commentairesJSONArray.getJSONObject(i).getString("Contenu"));
-						commentaire.setNote(commentairesJSONArray.getJSONObject(i).getDouble("Note"));
-						commentaire.setAuteur(auteurCommentaire);
-						commentaire.setUtilisateur(utilisateur);
-						commentaires.add(commentaire);
+					messagesJSON = (JSONObject) response.getJSONArray("Resultat").get(1);
+					System.out.println("messagesJSON "+messagesJSON);
+					final JSONArray messagesJSONArray = (JSONArray) response.getJSONArray("Resultat");
+					
+					if(messagesJSONArray.length() >0){
+					for (int i = 0; i < messagesJSONArray.length(); i++) {
+						System.out.println("messagesJSONArray.getJSONObject(i) : "+messagesJSONArray.getJSONObject(i));
+						Utilisateur envoyeur = new Utilisateur();
+						envoyeur.setIdUtilisateur(messagesJSONArray.getJSONObject(i).getInt("Envoyeur"));
+						Utilisateur receveur = new Utilisateur();
+						envoyeur.setIdUtilisateur(messagesJSONArray.getJSONObject(i).getInt("Receveur"));
+						envoyeur.setNom(messagesJSONArray.getJSONObject(i).getString("Nom"));
+						envoyeur.setPrenom(messagesJSONArray.getJSONObject(i).getString("Prenom"));
+						final Message message = new Message(envoyeur, receveur, messagesJSONArray.getJSONObject(i).getString("message"));
+						
+						if(listeIdReceveur.contains(receveur.getIdUtilisateur()))
+						{
+							System.out.println("c'est le meme");
+						}
+						else{
+							listeIdReceveur.add(receveur.getIdUtilisateur());
+							listeMessages.add(message);
+						}
+						
 					}
-					utilisateur.setCommentaires(commentaires);
+					
+					definirListe();
+					}
 					
 				} catch (final JSONException e) {
 					e.printStackTrace();
 				}
 			}
 		};
+	}
+	
+	public void definirListe()
+	{
+		ListView listeTchat = (ListView)findViewById(R.id.listeTchat);
+		
+
+	    List<HashMap<String, String>> liste = new ArrayList<HashMap<String, String>>();
+	    
+	   
+	    for(int i = 0 ; i < listeMessages.size(); i++) {
+	    	 HashMap<String, String> element = new HashMap<String, String>();
+	    	Message m = listeMessages.get(i);
+	      element.put("text1", m.getReceveur().getNom() + m.getReceveur().getPrenom());
+	      System.out.println("message : "+m.getContenu());
+	      element.put("text2",m.getContenu());
+	      liste.add(element);
+	    }
+	    
+	    ListAdapter adapter = new SimpleAdapter(this,  
+	      liste, 
+	      android.R.layout.simple_list_item_2,
+	      new String[] {"text1", "text2"}, 
+	      new int[] {android.R.id.text1, android.R.id.text2 });
+	    
+	    listeTchat.setAdapter(adapter);
 	}
 
 	@Override

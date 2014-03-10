@@ -1,8 +1,14 @@
-package com.example.potago;
+package tchat;
+
+import com.example.potago.R;
+import com.example.potago.R.layout;
+import com.example.potago.R.menu;
+import com.example.potago.utils.Utils;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.webkit.WebView;
 
 public class MessageTexte extends Activity {
 
@@ -10,6 +16,9 @@ public class MessageTexte extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_message_texte);
+		Utils.initialisationBoutonNavigation(this);
+		
+		WebView webViewMessages = (WebView)findViewById(R.id.webViewMessages);
 	}
 
 	@Override
