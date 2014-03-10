@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.devsmart.android.ui.HorizontalListView;
 import com.example.potago.Constantes;
+import com.example.potago.Geolocalisation;
 import com.example.potago.JsonReadTask;
 import com.example.potago.R;
 import com.example.potago.Tchat;
@@ -61,8 +62,8 @@ public class ProfilActivity extends Activity {
 	@Override
 	public void onCreate(final Bundle icicle) {
 		super.onCreate(icicle);
-		Utils.initialisationBoutonNavigation(this);
 		setContentView(R.layout.activity_voir_profil);
+		Utils.initialisationBoutonNavigation(this);
 		imageLoader = ImageLoader.getInstance();
 
 		// requete recuperer les informations de l'utilisateur
@@ -165,7 +166,7 @@ public class ProfilActivity extends Activity {
 
 			@Override
 			public void onClick(final View v) {
-				Intent geoIntent = new Intent();
+				Intent geoIntent = new Intent(ProfilActivity.this, Geolocalisation.class);
 				geoIntent.putExtra("mail", utilisateur.getMail());
 				startActivity(geoIntent);
 			}
@@ -291,7 +292,7 @@ public class ProfilActivity extends Activity {
 	 */
 	private void initialiserEnteteProfil(final Utilisateur utilisateur) {
 		final ImageButton imageProfil = (ImageButton) this.findViewById(R.id.imageProfil);
-		imageProfil.setBackgroundResource(R.drawable.image_profil_vide);
+		imageLoader.displayImage(Constantes.REPERTOIRE_STOCKAGE_IMAGE + utilisateur.getIdUtilisateur(), imageProfil);
 
 		final TextView prenomProfil = (TextView) this.findViewById(R.id.prenomTexte);
 		prenomProfil.setText(utilisateur.getPrenom());
@@ -308,30 +309,55 @@ public class ProfilActivity extends Activity {
 	 */
 	private void initialiserGalerieImage(final Utilisateur utilisateur) {
 		final ProfilActivity profil = this;
-		// TODO RECUPERATION LISTE LIEN VERS IMAGE GALERY
-		imageUrls = Constants.IMAGES;
-		// FIN TODONE
-
-		options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.ic_stub).showImageForEmptyUri(R.drawable.ic_empty).showImageOnFail(R.drawable.ic_error)
-				.cacheInMemory(true).cacheOnDisc(true).considerExifParams(true).displayer(new RoundedBitmapDisplayer(20)).build();
-
-		final HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
-		listview.setAdapter(new ItemAdapter());
-
-		listview.setOnItemClickListener(new OnItemClickListener() {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("mail", utilisateur.getMail());
+		new JsonReadTask(Constantes.RECUPERATION_IMAGES, params) {
 
 			@Override
-			public void onItemClick(final AdapterView<?> arg0, final View arg1, final int position, final long arg3) {
-				final Intent intent = new Intent(profil, ImagePagerActivity.class);
-				intent.putExtra("imageurlpostion", imageUrls);
-				intent.putExtra("imagepostion", position);
-				startActivity(intent);
+			public void recuperationDonnee(String result) {
+				// TODO on recupere les images
+				try {
+					JSONArray reponse = new JSONObject(result).getJSONArray("Images");
+					imageUrls = new String[reponse.length()];
+					for (int i = 0; i < reponse.length(); i++) {
+						imageUrls[i] = Constantes.REPERTOIRE_STOCKAGE_IMAGE + reponse.getString(i);
+					}
+
+					options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.ic_stub).showImageForEmptyUri(R.drawable.ic_empty)
+							.showImageOnFail(R.drawable.ic_error).cacheInMemory(true).cacheOnDisc(true).considerExifParams(true).displayer(new RoundedBitmapDisplayer(20)).build();
+
+					final HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
+					listview.setAdapter(new ItemAdapter());
+
+					listview.setOnItemClickListener(new OnItemClickListener() {
+
+						@Override
+						public void onItemClick(final AdapterView<?> arg0, final View arg1, final int position, final long arg3) {
+							final Intent intent = new Intent(profil, ImagePagerActivity.class);
+							intent.putExtra("images", imageUrls);
+							intent.putExtra("imagepostion", position);
+							startActivity(intent);
+						}
+					});
+
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-		});
+		};
+		// FIN TODONE
 
 	}
 
 	private void initialiserContenuProfilEtFilCommentaire(final Utilisateur utilisateur) {
+		TextView description = (TextView) findViewById(R.id.contenuDescription);
+		if (utilisateur.getDescription() != null && "".equals(utilisateur.getDescription())) {
+			description.setText(utilisateur.getDescription());
+		} else {
+			description.setText("Aucune description pour le profil");
+		}
+
 		cacherLignesCommentaire();
 		if (utilisateur.getCommentaires().size() == 1) {
 			chargerLigne1Commentaire(utilisateur);

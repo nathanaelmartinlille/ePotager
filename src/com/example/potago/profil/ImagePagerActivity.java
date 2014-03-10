@@ -16,9 +16,10 @@ public class ImagePagerActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.imagepager);
 
-		final Bundle bundle = getIntent().getExtras();
-		final String[] imageUrls = Constants.IMAGES;
-		int pagerPosition = 0;
+		Bundle bundle = getIntent().getExtras();
+		assert bundle != null;
+		String[] imageUrls = bundle.getStringArray("images");
+		int pagerPosition = bundle.getInt("imagepostion");
 
 		if (savedInstanceState != null) {
 			pagerPosition = savedInstanceState.getInt(STATE_POSITION);

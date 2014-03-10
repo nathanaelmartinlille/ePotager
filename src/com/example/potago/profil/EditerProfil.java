@@ -47,8 +47,6 @@ import com.example.potago.utils.Utils;
 public class EditerProfil extends Activity {
 
 	private Utilisateur utilisateurModif = null;
-	private String selectedPath1;
-	private String selectedPath2;
 	private static final int SELECT_FILE1 = 15;
 	private static final int SELECT_FILE2 = 16;
 	private String upLoadServerUri = Constantes.UPLOAD_SERVEUR;
@@ -108,7 +106,7 @@ public class EditerProfil extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO on charge la page d'upload avec un intent pour la photo profil
+				openGallery(SELECT_FILE2);
 			}
 		});
 
@@ -240,7 +238,7 @@ public class EditerProfil extends Activity {
 		Intent intent = new Intent();
 		intent.setType("image/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
-		startActivityForResult(Intent.createChooser(intent, "Select file to upload "), req_code);
+		startActivityForResult(Intent.createChooser(intent, "Selectionnez une image à téléverser"), req_code);
 	}
 
 	@Override
@@ -256,16 +254,34 @@ public class EditerProfil extends Activity {
 				messageText.setText("Uploading file path:" + imagepath);
 
 				// on upload sur le serveur
-				dialog = ProgressDialog.show(EditerProfil.this, "", "Uploading file...", true);
+				dialog = ProgressDialog.show(EditerProfil.this, "", "Fichier en cours de traitement...", true);
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
 
-						uploadFile(imagepath);
+						uploadFile(imagepath, false);
 
 					}
 				}).start();
-				System.out.println("Selected File paths : " + selectedPath1);
+			}
+
+			if (requestCode == SELECT_FILE2) {
+				selectedImageUri = data.getData();
+				imagepath = getPath(selectedImageUri);
+				Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
+				imageview.setImageBitmap(bitmap);
+				messageText.setText("Uploading file path:" + imagepath);
+
+				// on upload sur le serveur
+				dialog = ProgressDialog.show(EditerProfil.this, "", "Photo de profil en cours de traitement...", true);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+
+						uploadFile(imagepath, true);
+
+					}
+				}).start();
 			}
 
 		}
@@ -282,7 +298,7 @@ public class EditerProfil extends Activity {
 		return cursor.getString(column_index);
 	}
 
-	public int uploadFile(final String sourceFileUri) {
+	public int uploadFile(final String sourceFileUri, Boolean photoProfil) {
 
 		String fileName = sourceFileUri;
 
@@ -327,10 +343,15 @@ public class EditerProfil extends Activity {
 				conn.setRequestProperty("Connection", "Keep-Alive");
 				conn.setRequestProperty("ENCTYPE", "multipart/form-data");
 				conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-				conn.setRequestProperty("uploaded_file", fileName);
-
+				// on prend comme nom de fichier IDUtilisateur_XXX
+				if (photoProfil) {
+					conn.setRequestProperty("uploaded_file", utilisateurModif.getIdUtilisateur() + "*" + fileName.substring(fileName.lastIndexOf("."), fileName.length()) + "*"
+							+ photoProfil.toString());
+				} else {
+					conn.setRequestProperty("uploaded_file", utilisateurModif.getIdUtilisateur() + "_" + "*" + fileName.substring(fileName.lastIndexOf("."), fileName.length())
+							+ "*" + photoProfil.toString());
+				}
 				dos = new DataOutputStream(conn.getOutputStream());
-
 				dos.writeBytes(twoHyphens + boundary + lineEnd);
 				dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\"" + fileName + "\"" + lineEnd);
 

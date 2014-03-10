@@ -158,21 +158,19 @@
 
 <!--                 on affiche la ratingbar afin d'ajouter un commentaire -->
 
-                <RatingBar
-                    android:id="@+id/ratingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                     style="@style/tomateRatingSmall"
-                    android:layout_alignParentLeft="true"
-                    
-                    android:layout_below="@+id/commentaire" />
-
                 <!-- on affiche ici  deux commentaires et on propose d'afficher plus avec un bouton qui va amener à une autre vue -->
-
+				<RatingBar
+                    android:id="@+id/ratingBar"
+                    style="@style/tomateRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/commentaire"
+                    android:layout_toRightOf="@+id/boutonPlusCommentaire" />
                 <RelativeLayout
                     android:id="@+id/ligneCommentaire1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_below="@id/ratingBar"
                      >
 
@@ -221,6 +219,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" 
                         android:orientation="vertical"
+                        android:layout_toRightOf="@+id/imageAuteur2"
                         >
 
                         <TextView

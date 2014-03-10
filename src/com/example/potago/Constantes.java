@@ -36,7 +36,11 @@ public class Constantes {
 
 	public static final String MODIFICATION_PROFIL = "http://lauraleclercq.com/ePotager/modifierProfil.php";
 
-	public static final String UPLOAD_SERVEUR = "http://lauraleclercq.com/ePotager/upload.php";
+
+	public static final String UPLOAD_SERVEUR = "http://lauraleclercq.com/ePotager/imageUpload.php";
+
+	public static final String RECUPERATION_IMAGES = "http://lauraleclercq.com/ePotager/imageDownload";
 
 	public static final String RECUPERATION_TCHAT = "http://lauraleclercq.com/ePotager/recupererConversations.php";
-	}
+}
+
