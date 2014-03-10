@@ -48,7 +48,7 @@
         android:src="@drawable/ecrire" />
 
     <ListView
-        android:id="@+id/listView1"
+        android:id="@+id/listeTchat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
