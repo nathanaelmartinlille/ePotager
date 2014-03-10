@@ -36,4 +36,5 @@ public class Constantes {
 
 	public static final String MODIFICATION_PROFIL = "http://lauraleclercq.com/ePotager/modifierProfil.php";
 
+	public static final String UPLOAD_SERVEUR = "http://lauraleclercq.com/ePotager/upload.php";
 }
