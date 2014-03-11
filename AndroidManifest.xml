@@ -50,7 +50,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBBl-FnZ71MEMY52zeOielmzhjQzWrNacI" />
+            android:value="AIzaSyATWia4z-pV-HYp-XNHiP5INoPO2R0vroE" />
 
         <activity
             android:name="com.example.potago.MainActivity"
